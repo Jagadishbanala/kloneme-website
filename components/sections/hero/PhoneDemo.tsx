@@ -130,7 +130,7 @@ export default function PhoneDemo() {
   const selected = t >= SELECT_AT;
 
   return (
-    <div ref={ref} className={p.device} role="img" aria-label={`KloneME app: you say “${listen.quote}” and Klo files it as a ${place.categories[0].label} goal.`}>
+    <div ref={ref} className={p.device} role="img" aria-label={`KloneME app: you say “${listen.quote}” and Klonie files it as a ${place.categories[0].label} goal.`}>
       {/* The body's thickness: outlines stacked behind the face, the last one casting the shadow */}
       {Array.from({ length: LAYERS }, (_, i) => (
         <span

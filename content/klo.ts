@@ -63,7 +63,7 @@ export const klo = {
 
   // Used by the FAQ's chat (faq/AskKlo.tsx)
   phone: {
-    title: "Klo",
+    title: "Klonie",
     status: "Face ID protected", // v9 hero trust line
     thinking: "Thinking…",
   },

@@ -17,7 +17,7 @@ export const site = {
 
 export const nav = {
   links: [
-    { label: "Klo", href: "#klone" },
+    { label: "Klonie", href: "#klone" },
     // The "Simple to start, easy to manage." section now carries the how-it-works steps
     { label: "How it works", href: "#features" },
   ],
@@ -54,6 +54,6 @@ export const footer = {
   },
   fine: [
     "© 2026 KloneME. App Store is a service mark of Apple Inc.",
-    "Examples use a sample household, the Carter family of Oakland, CA. All names, figures and photos are illustrative. Klo shares information from your records; it does not provide medical, legal or financial advice.",
+    "Examples use a sample household, the Carter family of Oakland, CA. All names, figures and photos are illustrative. Klonie shares information from your records; it does not provide medical, legal or financial advice.",
   ],
 };

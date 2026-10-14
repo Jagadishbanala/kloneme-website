@@ -4,7 +4,7 @@
 KloneMe is an AI-powered **LifeOS** app: one organised place for the important parts of your life, with an AI that helps look after them for you.
 
 - People keep their lives scattered across phone galleries, emails, notes and cloud folders, and the things that matter most are the easiest to lose track of. Example: a passport is valid for ten years, which is exactly why nobody remembers to renew it until it is almost too late. KloneMe makes sure the right thing reaches you at the right time instead of depending on your memory.
-- **Klo** is the in-app AI companion that helps you manage it all.
+- **Klonie** is the in-app AI companion that helps you manage it all (called "Klo" in v9; renamed by the client on 2026-10-14 — always write Klonie on the site).
 - It is **not just storage** like Google Drive (which holds files and leaves the rest to you). KloneMe actively works for you, and helps you think about what happens to your important information over the long term, including your **digital legacy**.
 - Live on the **Play Store**. Flagship product of **Haplet LLC**.
 
