@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { hero } from "@/content/hero";
+import { site } from "@/content/site";
 import p from "./phone.module.css";
 
 const { listen, place } = hero.phone;
@@ -21,7 +22,7 @@ const STATIC_T = 5.5; // frame shown when motion is reduced
 
 const TILE_BG: Record<string, string> = {
   wealth: "linear-gradient(90deg, #08281e 30%, #08503a 100%)",
-  travel: "linear-gradient(100deg, #0b0b0c 35%, #2a2511 100%)",
+  travel: "linear-gradient(100deg, #1f2937 35%, #2a2511 100%)",
   wellness: "linear-gradient(90deg, #24bfef 30%, #4ccbf3 100%)",
   hobbies: "linear-gradient(90deg, #f56923 30%, #f9915e 100%)",
   family: "linear-gradient(90deg, #753ce8 30%, #8f5eef 100%)",
@@ -36,24 +37,9 @@ const within = (t: number, [a, b]: [number, number]) => t >= a && t < b;
 // Copies of the outline stacked behind the face to give the phone its thickness
 const LAYERS = 16;
 
+// The app's header logo: the brand logo
 function KmeLogo() {
-  return (
-    <span className={p.logo}>
-      <svg viewBox="0 0 30 22" aria-hidden="true">
-        <defs>
-          <linearGradient id="kme-mark" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#b18cff" />
-            <stop offset="1" stopColor="#6d4df2" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M2 19.5c2.6-6.2 4.9-14 8.4-14 2.5 0 3.6 3.8 4.6 7.3 1-3.5 2.1-7.3 4.6-7.3 3.5 0 5.8 7.8 8.4 14-3.3.4-5.3-1.6-6.8-4.6-1.2 2.6-3.3 4.1-6.2 4.1s-5-1.5-6.2-4.1C7.3 17.9 5.3 19.9 2 19.5z"
-          fill="url(#kme-mark)"
-        />
-      </svg>
-      kme
-    </span>
-  );
+  return <Image src={site.logo.src} alt="" width={site.logo.width} height={site.logo.height} className={p.logo} />;
 }
 
 export function StatusBar() {

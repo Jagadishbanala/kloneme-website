@@ -14,7 +14,7 @@
   --sheet-r: clamp(40px, 6vw, 88px);
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --pop: cubic-bezier(0.3, 1.6, 0.5, 1);
-  --faint: rgba(23, 20, 29, 0.13);
+  --faint: rgba(31, 41, 55, 0.13);
   position: relative;
   isolation: isolate;
   height: 340svh;
@@ -99,7 +99,7 @@
   margin-top: 12px;
   padding: 6px 12px;
   border-radius: 999px;
-  background: rgba(23, 20, 29, 0.05);
+  background: rgba(31, 41, 55, 0.05);
   font-size: 12px;
   line-height: 1.35;
   color: var(--muted);
@@ -257,7 +257,7 @@
   gap: 10px 14px;
   margin-top: clamp(16px, 2.6svh, 24px);
   padding-top: clamp(14px, 2.2svh, 20px);
-  border-top: 1px solid rgba(23, 20, 29, 0.09);
+  border-top: 1px solid rgba(31, 41, 55, 0.09);
   opacity: 0;
   translate: 0 10px;
   transition:

@@ -10,9 +10,9 @@
   box-shadow:
     inset 0 0 0 1.5px rgba(255, 255, 255, 0.14),
     inset 0 0 0 4px #0c0b0e,
-    0 0 0 1px rgba(23, 20, 29, 0.25),
-    0 60px 90px -40px rgba(23, 20, 29, 0.5),
-    0 30px 50px -30px rgba(23, 20, 29, 0.35);
+    0 0 0 1px rgba(31, 41, 55, 0.25),
+    0 60px 90px -40px rgba(31, 41, 55, 0.5),
+    0 30px 50px -30px rgba(31, 41, 55, 0.35);
 }
 
 /* ---------- Hero device: a bluish silver phone with a notch and real thickness ----------
@@ -285,17 +285,8 @@
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 1.2cqw;
+  display: block;
   height: 6.4cqw;
-  font-size: 6.2cqw;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-.logo svg {
-  height: 100%;
   width: auto;
 }
 
@@ -310,7 +301,7 @@
   height: 11cqw;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 0.6cqw 2.4cqw rgba(23, 20, 29, 0.08);
+  box-shadow: 0 0.6cqw 2.4cqw rgba(31, 41, 55, 0.08);
 }
 .navBtn svg {
   width: 5.2cqw;
@@ -338,7 +329,7 @@
   margin-top: 4.4cqw;
   font-size: 4.35cqw;
   line-height: 1.3;
-  color: #2b2731;
+  color: var(--ink);
 }
 .body b {
   font-weight: 600;
@@ -356,8 +347,8 @@
   border-radius: 6.5cqw;
   background: #fff;
   box-shadow:
-    0 0 0 1px rgba(23, 20, 29, 0.06),
-    0 1.6cqw 5cqw -2cqw rgba(23, 20, 29, 0.12);
+    0 0 0 1px rgba(31, 41, 55, 0.06),
+    0 1.6cqw 5cqw -2cqw rgba(31, 41, 55, 0.12);
 }
 
 .quote {
@@ -465,7 +456,7 @@
   color: #fff;
 }
 .secondary {
-  border: 1px solid rgba(23, 20, 29, 0.75);
+  border: 1px solid rgba(31, 41, 55, 0.75);
 }
 .primary[data-pressed] {
   transform: scale(0.96);
@@ -485,7 +476,7 @@
   margin-top: 5.6cqw;
   border-radius: 4cqw;
   background: #fff;
-  box-shadow: 0 0 0 1px rgba(23, 20, 29, 0.07);
+  box-shadow: 0 0 0 1px rgba(31, 41, 55, 0.07);
   font-size: 5.1cqw;
   font-weight: 500;
   letter-spacing: -0.01em;

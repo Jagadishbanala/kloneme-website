@@ -2,6 +2,10 @@ import type { SocialName } from "@/components/ui/SocialIcon";
 
 export const site = {
   name: "KloneME",
+  // Brand logo from the client (2026-10-14), trimmed to its edges. Used by the header, footer and in-app screens.
+  logo: { src: "/brand/kloneme-logo.png", width: 1148, height: 240 },
+  // The gold mark on its own (also the browser-tab icon, app/icon.png)
+  mark: { src: "/brand/kloneme-mark.png", width: 512, height: 512 },
   // Placeholder until the Play Store link is provided. Used by every download button.
   downloadUrl: "https://kloneme.ai",
   // The store buttons (hero and footer), in the stores' own badge wording. Both use downloadUrl for now.

@@ -24,8 +24,17 @@ export const streams = {
   from: "From", // same label as the Problem section's phone (new microcopy)
 
   // Stream names from the client; facts inside each card's screen from v9 (calendar, problem, privacy).
-  // Order from the client (2026-10-09): Health, Wealth, Family, Vault, Travel, Hobbies.
+  // Order from the client (2026-10-14): Family, Health, Wealth, Vault, Travel, Hobbies.
   cards: [
+    {
+      key: "family",
+      name: "Family",
+      icon: "users",
+      color: "var(--coral)",
+      expression: "happy",
+      body: "Run the household together with a shared calendar, chores, memories and emergency details.",
+      from: { place: "Family chat", icon: "chat" },
+    },
     {
       key: "health",
       name: "Health",
@@ -43,15 +52,6 @@ export const streams = {
       expression: "focused",
       body: "Investments and assets tracked in one place, with no spreadsheets and no digging.",
       from: { place: "Bank app", icon: "bank" },
-    },
-    {
-      key: "family",
-      name: "Family",
-      icon: "users",
-      color: "var(--coral)",
-      expression: "happy",
-      body: "Run the household together with a shared calendar, chores, memories and emergency details.",
-      from: { place: "Family chat", icon: "chat" },
     },
     {
       key: "vault",

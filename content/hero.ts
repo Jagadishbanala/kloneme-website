@@ -1,10 +1,13 @@
 import type { IconName } from "@/components/ui/Icon";
+import type { StreamKey } from "@/content/streams";
 
 export type Stream = "accent" | "sky" | "berry" | "coral" | "lime" | "lagoon" | "lilac";
 
 type Lane = {
   /** Vertical lane in px at the screen edges, relative to the centre of the lines (narrows behind the phone). */
   lane: number;
+  /** The stream it's filed into: behind the phone it turns into a KloneME card with that stream's Klo */
+  area: StreamKey;
 };
 
 export type FlowChip = Lane & {
@@ -35,16 +38,17 @@ export const hero = {
 
   // Items travelling along the lines, left → behind the phone → right, one after another.
   // Each crossing takes half the cycle and items are evenly staggered, so 3 are on screen at a time.
+  // They enter as they are and come out on the right as KloneME cards (Klo for their stream + the mark).
   // Text from v9 calendar, privacy and emergency sections.
   flow: {
     cycle: 10.5, // seconds (crossing = 5.25s)
     items: [
-      { kind: "card", variant: "reminder", icon: "cal", title: "Renew Leo’s passport", sub: "By Oct 20", lane: -150 },
-      { kind: "chip", icon: "heart", stream: "berry", label: "Health records", lane: 130 },
-      { kind: "chip", icon: "shield", stream: "lagoon", label: "Insurance", lane: -50 },
-      { kind: "card", variant: "ring", icon: "id", title: "IDs & passports", sub: "5 documents", color: "var(--accent)", lane: 170 },
-      { kind: "chip", icon: "plane", stream: "sky", label: "Travel", lane: -175 },
-      { kind: "card", variant: "ring", icon: "face", title: "Face ID", sub: "Unlocked", color: "var(--lilac)", lane: 60 },
+      { kind: "card", variant: "reminder", icon: "cal", title: "Renew Leo’s passport", sub: "By Oct 20", lane: -150, area: "travel" },
+      { kind: "chip", icon: "heart", stream: "berry", label: "Health records", lane: 130, area: "health" },
+      { kind: "chip", icon: "shield", stream: "lagoon", label: "Insurance", lane: -50, area: "wealth" },
+      { kind: "card", variant: "ring", icon: "id", title: "IDs & passports", sub: "5 documents", color: "var(--accent)", lane: 170, area: "vault" },
+      { kind: "chip", icon: "plane", stream: "sky", label: "Travel", lane: -175, area: "travel" },
+      { kind: "card", variant: "ring", icon: "face", title: "Face ID", sub: "Unlocked", color: "var(--lilac)", lane: 60, area: "vault" },
     ] satisfies FlowItem[],
   },
 

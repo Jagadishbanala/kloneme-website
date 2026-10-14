@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { site } from "@/content/site";
 import { Icon } from "@/components/ui/Icon";
 import { problem } from "@/content/problem";
 import s from "./home.module.css";
@@ -36,7 +37,7 @@ export default function HomeScreen() {
   return (
     <div className={s.home}>
       <div className={s.top}>
-        <Image src="/brand/kloneme-logo.webp" alt="" width={722} height={158} className={s.logo} />
+        <Image src={site.logo.src} alt="" width={site.logo.width} height={site.logo.height} className={s.logo} />
         <span className={s.acts}>
           <span className={s.iconBtn}>
             <Icon name="search" strokeWidth={1.9} className={s.ic} />

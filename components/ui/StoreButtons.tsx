@@ -18,7 +18,7 @@ export function StoreButtons({ size = "md", className }: { size?: "md" | "sm"; c
           target="_blank"
           rel="noopener"
           aria-label={b.label}
-          className={`inline-flex items-center rounded-full bg-ink text-bg shadow-[0_14px_30px_-14px_rgba(23,20,29,0.6)] transition-transform hover:-translate-y-0.5 active:translate-y-0 ${
+          className={`inline-flex items-center rounded-full bg-ink text-bg shadow-[0_14px_30px_-14px_rgba(31,41,55,0.6)] transition-transform hover:-translate-y-0.5 active:translate-y-0 ${
             sm ? "h-12 gap-2 pl-4 pr-5" : "h-14 gap-2.5 pl-[18px] pr-[22px]"
           }`}
         >

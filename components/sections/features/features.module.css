@@ -115,9 +115,9 @@
   color: var(--ink);
   container-type: inline-size;
   box-shadow:
-    0 0 0 1px rgba(23, 20, 29, 0.08),
-    0 60px 90px -40px rgba(23, 20, 29, 0.45),
-    0 30px 50px -30px rgba(23, 20, 29, 0.3);
+    0 0 0 1px rgba(31, 41, 55, 0.08),
+    0 60px 90px -40px rgba(31, 41, 55, 0.45),
+    0 30px 50px -30px rgba(31, 41, 55, 0.3);
   user-select: none;
   -webkit-user-select: none;
   transition: color 0.4s ease;
@@ -157,7 +157,7 @@
 }
 .steps li[data-active] .stepBtn {
   background: #fff;
-  box-shadow: 0 14px 30px -22px rgba(23, 20, 29, 0.45);
+  box-shadow: 0 14px 30px -22px rgba(31, 41, 55, 0.45);
 }
 
 .num {
@@ -166,7 +166,7 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: rgba(23, 20, 29, 0.06);
+  background: rgba(31, 41, 55, 0.06);
   font-size: 12.5px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -210,7 +210,7 @@
   padding: 0 12px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.7);
-  box-shadow: inset 0 0 0 1px rgba(23, 20, 29, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(31, 41, 55, 0.08);
   font-size: 12.5px;
   font-weight: 500;
   color: var(--muted);
@@ -292,7 +292,7 @@
     position: absolute;
     inset: 0;
     border-radius: 3px;
-    background: rgba(23, 20, 29, 0.12);
+    background: rgba(31, 41, 55, 0.12);
   }
   .panel[data-pinned] .line::after {
     content: "";
@@ -315,7 +315,7 @@
     translate: -50% -50%;
     border-radius: 50%;
     background: var(--panel);
-    box-shadow: inset 0 0 0 2px rgba(23, 20, 29, 0.22);
+    box-shadow: inset 0 0 0 2px rgba(31, 41, 55, 0.22);
     cursor: pointer;
     transition:
       background-color 0.3s ease,
@@ -455,7 +455,7 @@
   padding: calc(var(--k) * 6) calc(var(--k) * 12);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 calc(var(--k) * 6) calc(var(--k) * 16) calc(var(--k) * -8) rgba(23, 20, 29, 0.35);
+  box-shadow: 0 calc(var(--k) * 6) calc(var(--k) * 16) calc(var(--k) * -8) rgba(31, 41, 55, 0.35);
 }
 .logo img {
   width: auto;
@@ -483,7 +483,7 @@
   height: calc(var(--k) * 8);
   border-radius: 50%;
   background: #ff5a4e;
-  box-shadow: 0 0 0 calc(var(--k) * 2) #1b1b1d;
+  box-shadow: 0 0 0 calc(var(--k) * 2) #353f4c;
 }
 .darkIb {
   background: rgba(255, 255, 255, 0.1);
@@ -491,7 +491,7 @@
   box-shadow: none;
 }
 .inkBtn {
-  background: #17141d;
+  background: var(--ink);
   color: #fff;
 }
 .backBtn {
@@ -587,7 +587,7 @@
   margin-top: calc(var(--k) * 18);
   padding: calc(var(--k) * 4);
   border-radius: calc(var(--k) * 24);
-  background: #1b1b1d;
+  background: #2c3747;
 }
 .seg span {
   position: relative;
@@ -600,7 +600,7 @@
   color: #a9a59c;
 }
 .seg span[data-on] {
-  color: #111;
+  color: var(--ink);
 }
 .knob {
   position: absolute;
@@ -764,19 +764,19 @@
   height: calc(var(--k) * 18);
 }
 .auDark {
-  background: #111;
+  background: var(--ink);
   color: #fff;
   box-shadow: 0 calc(var(--k) * 14) calc(var(--k) * 30) calc(var(--k) * -14) rgba(0, 0, 0, 0.6);
 }
 .auLight {
   background: #fff;
-  color: #111;
+  color: var(--ink);
   box-shadow: 0 calc(var(--k) * 8) calc(var(--k) * 20) calc(var(--k) * -14) rgba(60, 30, 90, 0.4);
 }
 .auLine {
   background: rgba(255, 255, 255, 0.55);
-  box-shadow: inset 0 0 0 calc(var(--k) * 1.5) rgba(23, 20, 29, 0.12);
-  color: #111;
+  box-shadow: inset 0 0 0 calc(var(--k) * 1.5) rgba(31, 41, 55, 0.12);
+  color: var(--ink);
 }
 .auFace {
   display: flex;
@@ -945,7 +945,7 @@
 .me {
   align-self: flex-end;
   border-bottom-right-radius: calc(var(--k) * 6);
-  background: #17141d;
+  background: var(--ink);
   color: #fff;
 }
 .ai {
@@ -986,7 +986,7 @@
   height: calc(var(--k) * 32);
   padding: 0 calc(var(--k) * 12);
   border-radius: calc(var(--k) * 16);
-  background: #17141d;
+  background: var(--ink);
   font-size: calc(var(--k) * 12.5);
   font-weight: 600;
   color: #fff;
@@ -1035,7 +1035,7 @@
   height: calc(var(--k) * 44);
   flex: none;
   border-radius: 50%;
-  background: #17141d;
+  background: var(--ink);
   color: #fff;
 }
 .composer i.mic {
@@ -1128,7 +1128,7 @@
 
 /* ---------- 3a · Travel ---------- */
 .travel {
-  background: #0a0a0b;
+  background: var(--ink);
   color: #fff;
 }
 .travel > :not(.stars, .flyby) {
@@ -1199,8 +1199,8 @@
   margin-top: calc(var(--k) * 14);
   padding: calc(var(--k) * 12) calc(var(--k) * 8) calc(var(--k) * 10);
   border-radius: calc(var(--k) * 26);
-  background: radial-gradient(120% 90% at 50% 0%, #1d1c16 0%, #0f0f10 70%);
-  box-shadow: inset 0 0 0 calc(var(--k) * 1) #232325;
+  background: radial-gradient(120% 90% at 50% 0%, #2e3949 0%, #273343 70%);
+  box-shadow: inset 0 0 0 calc(var(--k) * 1) #364254;
 }
 .map {
   position: relative;
@@ -1284,8 +1284,8 @@
 .counter {
   padding: calc(var(--k) * 12);
   border-radius: calc(var(--k) * 20);
-  background: #161618;
-  box-shadow: inset 0 0 0 calc(var(--k) * 1) #232325;
+  background: #2a3546;
+  box-shadow: inset 0 0 0 calc(var(--k) * 1) #364254;
 }
 .counter b {
   display: block;
@@ -1314,7 +1314,7 @@
   height: calc(var(--k) * 4);
   margin-top: calc(var(--k) * 10);
   border-radius: calc(var(--k) * 2);
-  background: #2b2b2e;
+  background: #3b4657;
 }
 .mbar i,
 .pbar i,
@@ -1339,8 +1339,8 @@
   margin-top: calc(var(--k) * 10);
   padding: calc(var(--k) * 14) calc(var(--k) * 14) calc(var(--k) * 12);
   border-radius: calc(var(--k) * 22);
-  background: #161618;
-  box-shadow: inset 0 0 0 calc(var(--k) * 1) #232325;
+  background: #2a3546;
+  box-shadow: inset 0 0 0 calc(var(--k) * 1) #364254;
 }
 .trTop {
   display: flex;
@@ -1366,7 +1366,7 @@
   height: calc(var(--k) * 8);
   margin: calc(var(--k) * 12) 0 calc(var(--k) * 10);
   border-radius: calc(var(--k) * 4);
-  background: #2b2b2e;
+  background: #3b4657;
 }
 .pbar i {
   background: linear-gradient(90deg, #ffb800, #ffd400, #fff07a);
@@ -1377,7 +1377,7 @@
   justify-content: space-between;
   padding: calc(var(--k) * 9) calc(var(--k) * 12);
   border-radius: calc(var(--k) * 12);
-  background: #232326;
+  background: #313d4f;
   font-size: calc(var(--k) * 12.5);
 }
 .next span {
@@ -1939,7 +1939,7 @@
   color: #4a4452;
 }
 .calFilters span[data-on] {
-  background: #17141d;
+  background: var(--ink);
   color: #fff;
 }
 .calFilters i {
@@ -1980,7 +1980,7 @@
   font-weight: 600;
 }
 .day[data-sel] {
-  background: #17141d;
+  background: var(--ink);
   color: #fff;
   scale: 1.06;
 }

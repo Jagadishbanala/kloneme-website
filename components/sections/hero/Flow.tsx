@@ -1,7 +1,14 @@
+import Image from "next/image";
 import type { CSSProperties } from "react";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { hero, type FlowCard, type FlowChip, type Stream } from "@/content/hero";
+import { site } from "@/content/site";
+import type { StreamKey } from "@/content/streams";
+import { twin } from "@/content/twin";
 import s from "./hero.module.css";
+
+// Each stream's name and Klo expression (same pairing as the Twin section)
+const AREA = Object.fromEntries(twin.areas.map((a) => [a.stream, a])) as Record<StreamKey, (typeof twin.areas)[number]>;
 
 const streamColor: Record<Stream, string> = {
   accent: "#d79a0b",
@@ -17,7 +24,7 @@ function RingBadge({ icon, color, end = 0 }: { icon: IconName; color: string; en
   return (
     <span className="relative grid size-[54px] place-items-center" style={{ color }}>
       <svg viewBox="0 0 54 54" className="absolute inset-0 -rotate-90" aria-hidden="true">
-        <circle cx="27" cy="27" r="23" fill="none" stroke="rgba(23,20,29,0.07)" strokeWidth="5" />
+        <circle cx="27" cy="27" r="23" fill="none" stroke="rgba(31,41,55,0.07)" strokeWidth="5" />
         <circle
           cx="27"
           cy="27"
@@ -70,7 +77,26 @@ function Card({ c }: { c: FlowCard }) {
   );
 }
 
+// What comes out on the right: the same item, now handled by KloneME. Klo for that part of life,
+// the item's name, and the KloneME mark with the stream it was filed into.
+function Solved({ title, area }: { title: string; area: StreamKey }) {
+  const a = AREA[area];
+  return (
+    <div className={s.solved}>
+      <Image src={`/klo/${a.expression}.png`} alt="" width={528} height={456} sizes="70px" className={s.solvedKlo} />
+      <span className={s.solvedText}>
+        <b>{title}</b>
+        <span className={s.solvedTag}>
+          <Image src={site.mark.src} alt="" width={site.mark.width} height={site.mark.height} sizes="20px" />
+          {a.name}
+        </span>
+      </span>
+    </div>
+  );
+}
+
 // Items travel one after another: left edge → along the lines → behind the phone → out to the right.
+// Behind the phone (the middle of the crossing) each one swaps its face for its KloneME card.
 export default function Flow() {
   const { cycle, items } = hero.flow;
   return (
@@ -88,7 +114,12 @@ export default function Flow() {
             } as CSSProperties
           }
         >
-          <div className={s.flowBody}>{item.kind === "chip" ? <Chip c={item} /> : <Card c={item} />}</div>
+          <div className={s.flowBody}>
+            <div className={s.faceIn}>{item.kind === "chip" ? <Chip c={item} /> : <Card c={item} />}</div>
+            <div className={s.faceOut}>
+              <Solved title={item.kind === "chip" ? item.label : item.title} area={item.area} />
+            </div>
+          </div>
         </div>
       ))}
     </div>

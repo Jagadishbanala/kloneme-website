@@ -166,8 +166,86 @@
 
 /* Moving elements are drawn at 1.5× (zoom keeps text and icons crisp, unlike scale) */
 .flowBody {
+  display: grid;
   transform: translate(-50%, -50%);
   zoom: 1.5;
+}
+
+/* Two faces in the same spot: what goes in (left) and its KloneME card (right). They swap at 25% of
+   the cycle, the middle of the crossing, when the item is hidden behind the phone. */
+.faceIn,
+.faceOut {
+  grid-area: 1 / 1;
+  justify-self: center;
+  align-self: center;
+}
+.faceIn {
+  animation: swapIn var(--dur) linear var(--delay) infinite;
+}
+.faceOut {
+  opacity: 0;
+  animation: swapOut var(--dur) linear var(--delay) infinite;
+}
+
+@keyframes swapIn {
+  0%,
+  24.9% { opacity: 1; }
+  25%,
+  100% { opacity: 0; }
+}
+
+@keyframes swapOut {
+  0%,
+  24.9% { opacity: 0; }
+  25%,
+  100% { opacity: 1; }
+}
+
+/* The KloneME card: white with a soft gold edge, Klo for the stream, the item, the mark + stream */
+.solved {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px 4px 4px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 0 0 1px rgba(245, 179, 31, 0.4),
+    0 12px 26px -14px rgba(215, 154, 11, 0.5);
+  white-space: nowrap;
+}
+
+.solvedKlo {
+  flex: none;
+  width: 46px;
+  height: auto;
+}
+
+.solvedText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  line-height: 1.15;
+}
+.solvedText b {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.solvedTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #a8760a;
+}
+.solvedTag img {
+  width: 12px;
+  height: 12px;
 }
 
 /* The crossing uses the first half of the cycle; the second half the item waits off-screen.
@@ -203,8 +281,8 @@
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.9);
   box-shadow:
-    0 0 0 1px rgba(23, 20, 29, 0.05),
-    0 10px 24px -12px rgba(23, 20, 29, 0.28);
+    0 0 0 1px rgba(31, 41, 55, 0.05),
+    0 10px 24px -12px rgba(31, 41, 55, 0.28);
   white-space: nowrap;
   font-size: 13px;
   font-weight: 600;
@@ -237,9 +315,9 @@
   background: var(--paper);
   border-radius: 20px;
   box-shadow:
-    0 0 0 1px rgba(23, 20, 29, 0.04),
-    0 1px 2px rgba(23, 20, 29, 0.05),
-    0 22px 44px -18px rgba(23, 20, 29, 0.28);
+    0 0 0 1px rgba(31, 41, 55, 0.04),
+    0 1px 2px rgba(31, 41, 55, 0.05),
+    0 22px 44px -18px rgba(31, 41, 55, 0.28);
 }
 
 /* ---------- Phone ---------- */
@@ -333,6 +411,10 @@
   /* Smaller on phones so cards fit the screen */
   .flowBody {
     zoom: 1.05;
+  }
+  /* KloneME cards on phones: Klo and the stream only */
+  .solvedText b {
+    display: none;
   }
   /* Icon-only chips on phones */
   .chipBody,

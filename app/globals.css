@@ -3,11 +3,11 @@
 /* Brand palette (from the client's colour reference) */
 :root {
   --bg: #faf8f6;
-  --ink: #17141d;
+  --ink: #1f2937; /* client, 2026-10-14 (was #17141d) */
   --accent: #f5b31f;
   --muted: #7a7382;
   --paper: #ffffff;
-  --line: rgba(23, 20, 29, 0.08);
+  --line: rgba(31, 41, 55, 0.08);
 
   /* Stream colours, carried over from kloneme-website-v9.html */
   --sky: #3b8beb;

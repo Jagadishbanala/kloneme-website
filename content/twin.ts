@@ -13,7 +13,7 @@ export type Area = {
 export const twin = {
   // Copy from the client (2026-10-08)
   headline: { lead: "Hi, I’m Klonie", accent: "your AI Digital Twin" },
-  sub: "I’m your AI companion inside KloneME. I keep track of the everyday, plan ahead and look after every part of life, so you and your family can spend your time on what matters most.",
+  sub: "I keep track of the everyday, plan ahead and look after every part of life, so you and your family can spend your time on what matters most.",
 
   // Parts of life (names from the client), each with a different Klo expression.
   // They take turns in the middle in this order, arriving from the right.

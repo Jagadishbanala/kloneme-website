@@ -224,7 +224,7 @@
   height: var(--fold);
   border-radius: 0 0 0 2cqw;
   background: linear-gradient(to bottom right, #e6dfd0 0 50%, transparent 50%);
-  filter: drop-shadow(-0.6cqw -0.6cqw 0.8cqw rgba(23, 20, 29, 0.14));
+  filter: drop-shadow(-0.6cqw -0.6cqw 0.8cqw rgba(31, 41, 55, 0.14));
 }
 .page[data-now]::after {
   background: linear-gradient(to bottom right, #f2d791 0 50%, transparent 50%);
@@ -236,7 +236,7 @@
   inset: 0 0 auto;
   height: 10cqw;
   border-radius: 6cqw 6cqw 0 0;
-  background: linear-gradient(180deg, #2c2834, #17141d);
+  background: linear-gradient(180deg, #374151, var(--ink));
 }
 .page[data-now] .binding {
   background: linear-gradient(180deg, #f8c64d, var(--accent));
@@ -248,7 +248,7 @@
   width: 4.4cqw;
   height: 4.4cqw;
   border-radius: 50%;
-  background: #0c0b0e;
+  background: #111827;
   box-shadow: inset 0 0.5cqw 0.8cqw rgba(0, 0, 0, 0.6);
 }
 .binding i + i {
@@ -317,7 +317,7 @@
   display: flex;
   flex-direction: column;
   padding: 3.6cqw 0 3.6cqw 6.4cqw;
-  border-top: 1px solid rgba(23, 20, 29, 0.08);
+  border-top: 1px solid rgba(31, 41, 55, 0.08);
 }
 .events li:first-child {
   padding-top: 0;

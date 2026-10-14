@@ -5,6 +5,7 @@
    pastel tint with an animated pattern (C), a live mini app screen (B), Klo with that stream's
    expression and a "From <place>" chip (A); then icon, name and description. The centred card is
    lit and plays its screen; a dot per stream + an amber bar track progress.
+   On a dark #1F2937 background (client, 2026-10-14): headings white, secondary text light grey.
    Inside the art panel, cqw/cqh are the panel's width/height.
    ============================================================ */
 
@@ -15,8 +16,11 @@
   /* Art height: by card width, but always leaving room for the header, text and progress */
   --ah: max(230px, min(calc(var(--cw) * 0.78), calc(100svh - 330px)));
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Text on the dark background */
+  --on: #fff;
+  --soft: #9ca3af;
   position: relative;
-  background: var(--bg);
+  background: var(--ink);
 }
 
 .sticky {
@@ -58,10 +62,10 @@
   line-height: 1.08;
   letter-spacing: -0.03em;
   text-wrap: balance;
-  color: var(--ink);
+  color: var(--on);
 }
 .h2Accent {
-  color: var(--muted);
+  color: var(--soft);
 }
 
 .sub {
@@ -71,7 +75,7 @@
   font-size: clamp(15px, 1.15vw, 17px);
   font-weight: 500;
   line-height: 1.55;
-  color: var(--muted);
+  color: var(--soft);
 }
 
 .hint {
@@ -81,8 +85,8 @@
   height: 48px;
   margin-top: 28px;
   border-radius: 50%;
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--on);
+  color: var(--ink);
   animation: nudge 1.8s ease-in-out infinite;
 }
 .hint svg {
@@ -115,7 +119,7 @@
   background:
     radial-gradient(120% 90% at 85% 10%, color-mix(in srgb, var(--c) 16%, #fff) 0%, rgba(255, 255, 255, 0) 60%),
     color-mix(in srgb, var(--c) 9%, #f6f3ef);
-  box-shadow: inset 0 0 0 1px rgba(23, 20, 29, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(31, 41, 55, 0.05);
 }
 
 .title {
@@ -126,7 +130,7 @@
   font-size: clamp(17px, 1.4vw, 20px);
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: var(--ink);
+  color: var(--on);
 }
 .title svg {
   width: 20px;
@@ -139,7 +143,7 @@
   margin-top: 6px;
   font-size: clamp(14px, 1.05vw, 16px);
   line-height: 1.55;
-  color: var(--muted);
+  color: var(--soft);
 }
 
 /* ---------- Pattern (behind the screen) ---------- */
@@ -201,8 +205,8 @@
   border-radius: 5cqw;
   background: #fff;
   box-shadow:
-    0 0 0 1px rgba(23, 20, 29, 0.05),
-    0 24px 44px -26px rgba(23, 20, 29, 0.35);
+    0 0 0 1px rgba(31, 41, 55, 0.05),
+    0 24px 44px -26px rgba(31, 41, 55, 0.35);
   font-size: clamp(11px, 2.9cqw, 14px);
   color: var(--ink);
 }
@@ -268,7 +272,7 @@
   height: 1cqw;
   overflow: hidden;
   border-radius: 1cqw;
-  background: rgba(23, 20, 29, 0.08);
+  background: rgba(31, 41, 55, 0.08);
 }
 .routeFill {
   display: block;
@@ -362,7 +366,7 @@
 .cells i {
   aspect-ratio: 1;
   border-radius: 0.9cqw;
-  background: rgba(23, 20, 29, 0.07);
+  background: rgba(31, 41, 55, 0.07);
 }
 .cells i[data-on] {
   background: var(--c);
@@ -437,7 +441,7 @@
   padding: 6px 12px 6px 9px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 8px 20px -12px rgba(23, 20, 29, 0.3);
+  box-shadow: 0 8px 20px -12px rgba(31, 41, 55, 0.3);
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
@@ -511,7 +515,7 @@
   justify-content: center;
   gap: 16px;
   font-size: 13px;
-  color: var(--muted);
+  color: var(--soft);
 }
 .dots {
   display: flex;
@@ -536,7 +540,7 @@
   height: 3px;
   overflow: hidden;
   border-radius: 3px;
-  background: rgba(23, 20, 29, 0.1);
+  background: rgba(255, 255, 255, 0.14);
 }
 .bar span {
   display: block;
@@ -549,11 +553,11 @@
   min-width: 9.5em;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  color: var(--ink);
+  color: var(--on);
 }
 .count b {
   font-weight: 500;
-  color: var(--muted);
+  color: var(--soft);
 }
 
 /* ---------- Keyframes ---------- */

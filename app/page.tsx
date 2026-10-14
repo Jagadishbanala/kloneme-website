@@ -22,12 +22,12 @@ export default function Home() {
         <MeetKlo />
         <Problem />
         <Streams />
-        <Closing />
         <Features />
         <Calendar />
         <Stories />
         <Faq />
         <Contact />
+        <Closing />
       </main>
       <Footer />
     </>

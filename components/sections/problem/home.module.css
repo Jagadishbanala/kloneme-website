@@ -108,7 +108,7 @@
 }
 
 .tile {
-  --go: #111;
+  --go: var(--ink);
   --go-bg: #fff;
   position: relative;
   isolation: isolate;
@@ -195,16 +195,16 @@
 
 /* Travel: three photos fanned out */
 .travel {
-  --go: #111;
+  --go: var(--ink);
   --go-bg: #ffd400;
   min-height: calc(var(--k) * 258);
   background:
     radial-gradient(90% 60% at 80% 10%, #3a3212 0%, rgba(58, 50, 18, 0) 60%),
-    #0b0b0c;
+    var(--ink);
 }
 .travel .pill {
   background: #ffd400;
-  color: #111;
+  color: var(--ink);
 }
 .travel .meta {
   color: #ffd400;
@@ -317,9 +317,9 @@
   margin-top: calc(var(--k) * 12);
   padding: calc(var(--k) * 8);
   border-radius: calc(var(--k) * 26);
-  background: #17141d;
+  background: var(--ink);
   color: #fff;
-  box-shadow: 0 calc(var(--k) * 16) calc(var(--k) * 30) calc(var(--k) * -16) rgba(23, 20, 29, 0.6);
+  box-shadow: 0 calc(var(--k) * 16) calc(var(--k) * 30) calc(var(--k) * -16) rgba(31, 41, 55, 0.6);
 }
 .askKlo {
   flex: none;
@@ -355,7 +355,7 @@
   height: calc(var(--k) * 44);
   border-radius: 50%;
   background: #ffd46b;
-  color: #17141d;
+  color: var(--ink);
 }
 
 /* ---------- Bottom bar ---------- */

@@ -12,7 +12,7 @@ export default function Footer() {
         {/* Left: logo, links and social profiles */}
         <div className={s.brand}>
           <a href="#top" aria-label={`${site.name} home`} className={s.logo}>
-            <Image src="/brand/kloneme-logo.webp" alt="" width={722} height={158} className="h-7 w-auto" />
+            <Image src={site.logo.src} alt="" width={site.logo.width} height={site.logo.height} className="h-7 w-auto" />
           </a>
           <nav aria-label={footer.label} className={s.nav}>
             {footer.links.map((l) => (

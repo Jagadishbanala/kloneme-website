@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { site } from "@/content/site";
 import type { CSSProperties, JSX } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { features, people, type Member, type ScreenKey } from "@/content/features";
@@ -12,7 +13,7 @@ const P = features.phone;
 function Logo() {
   return (
     <span className={s.logo}>
-      <Image src="/brand/kloneme-logo.webp" alt="" width={722} height={158} />
+      <Image src={site.logo.src} alt="" width={site.logo.width} height={site.logo.height} />
     </span>
   );
 }
@@ -206,7 +207,7 @@ function Travel() {
                 cx={x}
                 cy={y}
                 r="5"
-                fill="#0f0f10"
+                fill="#273343"
                 stroke="#fff"
                 strokeWidth="1.6"
                 strokeDasharray="2.6 2"
@@ -221,20 +222,20 @@ function Travel() {
                 cy={y}
                 r="4.6"
                 fill="#fff"
-                stroke="#0f0f10"
+                stroke="#273343"
                 strokeWidth="1.8"
               />
             ))}
             <g className={s.pin}>
               <circle cx={T.home[0]} cy={T.home[1]} r="6.5" fill="#fff" />
-              <circle cx={T.home[0]} cy={T.home[1]} r="3" fill="#0f0f10" />
+              <circle cx={T.home[0]} cy={T.home[1]} r="3" fill="#273343" />
             </g>
             <g className={`${s.pin} ${s.heroPin}`} style={{ "--i": 10 } as CSSProperties}>
               <circle className={s.halo9} cx={hx} cy={hy} r="9" fill="none" stroke="#fff" strokeWidth="2" />
-              <circle cx={hx} cy={hy} r="7" fill="#fff" stroke="#0f0f10" strokeWidth="1.8" />
-              <circle cx={hx} cy={hy} r="2.6" fill="#0f0f10" />
+              <circle cx={hx} cy={hy} r="7" fill="#fff" stroke="#273343" strokeWidth="1.8" />
+              <circle cx={hx} cy={hy} r="2.6" fill="#273343" />
               <rect x={hx - 30} y={hy - 34} width="60" height="22" rx="11" fill="#fff" />
-              <text x={hx} y={hy - 19} textAnchor="middle" fontSize="12" fontWeight="700" fill="#111">
+              <text x={hx} y={hy - 19} textAnchor="middle" fontSize="12" fontWeight="700" fill="#1f2937">
                 {T.hero.name}
               </text>
             </g>

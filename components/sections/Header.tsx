@@ -8,14 +8,14 @@ export default function Header() {
       {/* Glossy glass pill: faded white gradient + blur, bright top edge and a soft sheen */}
       <nav
         aria-label="Main"
-        className="pointer-events-auto relative isolate flex w-full max-w-md items-center justify-between gap-2 overflow-hidden rounded-full bg-[linear-gradient(180deg,rgba(255,255,255,0.78)_0%,rgba(255,255,255,0.42)_100%)] p-1.5 pl-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),inset_0_-1px_0_rgba(255,255,255,0.35),0_1px_2px_rgba(23,20,29,0.05),0_14px_36px_-14px_rgba(23,20,29,0.22)] ring-1 ring-white/70 backdrop-blur-xl backdrop-saturate-150 md:w-auto md:max-w-none md:justify-start md:pl-5"
+        className="pointer-events-auto relative isolate flex w-full max-w-md items-center justify-between gap-2 overflow-hidden rounded-full bg-[linear-gradient(180deg,rgba(255,255,255,0.78)_0%,rgba(255,255,255,0.42)_100%)] p-1.5 pl-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),inset_0_-1px_0_rgba(255,255,255,0.35),0_1px_2px_rgba(31,41,55,0.05),0_14px_36px_-14px_rgba(31,41,55,0.22)] ring-1 ring-white/70 backdrop-blur-xl backdrop-saturate-150 md:w-auto md:max-w-none md:justify-start md:pl-5"
       >
         <span
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-1/2 rounded-t-full bg-[linear-gradient(180deg,rgba(255,255,255,0.75),rgba(255,255,255,0))]"
         />
         <a href="#top" aria-label={`${site.name} home`} className="flex items-center rounded-full">
-          <Image src="/brand/kloneme-logo.webp" alt="" width={722} height={158} priority className="h-6 w-auto" />
+          <Image src={site.logo.src} alt="" width={site.logo.width} height={site.logo.height} priority className="h-6 w-auto" />
         </a>
         <ul className="ml-6 mr-1 hidden items-center gap-1 md:flex">
           {nav.links.map((l) => (

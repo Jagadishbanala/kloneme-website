@@ -67,7 +67,7 @@ If a reference is unclear or does not say which section it is for, ask before pr
   | Token | Hex | Use |
   |-------|-----|-----|
   | `--bg` | `#FAF8F6` | Page / section backgrounds |
-  | `--ink` | `#17141D` | Text and buttons |
+  | `--ink` | `#1F2937` | Text and buttons (was #17141D until 2026-10-14) |
   | `--accent` | `#F5B31F` | Accent (underlines, rings, highlights, mic button) |
   | `--muted` | `#7A7382` | Secondary text |
   Rule of thumb: **light backgrounds, dark buttons, dark text** in most cases. The v9 stream colours (sky / berry / coral / lime / lagoon / lilac) stay available for illustration (aurora band, chip icons). Light mode only for now.

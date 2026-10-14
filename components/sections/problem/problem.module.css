@@ -201,7 +201,7 @@
   border-radius: 26%;
   background: #fff;
   box-shadow:
-    0 0 0 1px rgba(23, 20, 29, 0.05),
+    0 0 0 1px rgba(31, 41, 55, 0.05),
     0 18px 34px -18px rgba(38, 30, 80, 0.38);
   transition: scale 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
