@@ -96,6 +96,7 @@
 
 /* ---------- Stream card ---------- */
 .card {
+  position: relative;
   flex: none;
   width: var(--cw);
   opacity: 0.5;
@@ -136,6 +137,36 @@
   width: 20px;
   height: 20px;
   color: var(--c);
+}
+
+/* A card with its own page: the name's link stretches over the whole card */
+.cardLink {
+  color: inherit;
+  text-decoration: none;
+}
+.cardLink::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  border-radius: clamp(22px, 2.4vw, 32px);
+}
+.cardLink:focus-visible {
+  outline: none;
+}
+.cardLink:focus-visible::after {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+.card:has(.cardLink) .art {
+  transition: translate 0.4s var(--ease);
+}
+.card:has(.cardLink:hover) .art {
+  translate: 0 -4px;
+}
+.card:has(.cardLink:hover) .cardLink {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .body {

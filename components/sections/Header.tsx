@@ -2,7 +2,8 @@ import Image from "next/image";
 import { Icon } from "@/components/ui/Icon";
 import { nav, site } from "@/content/site";
 
-export default function Header() {
+// home: prefix for the in-page links on other pages ("/" from a stream page); empty on the home page
+export default function Header({ home = "" }: { home?: string }) {
   return (
     <header className="pointer-events-none fixed inset-x-0 top-3 z-50 flex justify-center px-4 sm:top-4">
       {/* Glossy glass pill: faded white gradient + blur, bright top edge and a soft sheen */}
@@ -14,14 +15,14 @@ export default function Header() {
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-1/2 rounded-t-full bg-[linear-gradient(180deg,rgba(255,255,255,0.75),rgba(255,255,255,0))]"
         />
-        <a href="#top" aria-label={`${site.name} home`} className="flex items-center rounded-full">
+        <a href={`${home}#top`} aria-label={`${site.name} home`} className="flex items-center rounded-full">
           <Image src={site.logo.src} alt="" width={site.logo.width} height={site.logo.height} priority className="h-6 w-auto" />
         </a>
         <ul className="ml-6 mr-1 hidden items-center gap-1 md:flex">
           {nav.links.map((l) => (
             <li key={l.href}>
               <a
-                href={l.href}
+                href={`${home}${l.href}`}
                 className="rounded-full px-3 py-2 text-[14px] font-medium text-muted transition-colors hover:text-ink"
               >
                 {l.label}
@@ -30,7 +31,7 @@ export default function Header() {
           ))}
         </ul>
         <a
-          href={nav.cta.href}
+          href={`${home}${nav.cta.href}`}
           className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2.5 text-[14px] font-semibold text-bg transition-transform hover:-translate-y-px active:translate-y-0"
         >
           <Icon name="mail" className="size-4" strokeWidth={2} />

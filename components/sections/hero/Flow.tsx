@@ -1,94 +1,42 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import { Icon, type IconName } from "@/components/ui/Icon";
-import { hero, type FlowCard, type FlowChip, type Stream } from "@/content/hero";
+import { Icon } from "@/components/ui/Icon";
+import { hero, type FlowItem } from "@/content/hero";
 import { site } from "@/content/site";
-import type { StreamKey } from "@/content/streams";
-import { twin } from "@/content/twin";
+import { streams, type StreamKey } from "@/content/streams";
 import s from "./hero.module.css";
 
-// Each stream's name and Klo expression (same pairing as the Twin section)
-const AREA = Object.fromEntries(twin.areas.map((a) => [a.stream, a])) as Record<StreamKey, (typeof twin.areas)[number]>;
+// Each stream's name, icon, colour and Klonie expression (same as the Streams cards)
+const STREAM = Object.fromEntries(streams.cards.map((c) => [c.key, c])) as Record<StreamKey, (typeof streams.cards)[number]>;
 
-const streamColor: Record<Stream, string> = {
-  accent: "#d79a0b",
-  sky: "var(--sky)",
-  berry: "var(--berry)",
-  coral: "var(--coral)",
-  lime: "#5f8f0f",
-  lagoon: "var(--lagoon)",
-  lilac: "var(--lilac)",
-};
+// Lime is too light for an icon on white
+const readable = (color: string) => (color === "var(--lime)" ? "#5f8f0f" : color);
 
-function RingBadge({ icon, color, end = 0 }: { icon: IconName; color: string; end?: number }) {
+// What goes in on the left: the challenge, with its stream's icon
+function Challenge({ item }: { item: FlowItem }) {
+  const st = STREAM[item.stream];
   return (
-    <span className="relative grid size-[54px] place-items-center" style={{ color }}>
-      <svg viewBox="0 0 54 54" className="absolute inset-0 -rotate-90" aria-hidden="true">
-        <circle cx="27" cy="27" r="23" fill="none" stroke="rgba(31,41,55,0.07)" strokeWidth="5" />
-        <circle
-          cx="27"
-          cy="27"
-          r="23"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="5"
-          strokeLinecap="round"
-          pathLength={100}
-          strokeDasharray="100"
-          strokeDashoffset={end}
-        />
-      </svg>
-      <Icon name={icon} className="size-[20px]" strokeWidth={1.9} />
-    </span>
-  );
-}
-
-function Chip({ c }: { c: FlowChip }) {
-  return (
-    <div className={s.chipBody} data-icon-only={c.label ? undefined : ""} style={{ "--c": streamColor[c.stream] } as CSSProperties}>
+    <div className={s.chipBody} style={{ "--c": readable(st.color) } as CSSProperties}>
       <span className={s.chipIcon}>
-        <Icon name={c.icon} className="size-[18px]" strokeWidth={1.9} />
+        <Icon name={st.icon} className="size-[18px]" strokeWidth={1.9} />
       </span>
-      {c.label && <span className={s.chipLabel}>{c.label}</span>}
+      <span className={s.chipLabel}>{item.challenge}</span>
     </div>
   );
 }
 
-function Card({ c }: { c: FlowCard }) {
-  if (c.variant === "reminder") {
-    return (
-      <div className={`${s.cardSurface} flex items-center gap-3 py-3 pl-3 pr-5`}>
-        <span className="grid size-10 place-items-center rounded-full bg-accent/15 text-[#c48c06]">
-          <Icon name={c.icon} className="size-[20px]" strokeWidth={1.9} />
-        </span>
-        <span className="whitespace-nowrap text-left leading-tight">
-          <b className="block text-[15px] font-semibold text-ink">{c.title}</b>
-          <span className="text-[13px] font-medium text-muted">{c.sub}</span>
-        </span>
-      </div>
-    );
-  }
-  return (
-    <div className={`${s.cardSurface} flex w-[122px] flex-col items-center gap-1.5 px-3 pb-3 pt-3.5 text-center`}>
-      <RingBadge icon={c.icon} color={c.color ?? "var(--accent)"} end={c.icon === "face" ? 18 : 0} />
-      <b className="text-[11.5px] font-semibold leading-tight text-ink">{c.title}</b>
-      <span className="-mt-1 text-[10.5px] font-medium text-muted">{c.sub}</span>
-    </div>
-  );
-}
-
-// What comes out on the right: the same item, now handled by KloneME. Klo for that part of life,
-// the item's name, and the KloneME mark with the stream it was filed into.
-function Solved({ title, area }: { title: string; area: StreamKey }) {
-  const a = AREA[area];
+// What comes out on the right: its solution, handled by KloneME. Klonie for that stream,
+// the solution, and the KloneME mark with the stream's name.
+function Solved({ item }: { item: FlowItem }) {
+  const st = STREAM[item.stream];
   return (
     <div className={s.solved}>
-      <Image src={`/klo/${a.expression}.png`} alt="" width={528} height={456} sizes="70px" className={s.solvedKlo} />
+      <Image src={`/klo/${st.expression}.png`} alt="" width={528} height={456} sizes="70px" className={s.solvedKlo} />
       <span className={s.solvedText}>
-        <b>{title}</b>
+        <b>{item.solution}</b>
         <span className={s.solvedTag}>
           <Image src={site.mark.src} alt="" width={site.mark.width} height={site.mark.height} sizes="20px" />
-          {a.name}
+          {st.name}
         </span>
       </span>
     </div>
@@ -96,7 +44,7 @@ function Solved({ title, area }: { title: string; area: StreamKey }) {
 }
 
 // Items travel one after another: left edge → along the lines → behind the phone → out to the right.
-// Behind the phone (the middle of the crossing) each one swaps its face for its KloneME card.
+// Behind the phone (the middle of the crossing) each challenge swaps its face for its solution.
 export default function Flow() {
   const { cycle, items } = hero.flow;
   return (
@@ -105,7 +53,6 @@ export default function Flow() {
         <div
           key={i}
           className={s.flowItem}
-          data-size={item.kind}
           style={
             {
               "--lane": `${item.lane}px`,
@@ -115,9 +62,11 @@ export default function Flow() {
           }
         >
           <div className={s.flowBody}>
-            <div className={s.faceIn}>{item.kind === "chip" ? <Chip c={item} /> : <Card c={item} />}</div>
+            <div className={s.faceIn}>
+              <Challenge item={item} />
+            </div>
             <div className={s.faceOut}>
-              <Solved title={item.kind === "chip" ? item.label : item.title} area={item.area} />
+              <Solved item={item} />
             </div>
           </div>
         </div>

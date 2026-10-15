@@ -1,0 +1,467 @@
+/* ============================================================
+   Travel page, section 3: "What you can do in Travel." (A "Ink Arc" + B "Flight Route")
+   Blink's composition in a travel sky (client 2026-10-15): a pinned sky-blue panel, deeper at the top
+   with a soft sun glow, and a huge dotted circle whose top crosses the middle like a horizon. Each
+   feature is a Klonie standing on it (KME's avatar in place of Blink's dots, client 2026-10-15),
+   upright to the curve. The one at the top is the focus (client 2026-10-15): bigger, with a light at
+   its feet and a few things about its feature popping out around it, floating gently (white photo
+   prints, chips, a passport). Its description sits under the arc, in a band that fades at its top and
+   bottom edges; pills name the features at the bottom. The script sets the Klonies' positions and
+   tilt, the text's fade and lift, --a (where the Klonies are) and --u (smaller screens, smaller props).
+   ============================================================ */
+
+.can {
+  --sun: #ffd36b; /* a warm sun yellow, close to Klonie's */
+  --sky-top: #1b56ad;
+  position: relative;
+  height: calc(100svh + var(--n) * 80svh);
+  background: var(--sky-top);
+  color: #fff;
+}
+
+.pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background:
+    radial-gradient(38% 34% at 84% 6%, rgba(255, 224, 150, 0.32), rgba(255, 224, 150, 0) 70%),
+    radial-gradient(60% 26% at 50% 50%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 70%),
+    linear-gradient(180deg, var(--sky-top) 0%, #2a71d2 38%, var(--sky) 68%, #66aaf1 100%);
+}
+
+.h2 {
+  position: absolute;
+  z-index: 2;
+  top: clamp(84px, 13vh, 124px);
+  left: 50%;
+  width: calc(100% - 2 * var(--gut));
+  translate: -50% 0;
+  font-size: clamp(28px, 3.4vw, 46px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  text-align: center;
+  text-wrap: balance;
+}
+.h2 span {
+  color: var(--sun);
+}
+
+/* ---------- The arc: a horizon ---------- */
+.arc {
+  position: absolute;
+  inset: 0;
+}
+.circle {
+  position: absolute;
+  top: var(--y0, 57%);
+  left: calc(var(--cx, 50%) - var(--R, 700px));
+  width: calc(var(--R, 700px) * 2);
+  height: calc(var(--R, 700px) * 2);
+  border: 2px dotted rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  /* a little lighter below the horizon, brightest just under it */
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.05) 92%, rgba(255, 255, 255, 0.16) 100%);
+  rotate: calc(var(--a, -1) * var(--step, 0) * -1rad);
+}
+/* A Klonie: feet on the circle, upright to it (the script sets translate and rotate); the one at the
+   top grows (to about twice the size of the others) and gets a light at its feet (--on) */
+.stop {
+  --on: 0;
+  --kw: clamp(62px, 6vw, 82px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  isolation: isolate;
+  width: var(--kw);
+  aspect-ratio: 528 / 456;
+  margin: calc(var(--kw) * -0.833) 0 0 calc(var(--kw) / -2);
+  transform-origin: 50% 96.5%;
+  opacity: 0;
+  scale: calc(0.72 + var(--on) * 0.83);
+  filter: drop-shadow(0 8px 10px rgba(10, 40, 95, 0.3));
+}
+.stop img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.stop::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  bottom: 3.5%;
+  width: 150%;
+  height: 34%;
+  translate: -50% 50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+  opacity: var(--on);
+}
+
+/* ---------- Things about the feature at the top, around its Klonie ---------- */
+/* Each set sits at the Klonie's feet; its pieces fly out to their places (--x, --y, scaled by --u) one
+   after another when its Klonie reaches the top, and tuck back in as it leaves */
+.props {
+  --ps: calc(0.78 + var(--u, 1) * 0.22);
+  position: absolute;
+  top: var(--y0, 57%);
+  left: var(--cx, 50%);
+}
+.set {
+  position: absolute;
+  inset: 0;
+}
+.prop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: max-content; /* its own size (it sits in a box with no width) */
+  opacity: 0;
+  translate: calc(var(--x) * var(--u, 1) * 0.5px - 50%) calc(var(--y) * var(--u, 1) * 0.5px - 50%);
+  rotate: var(--tilt);
+  scale: calc(var(--ps) * 0.5);
+  transition:
+    opacity 0.25s ease,
+    translate 0.4s var(--ease),
+    scale 0.4s var(--ease);
+}
+.set[data-on] .prop {
+  opacity: 1;
+  translate: calc(var(--x) * var(--u, 1) * 1px - 50%) calc(var(--y) * var(--u, 1) * 1px - 50%);
+  scale: var(--ps);
+  transition:
+    opacity 0.4s ease,
+    translate 0.75s var(--pop),
+    scale 0.75s var(--pop);
+  transition-delay: calc(0.15s + var(--k) * 0.09s);
+}
+.float {
+  display: block;
+  animation: tvFloat 4.2s ease-in-out calc(var(--k) * -1.4s) infinite alternate;
+}
+@keyframes tvFloat {
+  from {
+    translate: 0 -5px;
+  }
+  to {
+    translate: 0 5px;
+  }
+}
+
+/* A white chip: an icon tile, a line and a small one under it */
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 14px 8px 8px;
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ink);
+  white-space: nowrap;
+  box-shadow: 0 16px 34px -14px rgba(8, 36, 90, 0.55);
+}
+.chip > i {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--sky) 14%, #fff);
+  color: var(--sky);
+}
+.chip > i svg {
+  width: 16px;
+  height: 16px;
+}
+.chip b {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.chip small {
+  display: block;
+  font-size: 10.5px;
+  line-height: 1.3;
+  color: var(--muted);
+}
+.mini {
+  display: block;
+  width: 88px;
+  height: 5px;
+  margin-top: 5px;
+  overflow: hidden;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--sky) 16%, #fff);
+}
+.mini i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--sky);
+}
+.avs {
+  display: flex;
+}
+.av {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin-left: -7px;
+  border-radius: 50%;
+  background: var(--ac);
+  box-shadow: 0 0 0 2px #fff;
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+.av:first-child {
+  margin-left: 0;
+}
+
+/* A photo print */
+.polaroid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 6px 8px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 18px 36px -14px rgba(8, 36, 90, 0.6);
+}
+.polaroid img {
+  display: block;
+  width: 96px;
+  max-width: none;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+.polaroid small {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Five stars in a pill */
+.starChip {
+  display: block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent);
+  font-size: 15px;
+  letter-spacing: 2px;
+  box-shadow: 0 16px 34px -14px rgba(8, 36, 90, 0.55);
+}
+
+/* A passport */
+.passport {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 66px;
+  height: 90px;
+  border-radius: 4px 9px 9px 4px;
+  background: linear-gradient(160deg, #25457e, #142a52);
+  box-shadow:
+    inset 5px 0 0 rgba(0, 0, 0, 0.18),
+    0 18px 34px -12px rgba(8, 36, 90, 0.65);
+  color: #e9c46a;
+}
+.passport svg {
+  width: 30px;
+  height: 30px;
+}
+.passport b {
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Thought bubbles rising from a thinking Klonie */
+.bubbles {
+  position: relative;
+  display: block;
+  width: 60px;
+  height: 46px;
+}
+.bubbles i {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 8px 18px -8px rgba(8, 36, 90, 0.5);
+}
+.bubbles i:nth-child(1) {
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  height: 8px;
+}
+.bubbles i:nth-child(2) {
+  right: 15px;
+  bottom: 12px;
+  width: 12px;
+  height: 12px;
+}
+.bubbles i:nth-child(3) {
+  right: 34px;
+  bottom: 26px;
+  width: 17px;
+  height: 17px;
+}
+
+/* Phones: one piece fewer, and longer chips wrap */
+@media (max-width: 720px) {
+  .prop:last-child {
+    display: none;
+  }
+  .chip {
+    white-space: normal;
+  }
+  .chip > span {
+    max-width: 120px;
+  }
+}
+
+/* ---------- Descriptions: one at a time, under the arc ---------- */
+.texts {
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--y0, 57%) + 30px);
+  left: 50%;
+  width: min(660px, 100% - 2 * var(--gut));
+  height: 220px;
+  translate: -50% 0;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 26px, #000 calc(100% - 26px), transparent);
+  mask-image: linear-gradient(180deg, transparent 0, #000 26px, #000 calc(100% - 26px), transparent);
+}
+.text {
+  position: absolute;
+  inset: 26px 0 0;
+  text-align: center;
+  opacity: 0;
+}
+/* The pills name the features; the h3 stays for screen readers */
+.text h3 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.text p {
+  margin: 0 auto;
+  max-width: 32ch;
+  font-size: clamp(15px, 1.6vw, 21px);
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---------- Pills ---------- */
+.pills {
+  position: absolute;
+  z-index: 2;
+  bottom: clamp(20px, 4vh, 40px);
+  left: 50%;
+  display: flex;
+  gap: 6px;
+  max-width: calc(100% - 2 * var(--gut));
+  overflow-x: auto;
+  translate: -50% 0;
+  scrollbar-width: none;
+}
+.pills::-webkit-scrollbar {
+  display: none;
+}
+.pills button {
+  flex: none;
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+.pills button:hover {
+  color: #fff;
+}
+.pills button[data-on] {
+  background: #fff;
+  color: var(--sky-top);
+}
+.pills button:focus-visible {
+  outline-color: #fff;
+}
+
+/* Reduced motion: no pinning; the four features as a plain list */
+@media (prefers-reduced-motion: reduce) {
+  .can {
+    height: auto;
+  }
+  .pin {
+    position: relative;
+    height: auto;
+    padding: clamp(64px, 9vw, 110px) var(--gut);
+  }
+  .h2 {
+    position: static;
+    width: auto;
+    translate: none;
+  }
+  .arc,
+  .pills {
+    display: none;
+  }
+  .texts {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+    width: auto;
+    max-width: 1100px;
+    height: auto;
+    margin: 40px auto 0;
+    translate: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .text {
+    position: static;
+    opacity: 1;
+  }
+  .text h3 {
+    position: static;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+  .text p {
+    margin-top: 12px;
+  }
+}

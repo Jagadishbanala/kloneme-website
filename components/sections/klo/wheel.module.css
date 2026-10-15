@@ -8,20 +8,31 @@
    the middle one to its left-most point, the bottom one from the last source to its bottom. The
    wheel's right half sits behind frosted glass: a vivid blurred ring with a crisp edge down the
    wheel's middle. Glass cards on top of it name the problems, four in view.
-   The section pins while you scroll (wide screens). The figures move up as one list: the next comes
+   After the four figures come the four solutions (client, 2026-10-15), in Forest green (client,
+   2026-10-15: the client's swatch, #228b22): a big line in place of the number, the statement, and a
+   green pill with a tick.
+   The section pins while you scroll (wide screens). The points move up as one list: the next comes
    in from below, the top one leaves; the wheel turns and the cards move up with them, the ones whose
-   figures are showing lit. Three resting places: figures 1–3, 2–4, 3–5. While the list moves, the
+   points are showing lit. Resting places: points 1–3, 2–4, … 6–8. While the list moves, the
    lines draw back to their dots on the arc and stretch out again once it settles, so they only show
-   when they point at the right figure. JS sets --s (0–2, how far the list has moved), --k (1 at a
-   resting place, 0 mid-move: how far the lines reach) and --p (0–1, the ring); each figure and card
-   has its index, --i.
-   Phones and tablets: no pin; all five figures in a plain list, the wheel's half at the edge.
+   when they point at the right point. As the solutions come in, the wheel fills with green from the
+   bottom up, both halves at once, a third for each place holding a solution (bottom place first, as
+   that's where they arrive); the arc follows, and each line and dot turns green when its point is a
+   solution. JS sets --s (how far the list has moved, in steps), --k (1 at a resting place, 0
+   mid-move: how far the lines reach), --p (0–1, the ring) and --g (0–1, how far the solutions' colour has filled); each point and
+   card has its index, --i.
+   Phones and tablets: no pin; all the points in a plain list, the wheel's half at the edge.
    ============================================================ */
 
 .wheel {
   --s: 0;
   --k: 1;
   --p: 0;
+  --g: 0;
+  /* The solutions' colour: Forest green, from the client's swatch (client 2026-10-15; was #1f9d6b,
+     then brighter greens, then Kelly green); a deeper shade of it for text on its pale tint */
+  --solve: #228b22;
+  --solve-d: #19691a;
   position: relative;
 }
 
@@ -33,8 +44,9 @@
 
 /* Pinned on wide screens (unless motion is reduced) */
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  /* 100svh of scroll per move, plus room to hold at both ends (5 moves: 660svh) */
   .wheel {
-    height: 360svh;
+    height: calc(160svh + var(--moves) * 100svh);
   }
   .sticky {
     position: sticky;
@@ -137,6 +149,18 @@
   --Ry: calc(var(--u) * 306);
   --Rd: calc(var(--u) * 224); /* the wheel */
   --pitch: calc(var(--u) * 232); /* from one figure to the next */
+  /* Where the wheel is green (set here, where the wheel's size --Rd is known; --g comes from .wheel):
+     it rises from the bottom like a level (--lv, up from the wheel's centre) and fades straight into
+     the red above it over a wide soft band (--ramp), so red blends into green with no line and nothing
+     in between (client 2026-10-15). Every masked box is centred on the wheel, so "50% + --lv" is the
+     same height in each. Near the end (--full) the mask covers the whole box, so the glow above the
+     wheel turns green too. */
+  --ramp: calc(var(--Rd) * 0.8);
+  --lv: calc(var(--g) * (var(--Rd) * 2 + var(--ramp)) - var(--Rd));
+  --full: clamp(0, (var(--g) - 0.9) * 10, 1);
+  --fill-mask:
+    linear-gradient(to top, #000 calc(50% + var(--lv) - var(--ramp)), transparent calc(50% + var(--lv))),
+    linear-gradient(rgba(0, 0, 0, var(--full)), rgba(0, 0, 0, var(--full)));
   position: absolute;
   left: 50%;
   top: 50%;
@@ -160,8 +184,18 @@
   width: 100%;
   height: 100%;
 }
-.base {
-  fill: #fbd5c7;
+/* The green wheel over the warm one, shown where --fill-mask is black. The mask sits on a box twice
+   the wheel's size round the same centre, so it also covers the blur that spills past the wheel */
+.fill {
+  position: absolute;
+  inset: calc(var(--Rd) * -1);
+  opacity: clamp(0, var(--g) * 5, 1); /* no green haze below the wheel before it starts to rise */
+  -webkit-mask-image: var(--fill-mask);
+  mask-image: var(--fill-mask);
+}
+.fill > span {
+  position: absolute;
+  inset: var(--Rd);
 }
 
 /* Left half, sharp, turning with the list */
@@ -181,7 +215,8 @@
   scale: 1.04;
   filter: blur(calc(var(--u) * 24)) saturate(1.9) brightness(1.02);
 }
-.blurHalf::before {
+.blurHalf::before,
+.blurHalf .fill > span::before {
   content: "";
   position: absolute;
   inset: -6%;
@@ -196,6 +231,17 @@
   );
   filter: blur(calc(var(--u) * 30));
   animation: breathe 8s ease-in-out infinite;
+}
+/* The same glow in Forest green */
+.blurHalf .fill > span::before {
+  background: radial-gradient(
+    closest-side,
+    rgba(34, 139, 34, 0.22) 0%,
+    rgba(34, 139, 34, 0.14) 50%,
+    rgba(34, 139, 34, 0.85) 74%,
+    rgba(52, 160, 52, 0.4) 90%,
+    rgba(52, 160, 52, 0) 100%
+  );
 }
 @keyframes breathe {
   50% {
@@ -231,6 +277,12 @@
   border: 1.5px dashed rgba(238, 99, 82, 0.55);
   border-radius: 50%;
 }
+/* Its green twin, rising with the wheel */
+.arc i[data-solved] {
+  border-color: rgba(34, 139, 34, 0.75);
+  -webkit-mask-image: var(--fill-mask);
+  mask-image: var(--fill-mask);
+}
 
 /* ---------- Lines to the arc (fixed), each ending in a dot ----------
    Mid-move they draw back towards the dot (clipped from the left by --k), so a line never points at
@@ -253,6 +305,14 @@
   border-radius: 50%;
   background: #ee6352;
   box-shadow: 0 0 0 calc(var(--u) * 4) rgba(238, 99, 82, 0.15);
+}
+/* Pointing at a solution: green (it changes mid-move, while the line is drawn back) */
+.line[data-solved] {
+  background: linear-gradient(90deg, rgba(34, 139, 34, 0), rgba(34, 139, 34, 0.6) 30%, var(--solve));
+}
+.line[data-solved]::after {
+  background: var(--solve);
+  box-shadow: 0 0 0 calc(var(--u) * 4) rgba(34, 139, 34, 0.22);
 }
 /* From beside the top figure's number to the arc's top */
 .line[data-slot="0"] {
@@ -318,6 +378,26 @@
     0 calc(var(--u) * 10) calc(var(--u) * 22) calc(var(--u) * -14) rgba(31, 41, 55, 0.3);
 }
 
+/* ---------- The solutions: Forest green ---------- */
+.item[data-solved] .num {
+  color: var(--solve);
+}
+.item[data-solved] .source {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) * 7);
+  background: #e3f2e3;
+  color: var(--solve-d);
+  box-shadow:
+    0 0 0 1px rgba(34, 139, 34, 0.3),
+    0 calc(var(--u) * 10) calc(var(--u) * 22) calc(var(--u) * -14) rgba(34, 139, 34, 0.6);
+}
+.source svg {
+  flex: none;
+  width: calc(var(--u) * 15);
+  height: calc(var(--u) * 15);
+}
+
 /* The problem's name beside the figure: phones only (the cards show it on wide screens) */
 .chip {
   display: none;
@@ -338,8 +418,9 @@
 }
 
 /* ---------- Glass cards over the blurred ring ---------- */
-/* Card i sits at 172 × (i − s/2) reference pixels: four in view, moving up half as far as the
-   figures. Lit while its figure is showing; fading out past the top and bottom */
+/* Card i sits at 172 × i − drift × s reference pixels: four in view at the start, moving up a little
+   slower than the points (drift = 172 × (n − 4) / (n − 3), so the last three are in view at the
+   end). Lit while its point is showing; fading out past the top and bottom */
 .cards {
   position: absolute;
   left: calc(var(--u) * 914);
@@ -348,7 +429,7 @@
   height: 100%;
 }
 .card {
-  --y: calc(var(--i) * 172 - var(--s) * 86); /* in reference pixels */
+  --y: calc(var(--i) * 172 - var(--s) * var(--drift)); /* in reference pixels */
   --shown: clamp(0, min(calc((var(--y) + 60) / 60), calc((582 - var(--y)) / 60)), 1);
   --lit: clamp(0.45, min(calc((var(--i) - var(--s) + 0.6) * 1.7), calc((2.6 - var(--i) + var(--s)) * 1.7)), 1);
   position: absolute;
@@ -385,6 +466,16 @@
 .badge svg {
   width: calc(var(--u) * 21);
   height: calc(var(--u) * 21);
+}
+/* A solution's card: Forest green badge and glow */
+.card[data-solved] {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8),
+    0 calc(var(--u) * 22) calc(var(--u) * 44) calc(var(--u) * -26) rgba(34, 139, 34, 0.55);
+}
+.card[data-solved] .badge {
+  background: linear-gradient(145deg, #46a846, var(--solve) 55%, #1a701a);
+  box-shadow: 0 calc(var(--u) * 8) calc(var(--u) * 18) calc(var(--u) * -8) rgba(34, 139, 34, 0.85);
 }
 .cardLabel {
   max-width: calc(var(--u) * 130);
@@ -467,10 +558,25 @@
       0 1px 2px rgba(31, 41, 55, 0.05),
       0 10px 22px -14px rgba(31, 41, 55, 0.3);
   }
+  /* A solution's name is already its pill */
+  .item[data-solved] .chip {
+    display: none;
+  }
+  .item[data-solved] .source {
+    gap: 6px;
+    box-shadow:
+      0 0 0 1px rgba(34, 139, 34, 0.3),
+      0 10px 22px -14px rgba(34, 139, 34, 0.6);
+  }
+  .source svg {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 /* ---------- Pausing ---------- */
-.wheel[data-paused] .blurHalf::before {
+.wheel[data-paused] .blurHalf::before,
+.wheel[data-paused] .blurHalf .fill > span::before {
   animation-play-state: paused;
 }
 

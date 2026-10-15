@@ -602,7 +602,8 @@
 .seg span[data-on] {
   color: var(--ink);
 }
-.knob {
+/* .seg .knob outranks .seg span, so the knob stays absolute behind the labels */
+.seg .knob {
   position: absolute;
   inset: calc(var(--k) * 4) auto calc(var(--k) * 4) calc(var(--k) * 4);
   width: calc(50% - var(--k) * 4);

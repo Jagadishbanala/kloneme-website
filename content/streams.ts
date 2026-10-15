@@ -14,6 +14,8 @@ export type StreamCard = {
   body: string;
   /** Where this stream's loose end used to live (v9 problem section) */
   from: { place: string; icon: IconName };
+  /** The stream’s own page, once it exists: the whole card links there */
+  href?: string;
 };
 
 export const streams = {
@@ -70,6 +72,7 @@ export const streams = {
       expression: "surprised",
       body: "Where you’ve been, where you’re going and what’s due before you leave, mapped in one place.",
       from: { place: "Calendar", icon: "cal" },
+      href: "/streams/travel",
     },
     {
       key: "hobbies",

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { streams } from "@/content/streams";
@@ -137,7 +138,14 @@ export default function StreamsRail() {
               </div>
               <h3 id={`stream-${c.key}`} className={s.title}>
                 <Icon name={c.icon} strokeWidth={2} />
-                {c.name}
+                {c.href ? (
+                  // Covers the whole card (::after), so the card itself opens the stream’s page
+                  <Link href={c.href} className={s.cardLink}>
+                    {c.name}
+                  </Link>
+                ) : (
+                  c.name
+                )}
               </h3>
               <p className={s.body}>{c.body}</p>
             </article>

@@ -1,0 +1,877 @@
+/* ============================================================
+   Travel page, section 2: "Travel, at a glance." (70% Arched Wings, 30% Boarding Passes)
+   The two wings of Bevel's band from the client's reference (the four tall middle photos removed and
+   the rest wider, client 2026-10-15): columns of 2 and 3 plain photo cards on the left, 3 and 2 on the
+   right, with the heading and a line of text between them. Each column is an endless slow reel that
+   fades out at its top and bottom, alternating up and down at its own pace. Sizes are in column
+   widths (--W). Each card
+   flips sideways to its back, and every back is a different kind of detail (one boarding pass, a
+   checklist, a savings ring, a stamp, a quote, a big number, a big word, a calendar page, a reminder,
+   a goal) in white, the pale sky tint, sky or ink. Colours: the Travel card's sky blue on the page's pale tint.
+   ============================================================ */
+
+.glance {
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --bw: min(1320px, 100cqw - 2 * var(--gut)); /* band width */
+  --mid: 2.6; /* the space between the wings, in columns */
+  /* Column width and gap: four columns, the middle space and four gaps (gap = 0.11 of a column) */
+  --W: calc(var(--bw) / (4 + var(--mid) + 4 * 0.11));
+  --gap: calc(var(--W) * 0.11);
+  container-type: inline-size;
+  padding: clamp(40px, 6vw, 80px) 0;
+}
+
+/* The band and the heading share one grid cell; the heading sits between the wings */
+.stage {
+  display: grid;
+}
+.head,
+.band {
+  grid-area: 1 / 1;
+}
+.head {
+  z-index: 1;
+  justify-self: center;
+  align-self: center;
+  width: calc(var(--W) * var(--mid));
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.9s ease 0.5s;
+}
+.glance[data-in] .head {
+  opacity: 1;
+}
+.h2 {
+  font-size: clamp(36px, calc(var(--W) * 0.4), 64px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+.h2 span {
+  display: block;
+  color: var(--tv-text);
+}
+.sub {
+  max-width: 46ch;
+  margin: calc(var(--W) * 0.14) auto 0;
+  font-size: clamp(15px, calc(var(--W) * 0.112), 18px);
+  line-height: 1.55;
+  text-wrap: balance;
+  color: var(--tv-muted);
+}
+
+.band {
+  display: grid;
+  grid-template-columns: repeat(2, var(--W)) calc(var(--W) * var(--mid)) repeat(2, var(--W));
+  align-items: start;
+  justify-content: center;
+  gap: var(--gap);
+  width: var(--bw);
+  margin: 0 auto;
+}
+
+/* The right wing starts after the middle space */
+.col:nth-child(3) {
+  grid-column: 4;
+}
+
+/* Each column rises in, from the centre outward */
+.col {
+  opacity: 0;
+  translate: 0 70px;
+  transition:
+    opacity 0.8s ease,
+    translate 1.1s var(--ease);
+  transition-delay: calc(var(--d) * 0.09s);
+}
+.glance[data-in] .col {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* ...then shows its reel through a window that fades out at the top and bottom (the side room lets a
+   hovered card grow without being cut) */
+.view {
+  height: calc(var(--W) * 3.7);
+  margin: 0 -16px;
+  padding: 0 16px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent);
+  mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent);
+}
+/* The reel: the column three times over, moving on by one copy per loop (up, or down when reversed) */
+.track {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  padding-bottom: var(--gap);
+  animation: tvReel var(--dur) linear var(--delay) infinite;
+}
+.col[data-dir="down"] .track {
+  animation-direction: reverse;
+}
+@keyframes tvReel {
+  to {
+    translate: 0 calc(-100% / 3);
+  }
+}
+/* Stops while a card is turned with a tap or the keyboard (with a mouse the script eases it to a stop) */
+.view:focus-within .track,
+.view:has(.card[data-flipped]) .track {
+  animation-play-state: paused;
+}
+
+/* ---------- Card: a photo front and a boarding-pass back ---------- */
+.card {
+  --rad: clamp(14px, calc(var(--W) * 0.14), 22px);
+  position: relative;
+  height: calc(var(--W) * var(--r));
+  container-type: size;
+  perspective: 1100px;
+  border-radius: var(--rad);
+  cursor: pointer;
+  outline: none;
+  transition: scale 0.5s var(--ease);
+}
+.card:focus-visible {
+  outline: 2px solid var(--tv);
+  outline-offset: 3px;
+}
+.inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.75s var(--ease);
+}
+.card[data-flipped],
+.card:focus-visible {
+  z-index: 2;
+  scale: 1.04;
+}
+.card[data-flipped] .inner,
+.card:focus-visible .inner {
+  transform: rotateY(180deg);
+}
+@media (hover: hover) {
+  .card:hover {
+    z-index: 2;
+    scale: 1.04;
+  }
+  .card:hover .inner {
+    transform: rotateY(180deg);
+  }
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--rad);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow:
+    0 0 0 1px rgba(31, 41, 55, 0.05),
+    0 22px 40px -26px rgba(31, 41, 55, 0.45);
+}
+
+/* Front: the photo alone */
+.front {
+  background: var(--tv-tint);
+}
+.photo {
+  object-fit: cover;
+}
+
+/* ---------- Backs: a different kind of detail on each, in four colours ---------- */
+.back {
+  --b-bg: #fff;
+  --b-fg: var(--ink);
+  --b-mut: var(--tv-muted);
+  --b-acc: var(--tv-text);
+  --b-pill: var(--tv-tint);
+  --b-track: var(--tv-tint);
+  --b-fill: var(--tv);
+  --b-line: rgba(31, 41, 55, 0.14);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--b-bg);
+  color: var(--b-fg);
+  transform: rotateY(180deg);
+}
+.back[data-tone="tint"] {
+  --b-bg: var(--tv-tint);
+  --b-pill: #fff;
+  --b-track: #fff;
+}
+.back[data-tone="sky"] {
+  --b-bg: var(--tv);
+  --b-fg: #fff;
+  --b-mut: rgba(255, 255, 255, 0.82);
+  --b-acc: #fff;
+  --b-pill: rgba(255, 255, 255, 0.18);
+  --b-track: rgba(255, 255, 255, 0.28);
+  --b-fill: #fff;
+  --b-line: rgba(255, 255, 255, 0.3);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--tv) 82%, #fff), var(--tv) 55%, color-mix(in srgb, var(--tv) 85%, var(--ink)));
+}
+.back[data-tone="ink"] {
+  --b-bg: var(--ink);
+  --b-fg: #fff;
+  --b-mut: rgba(255, 255, 255, 0.62);
+  --b-acc: color-mix(in srgb, var(--tv) 55%, #fff);
+  --b-pill: rgba(255, 255, 255, 0.1);
+  --b-track: rgba(255, 255, 255, 0.14);
+  --b-fill: color-mix(in srgb, var(--tv) 80%, #fff);
+  --b-line: rgba(255, 255, 255, 0.16);
+  background: linear-gradient(160deg, #2e3b50, var(--ink) 60%);
+}
+
+/* Shared pieces */
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.tag {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--b-pill);
+  color: var(--b-acc);
+  font-size: 10.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.stars {
+  font-size: 11px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  color: var(--accent);
+}
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--b-acc);
+}
+.kicker svg {
+  flex: none;
+  width: 12px;
+  height: 12px;
+}
+.name {
+  display: block;
+  font-size: clamp(16px, 13cqw, 21px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.title {
+  font-size: clamp(13px, 10.5cqw, 16px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.meta {
+  display: block;
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: var(--b-mut);
+}
+.note {
+  margin-top: auto;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--b-mut);
+}
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Bars and the ring fill up as the card turns */
+.bar {
+  display: block;
+  flex: none;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--b-track);
+}
+.bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--b-fill);
+  transform-origin: left;
+  scale: 0 1;
+  transition: scale 0.9s var(--ease) 0.25s;
+}
+.card[data-flipped] .bar i,
+.card:focus-visible .bar i {
+  scale: 1 1;
+}
+@media (hover: hover) {
+  .card:hover .bar i {
+    scale: 1 1;
+  }
+}
+
+.who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  margin-top: auto;
+  font-size: 10.5px;
+  line-height: 1.2;
+  color: var(--b-mut);
+}
+.avs {
+  display: flex;
+  flex: none;
+}
+.av {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: var(--ac);
+  box-shadow: 0 0 0 2px var(--b-bg);
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 700;
+}
+.av:first-child {
+  margin-left: 0;
+}
+
+/* Boarding pass (rich): codes with a dotted route, the trip, who went, and a barcode stub */
+.codes {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.codes span {
+  display: flex;
+  flex-direction: column;
+}
+.codes span:last-child {
+  align-items: flex-end;
+  text-align: right;
+}
+.codes b {
+  font-size: clamp(17px, 14cqw, 24px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+.codes small {
+  margin-top: 3px;
+  font-size: 9.5px;
+  color: var(--b-mut);
+}
+.codes i {
+  position: relative;
+  flex: 1;
+  min-width: 18px;
+  margin-top: 9px;
+  border-top: 2px dotted var(--tv);
+}
+.codes svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 15px;
+  height: 15px;
+  padding: 0 1px;
+  translate: -50% -58%;
+  rotate: 45deg;
+  background: var(--b-bg);
+  color: var(--tv);
+}
+.rows {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 10px;
+}
+.rows div:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+.rows dt {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--b-mut);
+}
+.rows dd {
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.stub {
+  position: relative;
+  flex: none;
+  padding-top: 10px;
+  border-top: 2px dashed var(--b-line);
+}
+.stub::before,
+.stub::after {
+  content: "";
+  position: absolute;
+  top: -9px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--tv-bg);
+  box-shadow: inset 0 0 0 1px rgba(31, 41, 55, 0.05);
+}
+.stub::before {
+  left: -20px;
+}
+.stub::after {
+  right: -20px;
+}
+.barcode {
+  display: block;
+  height: 24px;
+  opacity: 0.85;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--b-fg) 0 2px,
+    transparent 2px 4px,
+    var(--b-fg) 4px 5px,
+    transparent 5px 7px,
+    var(--b-fg) 7px 10px,
+    transparent 10px 11px,
+    var(--b-fg) 11px 12px,
+    transparent 12px 15px
+  );
+}
+
+/* Checklist: the percentage, a bar and the steps */
+.pct {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-top: 2px;
+}
+.pct b {
+  font-size: clamp(26px, 24cqw, 38px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--b-acc);
+}
+.pct span {
+  font-size: 11px;
+  color: var(--b-mut);
+}
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 2px;
+  font-size: 11.5px;
+  line-height: 1.25;
+}
+.steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.steps li[data-done] {
+  color: var(--b-mut);
+}
+.steps i {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  margin-top: 1px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px var(--b-mut);
+}
+.steps li[data-done] i {
+  background: var(--tv);
+  box-shadow: none;
+  color: #fff;
+}
+.steps svg {
+  width: 9px;
+  height: 9px;
+}
+
+/* Savings ring */
+.ringRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ring {
+  position: relative;
+  flex: none;
+  width: clamp(44px, 38cqw, 66px);
+  aspect-ratio: 1;
+}
+.ring svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  rotate: -90deg;
+}
+.ring circle {
+  fill: none;
+  stroke: var(--b-track);
+  stroke-width: 5;
+}
+.ring circle + circle {
+  stroke: var(--b-fill);
+  stroke-linecap: round;
+  stroke-dasharray: var(--pct) 100;
+  stroke-dashoffset: var(--pct);
+  transition: stroke-dashoffset 1s var(--ease) 0.25s;
+}
+.card[data-flipped] .ring circle + circle,
+.card:focus-visible .ring circle + circle {
+  stroke-dashoffset: 0;
+}
+@media (hover: hover) {
+  .card:hover .ring circle + circle {
+    stroke-dashoffset: 0;
+  }
+}
+.ring b {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+.saved b {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.saved small {
+  font-size: 10px;
+  color: var(--b-mut);
+}
+.back[data-kind="ring"] .name {
+  margin-top: auto;
+}
+.back[data-kind="ring"] .name + .note {
+  margin-top: 0;
+}
+
+/* Passport stamp (minimal), with a faint one from the same trip */
+.stamps {
+  position: relative;
+  flex: 1;
+  display: grid;
+  place-items: center;
+}
+.stamp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: min(96px, 72cqw, 62cqh);
+  aspect-ratio: 1;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 0 3px var(--b-bg),
+    inset 0 0 0 4.5px currentColor;
+  rotate: -12deg;
+  color: var(--tv);
+  text-align: center;
+  text-transform: uppercase;
+}
+.stamp b {
+  font-size: clamp(14px, 12cqw, 19px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+}
+.stamp small {
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+.stampAlso {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  padding: 3px 7px;
+  border: 1.5px solid currentColor;
+  border-radius: 6px;
+  rotate: 14deg;
+  color: var(--berry);
+  opacity: 0.4;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+/* Quote (minimal) */
+.qmark {
+  height: 22px;
+  font-size: 46px;
+  font-weight: 600;
+  line-height: 0.95;
+  color: var(--tv);
+}
+.qtext {
+  font-size: clamp(15px, 13cqw, 21px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.by {
+  margin-top: auto;
+}
+
+/* One big number or word (minimal) */
+.huge {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 6px;
+  margin-top: auto;
+  font-size: clamp(40px, 34cqw, 58px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--b-acc);
+}
+.huge[data-word] {
+  font-size: clamp(20px, 16cqw, 30px);
+  letter-spacing: -0.03em;
+}
+.huge span {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--b-mut);
+}
+.line {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--b-mut);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+/* Calendar page */
+.back[data-kind="cal"] {
+  gap: 0;
+  padding: 0;
+}
+.calHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 7px 12px;
+  background: var(--tv);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 600;
+}
+.calHead span:first-child {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.calHead span:last-child {
+  opacity: 0.85;
+}
+.calBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 12px 12px;
+}
+.calDay {
+  font-size: clamp(40px, 34cqw, 60px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.calBody .title {
+  margin-top: auto;
+}
+
+/* Reminder: a bell that rings as the card turns */
+.bell {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: var(--b-pill);
+  color: var(--b-acc);
+}
+.bell svg {
+  width: 16px;
+  height: 16px;
+  transform-origin: 50% 10%;
+}
+.card[data-flipped] .bell svg,
+.card:focus-visible .bell svg {
+  animation: tvBell 0.9s ease 0.45s;
+}
+@media (hover: hover) {
+  .card:hover .bell svg {
+    animation: tvBell 0.9s ease 0.45s;
+  }
+}
+@keyframes tvBell {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  20% {
+    rotate: 16deg;
+  }
+  40% {
+    rotate: -12deg;
+  }
+  60% {
+    rotate: 7deg;
+  }
+  80% {
+    rotate: -3deg;
+  }
+}
+
+/* Goal: target date and a bar */
+.goal {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: auto;
+}
+.goalRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--b-mut);
+}
+
+/* Small cards (the short ones in the outer columns) leave out the extras */
+@container (max-height: 179px) {
+  .opt {
+    display: none;
+  }
+}
+/* ...and cards under 260px tall leave out a little more */
+@container (max-height: 259px) {
+  .roomy {
+    display: none;
+  }
+}
+
+/* ---------- Below 1200px: the heading, then one swipeable row of cards ---------- */
+@media (max-width: 1199px) {
+  .stage {
+    display: block;
+  }
+  .head {
+    width: auto;
+    margin: 0 var(--gut) 24px;
+    opacity: 1;
+  }
+  .h2 {
+    font-size: clamp(32px, 6vw, 48px);
+  }
+  .sub {
+    margin-top: 12px;
+    font-size: 15px;
+  }
+  .band {
+    display: flex;
+    width: auto;
+    gap: 12px;
+    padding: 8px var(--gut) 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gut);
+    scrollbar-width: none;
+  }
+  .band::-webkit-scrollbar {
+    display: none;
+  }
+  .col,
+  .view,
+  .track {
+    display: contents;
+  }
+  .dup {
+    display: none;
+  }
+  .card {
+    flex: none;
+    width: min(230px, 64vw);
+    height: min(310px, 86vw);
+    scroll-snap-align: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .head,
+  .col {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+  .inner {
+    transition: none;
+  }
+  .track {
+    animation: none;
+  }
+  .bar i {
+    scale: 1 1;
+    transition: none;
+  }
+  .ring circle + circle {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+  .bell svg {
+    animation: none !important;
+  }
+}

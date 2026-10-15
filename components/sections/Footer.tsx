@@ -5,18 +5,19 @@ import { footer, site } from "@/content/site";
 import Newsletter from "./footer/Newsletter";
 import s from "./footer/footer.module.css";
 
-export default function Footer() {
+// home: prefix for the in-page links on other pages ("/" from a stream page); empty on the home page
+export default function Footer({ home = "" }: { home?: string }) {
   return (
     <footer className={s.footer}>
       <div className={s.top}>
         {/* Left: logo, links and social profiles */}
         <div className={s.brand}>
-          <a href="#top" aria-label={`${site.name} home`} className={s.logo}>
+          <a href={`${home}#top`} aria-label={`${site.name} home`} className={s.logo}>
             <Image src={site.logo.src} alt="" width={site.logo.width} height={site.logo.height} className="h-7 w-auto" />
           </a>
           <nav aria-label={footer.label} className={s.nav}>
             {footer.links.map((l) => (
-              <a key={l.href} href={l.href}>
+              <a key={l.href} href={`${home}${l.href}`}>
                 {l.label}
               </a>
             ))}

@@ -160,10 +160,6 @@
   will-change: transform, opacity;
 }
 
-.flowItem[data-size="card"] {
-  --from: calc(50vw + 380px);
-}
-
 /* Moving elements are drawn at 1.5× (zoom keeps text and icons crisp, unlike scale) */
 .flowBody {
   display: grid;
@@ -171,8 +167,8 @@
   zoom: 1.5;
 }
 
-/* Two faces in the same spot: what goes in (left) and its KloneME card (right). They swap at 25% of
-   the cycle, the middle of the crossing, when the item is hidden behind the phone. */
+/* Two faces in the same spot: the challenge going in (left) and its solution as a KloneME card (right).
+   They swap at 12.5% of the cycle, the middle of the crossing, when the item is hidden behind the phone. */
 .faceIn,
 .faceOut {
   grid-area: 1 / 1;
@@ -189,19 +185,19 @@
 
 @keyframes swapIn {
   0%,
-  24.9% { opacity: 1; }
-  25%,
+  12.45% { opacity: 1; }
+  12.5%,
   100% { opacity: 0; }
 }
 
 @keyframes swapOut {
   0%,
-  24.9% { opacity: 0; }
-  25%,
+  12.45% { opacity: 0; }
+  12.5%,
   100% { opacity: 1; }
 }
 
-/* The KloneME card: white with a soft gold edge, Klo for the stream, the item, the mark + stream */
+/* The KloneME card: white with a soft gold edge, Klonie for the stream, the solution, the mark + stream */
 .solved {
   display: flex;
   align-items: center;
@@ -248,8 +244,8 @@
   height: 12px;
 }
 
-/* The crossing uses the first half of the cycle; the second half the item waits off-screen.
-   With items evenly staggered this keeps 3 on screen at a time.
+/* The crossing uses the first quarter of the cycle; the rest of it the item waits off-screen.
+   With 12 items evenly staggered this keeps 3 on screen at a time.
    Path follows the lines: wide at the edges, narrower behind the phone.
    Size: shrinks to 75% before reaching the phone, stays there while behind it, grows back on exit.
    Speed: uniform the whole way — each segment's time is proportional to its distance, linear timing. */
@@ -258,20 +254,21 @@
     opacity: 0;
     transform: translate(calc(-1 * var(--from)), var(--lane)) scale(1);
   }
-  2% { opacity: 1; }
-  14.72% { transform: translate(calc(-1 * var(--mid)), calc(var(--lane) * 0.62)) scale(0.88); }
-  21.2% { transform: translate(calc(-1 * var(--to)), calc(var(--lane) * 0.4)) scale(0.75); }
-  25% { transform: translate(0, calc(var(--lane) * 0.36)) scale(0.75); }
-  28.8% { transform: translate(var(--to), calc(var(--lane) * 0.4)) scale(0.75); }
-  35.28% { transform: translate(var(--mid), calc(var(--lane) * 0.62)) scale(0.88); }
-  48% { opacity: 1; }
-  50%,
+  1% { opacity: 1; }
+  7.36% { transform: translate(calc(-1 * var(--mid)), calc(var(--lane) * 0.62)) scale(0.88); }
+  10.6% { transform: translate(calc(-1 * var(--to)), calc(var(--lane) * 0.4)) scale(0.75); }
+  12.5% { transform: translate(0, calc(var(--lane) * 0.36)) scale(0.75); }
+  14.4% { transform: translate(var(--to), calc(var(--lane) * 0.4)) scale(0.75); }
+  17.64% { transform: translate(var(--mid), calc(var(--lane) * 0.62)) scale(0.88); }
+  24% { opacity: 1; }
+  25%,
   100% {
     opacity: 0;
     transform: translate(var(--from), var(--lane)) scale(1);
   }
 }
 
+/* The challenge: its stream's icon and the challenge */
 .chipBody {
   display: flex;
   align-items: center;
@@ -289,12 +286,6 @@
   color: var(--ink);
 }
 
-.chipBody[data-icon-only] {
-  width: 46px;
-  padding: 0;
-  justify-content: center;
-}
-
 .chipIcon {
   display: grid;
   place-items: center;
@@ -303,21 +294,6 @@
   border-radius: 10px;
   color: var(--c);
   background: color-mix(in srgb, var(--c) 14%, white);
-}
-
-.chipBody[data-icon-only] .chipIcon {
-  background: none;
-  width: auto;
-  height: auto;
-}
-
-.cardSurface {
-  background: var(--paper);
-  border-radius: 20px;
-  box-shadow:
-    0 0 0 1px rgba(31, 41, 55, 0.04),
-    0 1px 2px rgba(31, 41, 55, 0.05),
-    0 22px 44px -18px rgba(31, 41, 55, 0.28);
 }
 
 /* ---------- Phone ---------- */
@@ -416,9 +392,8 @@
   .solvedText b {
     display: none;
   }
-  /* Icon-only chips on phones */
-  .chipBody,
-  .chipBody[data-icon-only] {
+  /* Icon-only challenges on phones */
+  .chipBody {
     width: 40px;
     height: 40px;
     padding: 0;
