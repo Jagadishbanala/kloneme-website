@@ -1,4 +1,5 @@
 import type { SocialName } from "@/components/ui/SocialIcon";
+import type { StreamKey } from "@/content/streams";
 
 export const site = {
   name: "KloneME",
@@ -16,8 +17,27 @@ export const site = {
 };
 
 export const nav = {
+  // The Streams dropdown, first in the header (client, 2026-10-15; replaced the "Klonie" link).
+  // Names, colours, glyphs and order come from the Streams section (content/streams.ts).
+  streams: {
+    label: "Streams",
+    menuLabel: "Streams menu",
+    // v9's stream slogans (as on the Problem section's home screen tiles)
+    slogans: {
+      family: "Connect. Care. Organize.",
+      health: "Track. Heal. Thrive.",
+      wealth: "Spend. Save. Grow.",
+      vault: "Store. Share. Protect.",
+      travel: "Plan. Share. Celebrate.",
+      hobbies: "Create. Learn. Engage.",
+    } satisfies Record<StreamKey, string>,
+    // Streams with their own page; the rest open the home page's Streams section
+    pages: { travel: "/streams/travel" } as Partial<Record<StreamKey, string>>,
+    section: "#streams",
+    line: "Six streams. One twin.", // v9's Streams heading
+    all: "See all streams",
+  },
   links: [
-    { label: "Klonie", href: "#klone" },
     // The "Simple to start, easy to manage." section now carries the how-it-works steps
     { label: "How it works", href: "#features" },
   ],

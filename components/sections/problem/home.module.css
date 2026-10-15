@@ -372,8 +372,8 @@
   padding: 0 calc(var(--k) * 10);
   border-radius: calc(var(--k) * 34);
   background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(20px) saturate(1.6);
   -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  backdrop-filter: blur(20px) saturate(1.6);
   box-shadow:
     0 calc(var(--k) * 18) calc(var(--k) * 40) calc(var(--k) * -12) rgba(30, 20, 50, 0.28),
     inset 0 0 0 1px rgba(255, 255, 255, 0.6);

@@ -1,0 +1,528 @@
+/* ============================================================
+   Header — Streams dropdown (Option A, Glass Grid; client, 2026-10-15)
+   A frosted glass panel under the header pill, in the pill's own glass. The six streams in two
+   columns (one on small phones): each a white tile holding its solid icon in the stream's colour (the
+   client's reference: a filled bank on a white tile; each icon moves in its own way), its name and
+   v9 slogan; hover tints the row with the stream colour and an arrow
+   slides in. A footer line: six stream-colour dots with v9's "Six streams. One twin." and a link to
+   the Streams section. Opens on hover or click, Esc / outside click / leaving closes it.
+   ============================================================ */
+
+/* ---------- Triggers ---------- */
+.chev {
+  width: 14px;
+  height: 14px;
+  transition: rotate 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+[aria-expanded="true"] > .chev {
+  rotate: 180deg;
+}
+
+/* Phones: a round button with the six stream colours as dots, beside "Contact us" */
+.dotsBtn {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 0 0 1px rgba(31, 41, 55, 0.06);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+@media (min-width: 768px) {
+  .dotsBtn {
+    display: none;
+  }
+}
+.dotsBtn[aria-expanded="true"] {
+  background: #fff;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 0 0 1px rgba(31, 41, 55, 0.1),
+    0 6px 14px -8px rgba(31, 41, 55, 0.35);
+}
+.dotsBtn svg {
+  width: 15px;
+  height: 20px;
+  transition: rotate 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.dotsBtn[aria-expanded="true"] svg {
+  rotate: 90deg;
+}
+
+/* ---------- Panel ---------- */
+.panel {
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  width: min(584px, calc(100vw - 32px));
+  padding: 10px;
+  border-radius: 30px;
+  /* Heavy frost: mostly white with a strong blur, so the page behind only shows as a soft haze */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.9) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 0 0 1px rgba(255, 255, 255, 0.7),
+    0 1px 2px rgba(31, 41, 55, 0.05),
+    0 34px 70px -28px rgba(31, 41, 55, 0.34);
+  -webkit-backdrop-filter: blur(48px) saturate(1.8);
+  backdrop-filter: blur(48px) saturate(1.8);
+  /* Closed */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  translate: -50% -8px;
+  scale: 0.98;
+  transform-origin: 50% 0;
+  transition:
+    opacity 0.2s ease,
+    translate 0.3s var(--ease),
+    scale 0.3s var(--ease),
+    visibility 0s linear 0.3s;
+}
+.panel[data-open] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  translate: -50% 0;
+  scale: 1;
+  transition:
+    opacity 0.22s ease,
+    translate 0.35s var(--ease),
+    scale 0.35s var(--ease),
+    visibility 0s;
+}
+/* An invisible bridge over the gap, so the pointer can travel from "Streams" down to the panel */
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 100%;
+  height: 14px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2px;
+}
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- A stream ---------- */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px 10px 10px;
+  border-radius: 20px;
+  color: var(--ink);
+  outline: none;
+  opacity: 0;
+  translate: 0 6px;
+  transition:
+    background-color 0.25s ease,
+    opacity 0.15s ease,
+    translate 0.2s ease;
+}
+/* Rows come in one after another as the panel opens */
+.panel[data-open] .item {
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    background-color 0.25s ease,
+    opacity 0.3s ease calc(var(--i) * 35ms + 40ms),
+    translate 0.45s var(--ease) calc(var(--i) * 35ms + 40ms);
+}
+.item:hover,
+.item:focus-visible,
+.item[aria-current="page"] {
+  background: color-mix(in srgb, var(--c) 11%, rgba(255, 255, 255, 0.7));
+}
+.item:focus-visible {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--c) 55%, transparent);
+}
+
+/* ---------- The icon: a white tile, the solid icon inside its padding ---------- */
+.icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex: none;
+  overflow: hidden; /* the plane flies out of the tile and back in */
+  border-radius: 30%;
+  background:
+    radial-gradient(120% 70% at 30% 0%, #fff, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(165deg, #fff 0%, #f4f5f8 100%);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 0 0 1px rgba(31, 41, 55, 0.06),
+    0 1px 2px rgba(31, 41, 55, 0.06),
+    0 10px 18px -10px rgba(31, 41, 55, 0.32);
+}
+.icon svg {
+  width: 26px;
+  height: 26px;
+  overflow: visible;
+  fill: var(--c);
+}
+/* White cut-outs on the solid shapes */
+.cut {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Family: the second person bobs up beside the first */
+.back {
+  opacity: 0.5;
+  animation: bob 3.6s ease-in-out var(--gd, 0s) infinite;
+}
+@keyframes bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -1.6px;
+  }
+}
+
+/* Health: it beats, and a pulse runs through it */
+.beat {
+  transform-box: view-box;
+  transform-origin: 12px 13px;
+  animation: beat 2.6s ease-in-out var(--gd, 0s) infinite;
+}
+.pulse {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 0.4 1;
+  animation: pulse 2.6s linear var(--gd, 0s) infinite;
+}
+@keyframes beat {
+  0%,
+  40%,
+  100% {
+    scale: 1;
+  }
+  10% {
+    scale: 1.12;
+  }
+  20% {
+    scale: 0.97;
+  }
+  30% {
+    scale: 1.06;
+  }
+}
+@keyframes pulse {
+  from {
+    stroke-dashoffset: 0.4;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+/* Wealth: the coin flips */
+.flip {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+  animation: flip 5s ease-in-out var(--gd, 0s) infinite;
+}
+@keyframes flip {
+  0%,
+  66%,
+  100% {
+    scale: 1 1;
+  }
+  74% {
+    scale: 0.08 1;
+  }
+  82% {
+    scale: 1 1;
+  }
+}
+
+/* Vault: the dial turns like a combination lock */
+.dial {
+  transform-box: view-box;
+  transform-origin: 11.4px 11.2px;
+  animation: dial 5s cubic-bezier(0.2, 0.8, 0.2, 1) var(--gd, 0s) infinite;
+}
+@keyframes dial {
+  0% {
+    rotate: 0deg;
+  }
+  20% {
+    rotate: 140deg;
+  }
+  40% {
+    rotate: 70deg;
+  }
+  62% {
+    rotate: 250deg;
+  }
+  80%,
+  100% {
+    rotate: 360deg;
+  }
+}
+
+/* Travel: the plane takes off out of the tile and lands back in, a trail behind it */
+.fly {
+  animation: fly 4.4s cubic-bezier(0.2, 0.8, 0.2, 1) var(--gd, 0s) infinite;
+}
+.trail {
+  fill: none;
+  stroke: var(--c);
+  stroke-opacity: 0.45;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: trail 4.4s ease var(--gd, 0s) infinite;
+}
+@keyframes fly {
+  0%,
+  52%,
+  100% {
+    translate: 0 0;
+    opacity: 1;
+  }
+  68% {
+    translate: 12px -12px;
+    opacity: 0;
+  }
+  69% {
+    translate: -12px 12px;
+    opacity: 0;
+  }
+  86% {
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+@keyframes trail {
+  0%,
+  48% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  62% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  74%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* Hobbies: the brush sways and paints a stroke */
+.handle {
+  fill: none;
+  stroke: var(--c);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+}
+.ferrule {
+  opacity: 0.6;
+}
+.wiggle {
+  transform-box: view-box;
+  transform-origin: 12px 14px;
+  animation: wiggle 4s ease-in-out var(--gd, 0s) infinite;
+}
+.paint {
+  fill: none;
+  stroke: var(--c);
+  stroke-opacity: 0.5;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: paint 4s ease var(--gd, 0s) infinite;
+}
+@keyframes wiggle {
+  0%,
+  100% {
+    rotate: -6deg;
+  }
+  50% {
+    rotate: 8deg;
+  }
+}
+@keyframes paint {
+  0%,
+  10% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  50%,
+  75% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  90%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+.tile {
+  transition:
+    translate 0.35s var(--ease),
+    scale 0.35s var(--ease);
+}
+.item:hover .tile,
+.item:focus-visible .tile {
+  translate: 0 -2px;
+  scale: 1.05;
+}
+
+.text {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.25;
+}
+.name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+/* The page you're on: a dot in its colour beside the name */
+.item[aria-current="page"] .name::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c);
+}
+.slogan {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.go {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: color-mix(in srgb, var(--c) 70%, var(--ink));
+  opacity: 0;
+  translate: -6px 0;
+  transition:
+    opacity 0.2s ease,
+    translate 0.3s var(--ease);
+}
+.item:hover .go,
+.item:focus-visible .go {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* ---------- Footer line ---------- */
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+  padding: 12px 12px 4px 14px;
+  border-top: 1px solid rgba(31, 41, 55, 0.07);
+  font-size: 13px;
+}
+.line {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.line svg {
+  width: 11px;
+  height: 15px;
+}
+.all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: -6px -8px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+.all svg {
+  width: 15px;
+  height: 15px;
+  transition: translate 0.3s var(--ease);
+}
+.all:hover {
+  background: rgba(31, 41, 55, 0.05);
+}
+.all:hover svg {
+  translate: 3px 0;
+}
+.all:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* The glyphs hold still while the panel is closed */
+.panel:not([data-open]) [data-g],
+.panel:not([data-open]) [data-g] *,
+.panel:not([data-open]) [data-g]::after {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panel[data-open],
+  .item,
+  .panel[data-open] .item,
+  .tile,
+  .go,
+  .chev,
+  .dotsBtn svg {
+    transition: none;
+  }
+  .panel,
+  .panel[data-open] {
+    scale: 1;
+  }
+  .icon * {
+    animation: none !important;
+  }
+  .trail,
+  .paint {
+    opacity: 0;
+  }
+}
