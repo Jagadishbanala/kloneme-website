@@ -24,6 +24,8 @@ export type Solution = {
 export const klo = {
   // Headline and closing line from the client (2026-10-08); the subline was removed at their request (2026-10-09)
   headline: { lead: "You’re not forgetful.", accent: "Life is just scattered." },
+  // Once the solutions take over the wheel, the heading turns to this (client 2026-10-15)
+  headlineSolved: { lead: "No more searching.", accent: "Everything is in one place." },
   closing: {
     lead: "KloneME was built to take that job off you:",
     rest: "one AI-powered Life OS that does the heavy lifting for you and your family.",

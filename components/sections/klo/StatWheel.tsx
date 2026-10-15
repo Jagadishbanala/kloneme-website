@@ -30,6 +30,8 @@ const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2
 const shiftAt = (p: number) => MOVES.reduce((n, [a, b]) => n + ease(clamp((p - a) / (b - a))), 0);
 // How far the solutions' colour has filled the wheel (0–1): the share of the three places holding a solution
 const solvedAt = (shift: number) => clamp((shift + ROWS - PROBLEMS) / ROWS);
+// The heading turns once most of the places hold a solution (client 2026-10-15)
+const turnedAt = (step: number) => step + ROWS - PROBLEMS >= 2;
 
 // Stripes run from one colour at the top of the wheel to another at the bottom (by angle), so the
 // turning shows: amber → coral for the problems, Forest green for the solutions (client 2026-10-15: the
@@ -148,8 +150,15 @@ export default function StatWheel() {
       <div className={s.sticky}>
         <div className={s.frame}>
           <div className={s.head}>
-            <h2 id="klone-h" className={s.h2}>
-              <span>{klo.headline.lead}</span> <span className={s.h2Accent}>{klo.headline.accent}</span>
+            {/* "Life is just scattered." in red while the figures show; once the solutions take over,
+                it turns to "No more searching. Everything is in one place.", the second line in green */}
+            <h2 id="klone-h" className={s.h2} data-turned={turnedAt(step) || undefined}>
+              <span className={s.hProblem} aria-hidden={turnedAt(step) || undefined}>
+                <span>{klo.headline.lead}</span> <span className={s.h2Accent}>{klo.headline.accent}</span>
+              </span>
+              <span className={s.hSolved} aria-hidden={!turnedAt(step) || undefined}>
+                <span>{klo.headlineSolved.lead}</span> <span className={s.h2Solved}>{klo.headlineSolved.accent}</span>
+              </span>
             </h2>
             <div className={s.progress}>
               {/* Reduced motion only: a dot per step to move the list by hand */}

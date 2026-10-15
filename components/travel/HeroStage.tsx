@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useRef, useState, type JSX } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type JSX } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { useMedia } from "@/components/ui/useMedia";
 import { features } from "@/content/features";
@@ -26,6 +26,10 @@ const FLOW: { label: string; Screen: () => JSX.Element; cls: string; hold: numbe
 const ROUTE = "M 40 520 C 250 300, 470 90, 720 80 S 1030 210, 1120 150";
 
 const clamp = (n: number) => Math.min(1, Math.max(0, n));
+
+// The home hero's phone frame (client 2026-10-15), facing straight ahead (no turn): the blue-silver
+// body, its thickness made of outlines stacked behind the face (as many as on the home page)
+const LAYERS = 16;
 
 export default function HeroStage() {
   const stage = useRef<HTMLDivElement>(null);
@@ -97,10 +101,27 @@ export default function HeroStage() {
       <div ref={stage} className={s.stage} data-paused={!visible || undefined}>
         {/* The window: a travel clip behind the phone, with the dotted route and a plane flying it */}
         <div className={s.window} aria-hidden="true">
-          <video ref={video} className={s.video} src={H.video.src} poster={H.video.poster} muted loop playsInline preload="auto" />
+          <video
+            ref={video}
+            className={s.video}
+            src={H.video.src}
+            poster={H.video.poster}
+            muted
+            loop
+            playsInline
+            preload="auto"
+          />
           <span className={s.tint} />
           <svg className={s.route} viewBox="0 0 1200 560" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <path d={ROUTE} className={s.dash} fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeDasharray="1 14" />
+            <path
+              d={ROUTE}
+              className={s.dash}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeDasharray="1 14"
+            />
             <g transform="translate(1120 150)">
               <circle className={s.halo} r="16" fill="none" stroke="currentColor" strokeWidth="2" />
               <circle r="8" fill="currentColor" />
@@ -118,18 +139,31 @@ export default function HeroStage() {
         <div className={s.phoneLayer}>
           <div className={s.phoneAt}>
             <div className={s.phoneIn}>
-              <div className={p.phone} role="img" aria-label={`${H.phoneLabel}: ${FLOW[idx].label}`}>
-                <span className={`${p.btn} ${p.btnA}`} />
-                <span className={`${p.btn} ${p.btnB}`} />
-                <span className={`${p.btn} ${p.btnC}`} />
-                <div className={`${p.screen} ${s.screen}`}>
-                  <span className={p.island} />
-                  <StatusBar />
-                  {FLOW.map(({ label, Screen, cls }, i) => (
-                    <div key={label} className={`${f.scr} ${cls}`} data-pos={pos(i)} aria-hidden="true">
-                      <Screen />
+              <div className={p.device} role="img" aria-label={`${H.phoneLabel}: ${FLOW[idx].label}`}>
+                {Array.from({ length: LAYERS }, (_, i) => (
+                  <span
+                    key={i}
+                    className={`${p.layer} ${i === LAYERS - 1 ? p.layerBack : ""}`}
+                    style={{ "--z": i + 1, "--hi": Math.sin((Math.PI * i) / (LAYERS - 1)).toFixed(2) } as CSSProperties}
+                  />
+                ))}
+                <span className={`${p.sideBtn} ${p.sideBtnA}`} />
+                <span className={`${p.sideBtn} ${p.sideBtnB}`} />
+                <div className={p.face}>
+                  <div className={p.bezel}>
+                    <div className={`${p.screen} ${s.screen}`}>
+                      <span className={p.notch}>
+                        <i className={p.earpiece} />
+                        <i className={p.cam} />
+                      </span>
+                      <StatusBar />
+                      {FLOW.map(({ label, Screen, cls }, i) => (
+                        <div key={label} className={`${f.scr} ${cls}`} data-pos={pos(i)} aria-hidden="true">
+                          <Screen />
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
             </div>

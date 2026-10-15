@@ -79,8 +79,37 @@
   color: var(--ink);
   text-wrap: balance;
 }
+/* Two headings in one place: the problem one, then (data-turned) the solved one, crossfading with a
+   small lift */
+.h2 {
+  display: grid;
+}
+.hProblem,
+.hSolved {
+  grid-area: 1 / 1;
+  transition:
+    opacity 0.5s ease,
+    translate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.hSolved {
+  opacity: 0;
+  translate: 0 14px;
+}
+.h2[data-turned] .hProblem {
+  opacity: 0;
+  translate: 0 -14px;
+}
+.h2[data-turned] .hSolved {
+  opacity: 1;
+  translate: 0 0;
+}
+/* "Life is just scattered." in the figures' red; "Everything is in one place." in the solutions' green
+   (client 2026-10-15) */
 .h2Accent {
-  color: var(--muted);
+  color: var(--coral);
+}
+.h2Solved {
+  color: var(--solve);
 }
 
 .progress {
