@@ -227,7 +227,7 @@ export const travel = {
 
   // Section 3: the client's heading and feature lines (2026-10-16), v11's four features
   can: {
-    heading: { lead: "Travel possibilities", accent: "you’re yet to experience." },
+    heading: { text: "Travel possibilities you’re yet to experience.", accent: "Travel" },
     // Each feature stands a Klonie on the arc, with its own expression; the one at the top centre gets
     // a few things about that feature around it (client 2026-10-15), from the sample family's trips.
     // x, y: where each sits, in px from the Klonie's feet (negative y is up), scaled down on small
@@ -324,7 +324,8 @@ export type GlanceCard = {
 
 /** Section 3 of a stream page: the heading and the features, each a Klonie with things round it */
 export type CanSection = {
-  heading: { lead: string; accent: string };
+  /** accent: the stream's name inside text, the only word in the accent colour (none: all white) */
+  heading: { text: string; accent?: string };
   feats: { face: string; title: string; body: string; props: CanProp[] }[];
 };
 

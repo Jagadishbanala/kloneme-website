@@ -14,9 +14,9 @@ import type { CanProp, GlanceCard, HeroChip } from "@/content/travel";
 
 // Section 1: heading, subline and the three boxes around the phone
 export const healthHero = {
-  lines: ["There’s no magic bullet,", "Health deserves"],
-  accent: "attention.",
-  sub: "Health is a daily habit, not a quick fix. KloneME keeps your readings, checkups and cover in view, for you and the people you love.",
+  lines: ["Every reading counts."],
+  accent: "For you and your family.",
+  sub: "Your family’s health deserves more than scattered records. Bring readings, checkups and medical details together in KloneME, so you’re better prepared for every care decision.",
   chips: {
     countries: { value: "130/82", label: "latest reading", icon: "heart" },
     trips: { value: "136/85", label: "14-day average", icon: "cal" },
@@ -149,7 +149,7 @@ export const healthGlance = {
 // x, y: px from the Klonie's feet (negative y is up), scaled down on small screens; tilt in degrees.
 const PHOTOS = "/streams/health/places";
 export const healthCan = {
-  heading: { lead: "Where your family’s health is", accent: "looked after daily." },
+  heading: { text: "Where your family’s health is looked after daily.", accent: "health" },
   feats: [
     {
       face: "focused",

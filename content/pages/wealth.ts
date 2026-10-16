@@ -6,10 +6,19 @@ import type { CanProp, GlanceCard, HeroChip } from "@/content/travel";
 // goals, net worth and the Omega Seamaster added by voice); where the table leaves blanks (the
 // fourth goal), they come from the prototype's goals: New family car, $4,000 of $21,000 by 2028.
 // Media (free licences: Pexels License, Unsplash License). Hero clip public/streams/wealth/hero.mp4
-// (client 2026-10-16: "a person paying money for something"; was Mixkit #3420, the suburbs, then
+// (client 2026-10-16: "something related to wealth management"; was Mixkit #3420, the suburbs, then
 // Mixkit #47006, a stock board, then Pexels 8661806, coin stacks, then Pexels 853779, a spinning
-// coin): Pexels 6683943 “A Customer doing a Cashless Payment at a Cafe” by Kampus Production — a
-// customer taps his phone on the barista's terminal at a bright café counter, right of the phone.
+// coin, then Pexels 6683943, a café payment, then Pexels 8136059, an advisor meeting, then Pexels
+// 8478957, a hand drawing on charts, then Pexels 30333846, a couple on a lakeside bench, then a
+// generated woman noting phone payments at a kitchen table, then a generated coin growing into a
+// money plant, then generated savings-goal jars): generated with Higgsfield (client 2026-10-16:
+// "related with the content I have given", a screenshot of the Wealth screen's asset categories) —
+// the six categories as a still life in the app's colours, gold light on deep emerald: a model
+// house (real estate), a model car (cars & others) and a bank card (banking) on the left third; a
+// bronze bull (stocks & funds), a gold watch with a diamond ring (jewellery & watches) and a ₿ coin
+// (crypto) on the right. A beam of warm light crosses from left to right and each asset catches it
+// in turn. GPT Image 2.5 frame, Kling 3.0 Pro with that frame as both start and end (a seamless
+// loop), 10 s, silent.
 // Photos in public/streams/wealth/places/<card id>.jpg:
 //   home: Pexels 34625609; overall: the Family page's dinner table (Pexels 5591192); college: Pexels 7713417;
 //   emergency: Unsplash 50YFv7iN118; morocco: Pexels 35663512; watch: Pexels 9381693;
@@ -19,7 +28,7 @@ import type { CanProp, GlanceCard, HeroChip } from "@/content/travel";
 export const wealthHero = {
   lines: ["Your Wealth,"],
   accent: "finally in focus.",
-  sub: "See what you own, what you owe and what you’re saving for, together in KloneME, so every money decision starts from a clear picture.",
+  sub: "Every financial commitment shapes your life. KloneME brings your assets, debts and savings goals together, so you know where you stand and can plan for your future.",
   chips: {
     countries: { value: "$89,700", label: "saved across 4 goals", icon: "dollar" },
     trips: { value: "48%", label: "overall progress", done: 48, total: 100 },
@@ -30,7 +39,7 @@ export const wealthHero = {
 // Section 2: heading, subline and the photo cards (backs from the client's table)
 export const wealthGlance = {
   heading: { lead: "The whole money picture,", accent: "One glance away" },
-  sub: "The goals you’re saving for, each with how much is saved and how much is left. Know where you stand, without opening a single spreadsheet.",
+  sub: "From paying off a loan to saving for a home, set financial goals, track your commitments and see how much you’ve saved towards each goal with KloneME.",
   cards: {
     // Umbrella in the rain
     emergency: {
@@ -125,12 +134,12 @@ export const wealthGlance = {
 // Net worth from the prototype: $1.39M owned, $512.8K owed, $873.6K net worth.
 const PHOTOS = "/streams/wealth/places";
 export const wealthCan = {
-  heading: { lead: "Do more with your money", accent: "in Wealth." },
+  heading: { text: "Do more with your money in Wealth.", accent: "Wealth" },
   feats: [
     {
       face: "focused",
       title: "Net Worth",
-      body: "What you own, what you owe and what you save for, together.",
+      body: "Your assets, debts and savings goals in one place.",
       props: [
         { kind: "photo", photo: `${PHOTOS}/home.jpg`, caption: "Real estate", x: -215, y: -128, tilt: -7 },
         { kind: "chip", icon: "dollar", label: "$873.6K", sub: "Net worth", x: 195, y: -160 },
@@ -140,7 +149,7 @@ export const wealthCan = {
     {
       face: "happy",
       title: "Savings goals",
-      body: "Every goal with a target, a date and how far you’ve come.",
+      body: "Set a savings target, choose a date and track your progress.",
       props: [
         { kind: "photo", photo: `${PHOTOS}/emergency.jpg`, caption: "Emergency fund", x: -215, y: -125, tilt: -6 },
         { kind: "chip", icon: "shield", label: "Emergency fund", sub: "86% · Dec 2026", bar: 86, x: 210, y: -160 },
@@ -150,7 +159,7 @@ export const wealthCan = {
     {
       face: "thinking",
       title: "Catch up",
-      body: "See when a goal slips, and what it takes to catch up.",
+      body: "Stay on track with your savings goals and your money.",
       props: [
         { kind: "photo", photo: `${PHOTOS}/college.jpg`, caption: "Ava’s college fund", x: -215, y: -128, tilt: -7 },
         { kind: "chip", icon: "grad", label: "Behind its target", sub: "Ava’s college fund · 40%", x: 235, y: -160 },

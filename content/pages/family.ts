@@ -16,7 +16,7 @@ import type { CanProp, GlanceCard, HeroChip } from "@/content/travel";
 export const familyHero = {
   lines: ["Put your people at", "the center of"],
   accent: "your world.",
-  sub: "The big milestones and the ordinary moments in between. Keep your family’s important dates, memories and essential details together, wherever life takes you.",
+  sub: "The big milestones and the ordinary moments in between. Keep your family’s important dates, memories and essential details together in KloneME, wherever life takes you.",
   chips: {
     countries: { value: "5", label: "members, one shared home", icon: "users" },
     trips: { value: "126", label: "moments shared", icon: "photo" },
@@ -27,7 +27,7 @@ export const familyHero = {
 // Section 2: heading, subline and the photo cards (backs from the client's table)
 export const familyGlance = {
   heading: { lead: "In a family, love is spelled", accent: "T-I-M-E" },
-  sub: "A birthday remembered. A meal together. Time to hear about their day. Keep your family’s world in view, with more room for being part of it.",
+  sub: "A birthday remembered. A meal together. A milestone celebrated. Keep your family’s world in view, with more room for being part of it.",
   cards: {
     // Family at a lakeside picnic
     lake: {
@@ -119,7 +119,7 @@ export const familyGlance = {
 // x, y: px from the Klonie's feet (negative y is up), scaled down on small screens; tilt in degrees.
 const PHOTOS = "/streams/family/places";
 export const familyCan = {
-  heading: { lead: "A simpler way to", accent: "manage family life." },
+  heading: { text: "A simpler way to manage your family.", accent: "family" },
   feats: [
     {
       face: "helping",

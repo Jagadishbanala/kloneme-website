@@ -133,6 +133,8 @@ function Prop({ p, k }: { p: CanProp; k: number }) {
 export default function Can({ page }: { page: StreamPage }) {
   const C = page.can;
   const N = C.feats.length;
+  const H = C.heading;
+  const at = H.accent ? H.text.indexOf(H.accent) : -1;
   const sec = useRef<HTMLElement>(null);
   const arc = useRef<HTMLDivElement>(null);
   const stops = useRef<(HTMLSpanElement | null)[]>([]);
@@ -223,7 +225,15 @@ export default function Can({ page }: { page: StreamPage }) {
     <section ref={sec} id="can" aria-labelledby="tv-can-h" className={s.can} style={{ "--n": N } as CSSProperties}>
       <div className={s.pin}>
         <h2 id="tv-can-h" className={s.h2}>
-          {C.heading.lead} <span>{C.heading.accent}</span>
+          {at < 0 ? (
+            H.text
+          ) : (
+            <>
+              {H.text.slice(0, at)}
+              <span>{H.accent}</span>
+              {H.text.slice(at + H.accent!.length)}
+            </>
+          )}
         </h2>
 
         {/* The arc, its Klonies and the things around the top one (decoration; the features are read
@@ -269,7 +279,7 @@ export default function Can({ page }: { page: StreamPage }) {
           ))}
         </div>
 
-        <nav className={s.pills} aria-label={`${C.heading.lead} ${C.heading.accent}`}>
+        <nav className={s.pills} aria-label={H.text}>
           {C.feats.map((f, i) => (
             <button
               key={f.title}

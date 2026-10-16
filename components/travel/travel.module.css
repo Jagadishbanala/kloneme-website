@@ -70,7 +70,7 @@
   gap: 30px;
 }
 .sub {
-  max-width: 74ch; /* two balanced lines on wide screens, even the longer ones (client 2026-10-16) */
+  max-width: 78ch; /* two balanced lines on wide screens, even the longer ones (client 2026-10-16) */
   text-wrap: balance;
   font-size: clamp(15px, 1.2vw, 17px);
   line-height: 1.6;

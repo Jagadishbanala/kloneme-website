@@ -23,7 +23,7 @@ import type { CanProp, GlanceCard, HeroChip } from "@/content/travel";
 export const vaultHero = {
   lines: ["Every document, from", "paper trail to"],
   accent: "peace of mind.",
-  sub: "IDs, health, legal and wealth documents for the whole family, in one app and protected with end-to-end encryption. Share what’s needed, for as long as you choose.",
+  sub: "Keep your family’s IDs, medical records, legal papers and financial documents organised and easy to find in KloneME, safe, secure and protected with end-to-end encryption.",
   chips: {
     countries: { value: "6", label: "documents kept, from your passport to your will", icon: "doc" },
     trips: { value: "2", label: "shared right now, each with an end date", icon: "share" },
@@ -33,8 +33,8 @@ export const vaultHero = {
 
 // Section 2: heading, subline and the photo cards (backs from the client's table)
 export const vaultGlance = {
-  heading: { lead: "All your documents,", accent: "at a glance." },
-  sub: "From your driver’s license to your will, every document your family relies on, with its key dates close at hand, protected with end-to-end encryption and shared on your terms.",
+  heading: { lead: "Ready for life’s", accent: "“where’s that document?” moments." },
+  sub: "From your driving licence to your will, keep the documents your family relies on organised and easy to find, with reminders before they expire and end-to-end encryption to keep them secure.",
   cards: {
     // Passport on a desk
     passport: {
@@ -133,12 +133,12 @@ export const vaultGlance = {
 // x, y: px from the Klonie's feet (negative y is up), scaled down on small screens; tilt in degrees.
 const PHOTOS = "/streams/vault/places";
 export const vaultCan = {
-  heading: { lead: "Scan it, store it and share it", accent: "your way in Vault." },
+  heading: { text: "Turn your paperwork into organised digital records." },
   feats: [
     {
       face: "focused",
       title: "IDs & Records",
-      body: "Every document of your family, sorted into IDs, health, legal and wealth.",
+      body: "Every document of your family, sorted into IDs, health, legal and wealth categories.",
       props: [
         { kind: "passport", x: -200, y: -112, tilt: -10 },
         { kind: "chip", icon: "heart", label: "Health insurance card", sub: "Health · Evergreen PPO", x: 235, y: -160 },
@@ -148,7 +148,7 @@ export const vaultCan = {
     {
       face: "happy",
       title: "Scan",
-      body: "Scan your documents once and access them on-the-go.",
+      body: "Scan your documents and keep them handy wherever you go.",
       props: [
         { kind: "photo", photo: `${PHOTOS}/tax.jpg`, caption: "Tax return 2025", x: -215, y: -128, tilt: -7 },
         { kind: "chip", icon: "check", label: "Held in your vault", sub: "Filed Apr 2026", x: 210, y: -160 },
@@ -158,7 +158,7 @@ export const vaultCan = {
     {
       face: "helping",
       title: "Share",
-      body: "Share your key documents safely with the people you trust.",
+      body: "Share your key documents safely with the people you trust, and revoke access at any time.",
       props: [
         {
           kind: "card",
@@ -176,7 +176,7 @@ export const vaultCan = {
     {
       face: "thinking",
       title: "Renewals",
-      body: "Every expiry date in view, before a renewal catches you out.",
+      body: "Get notified before your documents expire, so you can renew them on time.",
       props: [
         { kind: "photo", photo: `${PHOTOS}/passport.jpg`, caption: "Passport", x: -215, y: -128, tilt: -7 },
         { kind: "chip", icon: "cal", label: "Valid to Mar 2031", sub: "Passport", x: 205, y: -160 },

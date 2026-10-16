@@ -15,7 +15,7 @@ import type { CanProp, GlanceCard, HeroChip } from "@/content/travel";
 export const hobbiesHero = {
   lines: ["Keep doing what you love."],
   accent: "See how far you’ve come.",
-  sub: "Hobbies fade when nobody’s counting. Log your sessions, set milestones and see how far each one has come.",
+  sub: "Make time for what you love. Track your hobby sessions, set milestones and see your progress along the way on KloneME.",
   chips: {
     countries: { value: "18 of 30", label: "paintings in 2026", icon: "brush" },
     trips: { value: "61%", label: "overall progress across your hobbies", done: 61, total: 100 },
@@ -99,7 +99,7 @@ export const hobbiesGlance = {
 // prototype.
 const PHOTOS = "/streams/hobbies/places";
 export const hobbiesCan = {
-  heading: { lead: "Do more of what you love", accent: "in Hobbies." },
+  heading: { text: "Do more of what you love in Hobbies.", accent: "Hobbies" },
   feats: [
     {
       face: "happy",
@@ -134,7 +134,7 @@ export const hobbiesCan = {
     {
       face: "helping",
       title: "Set Milestones",
-      body: "Set a target and a date, and see how close you are.",
+      body: "Track how much is left to reach your goal.",
       props: [
         { kind: "photo", photo: `${PHOTOS}/calendar.jpg`, caption: "31 Oct", x: -215, y: -128, tilt: -7 },
         { kind: "chip", icon: "trophy", label: "20 paintings by 31 Oct", sub: "Watercolor · 18 so far", bar: 90, x: 240, y: -160 },
