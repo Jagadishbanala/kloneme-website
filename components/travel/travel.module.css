@@ -1,15 +1,17 @@
 /* ============================================================
-   Travel stream page (/streams/travel)
-   Colours follow the Travel card in the home page's Streams section: the sky blue (#3b8beb) on its
+   Stream pages (/streams/<stream>), first made for Travel
+   Colours follow the stream's card in the home page's Streams section (the page sets --tv to the
+   card's colour and --tv-top / --tv-mid / --tv-low / --tv-glow for its shades; Travel: the sky blue
+   #3b8beb). Travel: the sky blue on its
    pale blue-grey tint, white cards with soft shadows, and a dotted flight route.
    ============================================================ */
 
 .page {
   --tv: var(--sky);
-  --tv-tint: color-mix(in srgb, var(--sky) 14%, #fff); /* icon tiles, as on the card */
-  --tv-text: color-mix(in srgb, var(--sky) 82%, var(--ink)); /* the blue a shade deeper, for text */
+  --tv-tint: color-mix(in srgb, var(--tv) 14%, #fff); /* icon tiles, as on the card */
+  --tv-text: color-mix(in srgb, var(--tv) 82%, var(--ink)); /* the blue a shade deeper, for text */
   --tv-muted: color-mix(in srgb, var(--muted) 80%, var(--ink)); /* readable on the tint */
-  --tv-bg: color-mix(in srgb, var(--sky) 9%, #f6f3ef);
+  --tv-bg: color-mix(in srgb, var(--tv) 9%, #f6f3ef);
   --cw: min(1200px, 100% - 2 * var(--gut));
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --pop: cubic-bezier(0.3, 1.6, 0.5, 1);
@@ -17,7 +19,7 @@
   min-height: 100vh;
   overflow-x: clip;
   background:
-    radial-gradient(90% 60% at 85% 0%, color-mix(in srgb, var(--sky) 16%, #fff) 0%, rgba(255, 255, 255, 0) 60%),
+    radial-gradient(90% 60% at 85% 0%, color-mix(in srgb, var(--tv) 16%, #fff) 0%, rgba(255, 255, 255, 0) 60%),
     var(--tv-bg);
 }
 
@@ -42,17 +44,19 @@
 }
 
 .h1 {
-  max-width: 14em; /* two lines on wide screens: "Every trip, from dream" / "to memory." */
+  max-width: 14em;
   margin: 0 auto;
   font-size: clamp(40px, 5.8vw, 78px);
   font-weight: 600;
   line-height: 1.02;
   letter-spacing: -0.04em;
 }
-/* Each phrase keeps together; the heading wraps between them */
+/* Each phrase keeps together and the heading wraps between them; a phrase wider than the heading
+   (or than a phone) wraps inside itself onto balanced lines instead of running off to the side */
 .h1 > span {
   display: inline-block;
-  white-space: nowrap;
+  max-width: 100%;
+  text-wrap: balance;
 }
 .h1 em {
   font-style: normal;
@@ -66,37 +70,10 @@
   gap: 30px;
 }
 .sub {
-  max-width: 46ch;
+  max-width: 74ch; /* two balanced lines on wide screens, even the longer ones (client 2026-10-16) */
   text-wrap: balance;
   font-size: clamp(15px, 1.2vw, 17px);
   line-height: 1.6;
-  color: var(--tv-muted);
-}
-
-/* The three stats in a slim row, split by hairlines */
-.stats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px 0;
-}
-.stats li {
-  display: flex;
-  flex-direction: column;
-  padding: 0 18px;
-  border-left: 1px solid rgba(31, 41, 55, 0.12);
-}
-.stats li:first-child {
-  border-left: 0;
-}
-.stats b {
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-}
-.stats span {
-  font-size: 12.5px;
   color: var(--tv-muted);
 }
 
@@ -162,12 +139,15 @@
   height: 100%;
   object-fit: cover;
 }
+.video[data-flip] {
+  scale: -1 1;
+}
 /* A light sky-blue wash at the top ties the clip to the page's colours */
 .tint {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(59, 139, 235, 0.24) 0%, rgba(59, 139, 235, 0) 45%),
+    linear-gradient(180deg, color-mix(in srgb, var(--tv) 24%, transparent) 0%, color-mix(in srgb, var(--tv) 0%, transparent) 45%),
     linear-gradient(0deg, rgba(31, 41, 55, 0.18) 0%, rgba(31, 41, 55, 0) 35%);
 }
 
@@ -235,6 +215,11 @@
 }.phoneAt .screen {
   background: var(--ink);
   color: #fff;
+  transition: color 0.4s ease;
+}
+/* Light app screens (Family, Checkups): a dark status bar */
+.phoneAt .screen[data-light] {
+  color: var(--ink);
 }
 
 /* ---------- Chips ---------- */
@@ -272,47 +257,63 @@
   }
 }
 
-/* Klonie's note: overlapping the phone's left edge, low down */
-.says {
-  top: 56%;
-  right: calc(50% + var(--pw) * 0.3);
-  max-width: 300px;
-  padding: 12px 18px 12px 12px;
-  animation-delay: 1.05s, 1.7s;
-}
-.says p {
-  font-size: 14px;
-  line-height: 1.4;
-}
-.says b {
-  display: block;
-  margin-bottom: 2px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--tv-text);
-}
-.klonie {
-  flex: none;
-  width: 52px;
-  height: auto;
-}
-
-/* Countries count: overlapping the phone's right edge, high up */
-.count {
-  top: 16%;
-  left: calc(50% + var(--pw) * 0.34);
+/* The three boxes: pills with an icon, the figure in bold */
+.count,
+.trips,
+.next {
   padding: 8px 18px 8px 8px;
   border-radius: 999px;
   font-size: 14px;
   white-space: nowrap;
   color: var(--tv-muted);
-  animation-delay: 1.25s, 2.3s;
 }
-.count b {
+.count b,
+.trips b,
+.next b {
   font-weight: 600;
   color: var(--ink);
+}
+/* A long box wraps onto two balanced lines */
+.chip[data-long] {
+  border-radius: 26px;
+  white-space: normal;
+}
+.chip[data-long] > span:last-child {
+  max-width: 15em;
+  text-wrap: balance;
+}
+/* Countries: overlapping the phone's right edge, high up */
+.count {
+  top: 16%;
+  left: calc(50% + var(--pw) * 0.34);
+  animation-delay: 1.05s, 1.7s;
+}
+/* Trips this year: overlapping the phone's left edge, low down */
+.trips {
+  top: 56%;
+  right: calc(50% + var(--pw) * 0.3);
+  animation-delay: 1.25s, 2.3s;
+}
+/* The next trip: overlapping the phone's right edge, lower down */
+.next {
+  top: 74%;
+  left: calc(50% + var(--pw) * 0.3);
+  animation-delay: 1.45s, 2.9s;
+}
+/* 4 of 6: a ring filled two-thirds round */
+.tripRing {
+  width: 26px;
+  height: 26px;
+  rotate: -90deg;
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.tripRing circle:first-child {
+  stroke: color-mix(in srgb, var(--tv) 22%, #fff);
+}
+.tripRing circle:last-child {
+  stroke: var(--tv);
 }
 .chipIc {
   display: grid;
@@ -334,29 +335,23 @@
   animation-play-state: paused;
 }
 
-/* Small screens: a taller window, a smaller phone and only Klonie's note */
+/* Small screens: a taller window, a smaller phone and only the trips box */
 @media (max-width: 767px) {
   .run {
     --sh: clamp(470px, 138vw, 580px);
     --pw: min(230px, 62vw);
     --pt: 40px;
   }
-  .count {
+  .count,
+  .next {
     display: none;
   }
-  .says {
+  .trips {
     top: auto;
     right: auto;
     bottom: 9%;
     left: 0;
-    max-width: min(250px, 72%);
-    padding: 10px 14px 10px 10px;
-  }
-  .says p {
     font-size: 13px;
-  }
-  .klonie {
-    width: 42px;
   }
 }
 

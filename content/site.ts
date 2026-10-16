@@ -31,8 +31,15 @@ export const nav = {
       travel: "Plan. Share. Celebrate.",
       hobbies: "Create. Learn. Engage.",
     } satisfies Record<StreamKey, string>,
-    // Streams with their own page; the rest open the home page's Streams section
-    pages: { travel: "/streams/travel" } as Partial<Record<StreamKey, string>>,
+    // Each stream's own page (all six since 2026-10-16); a stream without one opens the Streams section
+    pages: {
+      family: "/streams/family",
+      health: "/streams/health",
+      wealth: "/streams/wealth",
+      vault: "/streams/vault",
+      travel: "/streams/travel",
+      hobbies: "/streams/hobbies",
+    } as Partial<Record<StreamKey, string>>,
     section: "#streams",
     line: "Six streams. One twin.", // v9's Streams heading
     all: "See all streams",

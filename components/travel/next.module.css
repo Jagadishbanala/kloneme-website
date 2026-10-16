@@ -3,13 +3,24 @@
    The home page's lock panel, as tall as its content: dark rounded panel, a dot grid top left,
    glowing bottom corners (the Travel card's sky blue instead of lilac), the kicker, the heading
    with its second line in Health's teal and the "Open Health" button; on the right a dark-glass
-   heart with a teal heartbeat line across it.
+   heart with a teal heartbeat line across it. Every page keeps these colours (Travel's, client
+   2026-10-16); the element changes with the stream it points to: Health's page points on to Wealth,
+   with rising glass bars and a teal growth line; Vault's points on to Travel, with a turning glass
+   globe, the dotted route and a paper plane; Wealth's points on to Vault, with a glass safe whose
+   dial carries the Vault card's turning rings; Travel's points on to Hobbies, with a glass palette
+   and brush painting the Hobbies card's strokes; Hobbies' points on to Family, with a glass home, a
+   teal heart beating inside it and a teal roofline drawn over it.
    ============================================================ */
 
 .section {
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --glow: #7fb2f0; /* the Travel card's sky blue, lightened for the glows */
-  --health: #2cc0b2; /* Health's teal (v9 lagoon), lightened a little for the dark panel */
+  --glow: #7fb2f0; /* Travel's sky, lightened for the glows (the same on every stream page) */
+  --next-c: #2cc0b2; /* the teal of the second line and the element (the same on every stream page) */
+  --bars: 3.2s; /* the Wealth bars' loop (the line's pace) */
+  --spin: 9s; /* one turn of the Travel globe */
+  --turn: 16s; /* one turn of the Vault dial's rings */
+  --fam: 1.6s; /* one beat of the heart in the Family home */
+  --paint: 4.2s; /* one round of the Hobbies strokes */
   padding: clamp(32px, 5vw, 64px) var(--gut) clamp(48px, 6vw, 88px);
 }
 
@@ -88,7 +99,7 @@
 }
 .accent {
   display: block;
-  color: var(--health);
+  color: var(--next-c);
 }
 .btn {
   display: inline-flex;
@@ -119,15 +130,15 @@
   outline-color: #fff;
 }
 
-/* ---------- The glass heart ---------- */
-.heart {
+/* ---------- The element on the right: a glass heart (or glass bars, a globe or a safe) ---------- */
+.art {
   width: auto;
   height: clamp(200px, 20vw, 270px);
   overflow: visible;
   filter: drop-shadow(0 34px 50px rgba(0, 0, 0, 0.45));
 }
 .tintStop {
-  stop-color: var(--health);
+  stop-color: var(--next-c);
   stop-opacity: 0.2;
 }
 
@@ -154,10 +165,259 @@
   animation-duration: 0.9s;
 }
 
+/* The Wealth bars: each rises as the growth line passes it, holds, then settles back; the line and its
+   arrow keep the same loop (--bars), quicker while the button is hovered */
+.panel:has(.btn:hover) {
+  --bars: 1.8s;
+}
+.bar {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: tvBar var(--bars) ease-in-out infinite;
+}
+@keyframes tvBar {
+  0% {
+    scale: 1 0.55;
+  }
+  14% {
+    scale: 1 1.03;
+  }
+  20%,
+  66% {
+    scale: 1 1;
+  }
+  92%,
+  100% {
+    scale: 1 0.55;
+  }
+}
+.bars .line,
+.bars .lineGlow,
+.arrow {
+  animation-duration: var(--bars);
+}
+.arrow {
+  stroke: var(--next-c);
+  opacity: 0;
+  animation-name: tvArrow;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+@keyframes tvArrow {
+  0%,
+  50% {
+    opacity: 0;
+  }
+  56%,
+  86% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* The Travel globe: each meridian sweeps from the right edge, across the face, to the left edge, then
+   the next comes round; the route's dots run towards the pin, which pulses. Quicker on hover. */
+.panel:has(.btn:hover) {
+  --spin: 4s;
+}
+.meridian {
+  transform-box: view-box;
+  transform-origin: 250px 235px;
+  animation: tvSpin var(--spin) ease-in-out infinite;
+}
+@keyframes tvSpin {
+  0% {
+    scale: 1 1;
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    scale: -1 1;
+    opacity: 0;
+  }
+}
+.route {
+  stroke: var(--next-c);
+  animation: tvDots 1.4s linear infinite;
+}
+.panel:has(.btn:hover) .route {
+  animation-duration: 0.7s;
+}
+@keyframes tvDots {
+  to {
+    stroke-dashoffset: -19;
+  }
+}
+.routeGlow {
+  stroke: var(--next-c);
+  opacity: 0.22;
+  filter: blur(6px);
+}
+.routeFrom {
+  fill: var(--next-c);
+  opacity: 0.6;
+}
+.pin {
+  fill: var(--next-c);
+}
+.pinHalo {
+  fill: none;
+  stroke: var(--next-c);
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tvPin 2.4s ease-out infinite;
+}
+@keyframes tvPin {
+  from {
+    scale: 0.7;
+    opacity: 0.9;
+  }
+  to {
+    scale: 2.3;
+    opacity: 0;
+  }
+}
+.planeStill {
+  display: none;
+}
+
+/* The Vault safe: the dial's rings turn, one way and the other, and the keyhole glows. Quicker on
+   hover. */
+.panel:has(.btn:hover) {
+  --turn: 6s;
+}
+.ringTurn,
+.ringRev {
+  stroke: var(--next-c);
+  transform-box: view-box;
+  transform-origin: 260px 230px;
+  animation: tvDial var(--turn) linear infinite;
+}
+.ringRev {
+  animation-direction: reverse;
+}
+@keyframes tvDial {
+  to {
+    rotate: 360deg;
+  }
+}
+.keyhole {
+  fill: var(--next-c);
+}
+.keyGlow {
+  fill: var(--next-c);
+  filter: blur(8px);
+  animation: tvKey 2.4s ease-in-out infinite;
+}
+@keyframes tvKey {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* The Family home: the heart inside beats (two quick swells, then a rest) and the roofline draws
+   over it (the heartbeat line's loop). Quicker on hover. */
+.panel:has(.btn:hover) {
+  --fam: 0.9s;
+  --paint: 2.4s;
+}
+.homeHeart,
+.homeGlow {
+  fill: var(--next-c);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tvBeat var(--fam) ease-in-out infinite;
+}
+.homeGlow {
+  opacity: 0.55;
+  filter: blur(26px);
+}
+
+/* The Hobbies palette: the strokes paint on one after another, hold, then clear; the brush sways
+   with them. Quicker on hover. */
+.paintTeal {
+  fill: var(--next-c);
+}
+.paintSky {
+  fill: var(--glow);
+}
+.stroke {
+  stroke: var(--next-c);
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: tvPaint var(--paint) ease-in-out infinite;
+}
+.strokeSky {
+  stroke: var(--glow);
+}
+@keyframes tvPaint {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  22%,
+  70% {
+    stroke-dashoffset: 0;
+  }
+  86%,
+  100% {
+    stroke-dashoffset: -1;
+  }
+}
+.brush {
+  transform-box: view-box;
+  transform-origin: 474px 408px;
+  animation: tvBrush var(--paint) ease-in-out infinite;
+}
+@keyframes tvBrush {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  20% {
+    rotate: -4deg;
+  }
+  40% {
+    rotate: 2deg;
+  }
+  60% {
+    rotate: -3deg;
+  }
+}
+
+/* The Wealth coin turns a little, back and forth (faster while the button is hovered); its line
+   draws like the heartbeat and its high point pulses like the Travel pin */
+.turnCoin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tvCoin 4.4s ease-in-out infinite;
+}
+@keyframes tvCoin {
+  0%,
+  100% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 0.88 1;
+  }
+}
+.panel:has(.btn:hover) .turnCoin {
+  animation-duration: 1.8s;
+}
+
 /* The heartbeat line draws across, holds, then clears */
 .line,
 .lineGlow {
-  stroke: var(--health);
+  stroke: var(--next-c);
   stroke-dasharray: 1 1;
   animation: tvTrace 3.2s ease-in-out infinite;
 }
@@ -200,7 +460,7 @@
     justify-items: center;
     text-align: center;
   }
-  .heart {
+  .art {
     grid-row: 1;
     height: 180px;
     margin-bottom: 24px;
@@ -219,14 +479,39 @@
 
 @media (prefers-reduced-motion: reduce) {
   .beatHeart,
+  .bar,
+  .meridian,
+  .route,
+  .pinHalo,
+  .ringTurn,
+  .ringRev,
+  .keyGlow,
   .sweep,
   .line,
-  .lineGlow {
+  .lineGlow,
+  .homeHeart,
+  .homeGlow,
+  .turnCoin,
+  .stroke,
+  .brush {
     animation: none;
   }
   .line,
-  .lineGlow {
+  .lineGlow,
+  .stroke {
     stroke-dasharray: none;
+  }
+  /* The strokes painted */
+  .arrow {
+    animation: none;
+    opacity: 1;
+  }
+  /* The plane rests halfway along the route */
+  .planeGo {
+    display: none;
+  }
+  .planeStill {
+    display: inline;
   }
   .btn,
   .btn svg {

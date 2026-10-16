@@ -1,0 +1,217 @@
+/* ============================================================
+   Vault · Access & sharing, rebuilt from the client's prototype (kloneme-prototype.html, view
+   "v-access", .vl styles). Sizes are prototype pixels × --k, set by the Features .scr this screen
+   sits in. Base styles are the finished state; the entrance only plays on the showing screen.
+   ============================================================ */
+
+/* The screen: the prototype's plum Vault background (pass next to .scr) */
+.bg {
+  background: radial-gradient(120% 60% at 50% 0%, #3a1633 0%, #150a1c 55%, #0d0612 100%);
+  color: #fff;
+}
+
+.back {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+.sub {
+  margin-bottom: calc(var(--k) * 14);
+  font-size: calc(var(--k) * 15);
+  font-weight: 500;
+  color: #d8a9c4;
+}
+
+/* Section labels: REQUESTS, SHARED RIGHT NOW, RECENT ACTIVITY */
+.h {
+  margin: calc(var(--k) * 16) calc(var(--k) * 2) calc(var(--k) * 8);
+  font-size: calc(var(--k) * 12);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #b98aa6;
+}
+
+/* Text column shared by the request and the shared rows */
+.t {
+  flex: 1;
+  min-width: 0;
+}
+.t b {
+  display: block;
+  line-height: 1.3;
+}
+.t span {
+  display: block;
+  font-size: calc(var(--k) * 12);
+  color: #d8a9c4;
+}
+
+/* ---------- The request card ---------- */
+.req {
+  padding: calc(var(--k) * 14);
+  border: calc(var(--k) * 1) solid rgba(255, 143, 184, 0.3);
+  border-radius: calc(var(--k) * 22);
+  background: linear-gradient(135deg, rgba(255, 143, 184, 0.16), rgba(255, 255, 255, 0.04));
+}
+.r1 {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--k) * 10);
+}
+.r1 .av {
+  width: calc(var(--k) * 42);
+  height: calc(var(--k) * 42);
+  margin: 0;
+  box-shadow: none;
+  font-size: calc(var(--k) * 16);
+}
+.r1 b {
+  font-size: calc(var(--k) * 14.5);
+}
+.dur {
+  display: flex;
+  gap: calc(var(--k) * 6);
+  margin-top: calc(var(--k) * 12);
+}
+.dur span {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  height: calc(var(--k) * 40);
+  border-radius: calc(var(--k) * 20);
+  background: rgba(255, 255, 255, 0.08);
+  font-size: calc(var(--k) * 13);
+  font-weight: 600;
+  color: #f5cfe0;
+}
+.dur span[data-on] {
+  background: #fff;
+  color: #2a0f24;
+}
+.acts {
+  display: flex;
+  gap: calc(var(--k) * 8);
+  margin-top: calc(var(--k) * 12);
+}
+.acts span {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  height: calc(var(--k) * 42);
+  border-radius: calc(var(--k) * 21);
+  background: rgba(255, 255, 255, 0.08);
+  font-size: calc(var(--k) * 13.5);
+  font-weight: 700;
+  color: #fff;
+}
+.acts .pri {
+  background: #fff;
+  color: #2a0f24;
+}
+
+/* ---------- Shared right now ---------- */
+.shr {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--k) * 12);
+  margin-bottom: calc(var(--k) * 8);
+  padding: calc(var(--k) * 12) calc(var(--k) * 14);
+  border-radius: calc(var(--k) * 20);
+  background: rgba(255, 255, 255, 0.05);
+}
+.shr .av {
+  width: calc(var(--k) * 38);
+  height: calc(var(--k) * 38);
+  margin: 0;
+  box-shadow: none;
+  font-size: calc(var(--k) * 14);
+}
+.shr b {
+  font-size: calc(var(--k) * 14);
+}
+.exp {
+  flex: none;
+  padding: calc(var(--k) * 4) calc(var(--k) * 8);
+  border-radius: calc(var(--k) * 10);
+  background: rgba(255, 224, 122, 0.12);
+  font-size: calc(var(--k) * 11.5);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: #ffe07a;
+}
+.rv {
+  flex: none;
+  display: grid;
+  place-items: center;
+  height: calc(var(--k) * 32);
+  padding: 0 calc(var(--k) * 12);
+  border-radius: calc(var(--k) * 16);
+  background: rgba(255, 77, 109, 0.15);
+  font-size: calc(var(--k) * 12.5);
+  font-weight: 700;
+  color: #ff8fa6;
+}
+
+/* ---------- Recent activity: a dotted timeline ---------- */
+.audit {
+  position: relative;
+  padding-left: calc(var(--k) * 22);
+}
+.audit::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--k) * 6);
+  bottom: calc(var(--k) * 6);
+  left: calc(var(--k) * 7);
+  width: calc(var(--k) * 2);
+  background: rgba(255, 143, 184, 0.2);
+}
+.au {
+  position: relative;
+  margin-bottom: calc(var(--k) * 12);
+  font-size: calc(var(--k) * 13);
+  line-height: 1.4;
+  color: #f5cfe0;
+}
+.au::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--k) * 5);
+  left: calc(var(--k) * -19);
+  width: calc(var(--k) * 10);
+  height: calc(var(--k) * 10);
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 0 calc(var(--k) * 3) #150a1c;
+}
+.au span {
+  display: block;
+  font-size: calc(var(--k) * 11.5);
+  color: #9b7890;
+}
+
+/* ---------- Entrance: the cards rise in turn, then "7 days" is picked ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  [data-pos="on"] .req,
+  [data-pos="on"] .shr,
+  [data-pos="on"] .au {
+    animation: vaRise 0.55s cubic-bezier(0.2, 0.9, 0.25, 1.15) calc(0.15s + var(--i, 0) * 0.08s) backwards;
+  }
+  [data-pos="on"] .dur span[data-on] {
+    animation: vaPick 0.45s cubic-bezier(0.3, 1.6, 0.5, 1) 0.75s backwards;
+  }
+}
+@keyframes vaRise {
+  from {
+    opacity: 0;
+    translate: 0 calc(var(--k) * 26);
+  }
+}
+@keyframes vaPick {
+  from {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f5cfe0;
+    scale: 0.92;
+  }
+}

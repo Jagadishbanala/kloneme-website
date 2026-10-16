@@ -1,40 +1,34 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties, type JSX } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { useMedia } from "@/components/ui/useMedia";
-import { features } from "@/content/features";
-import { travel } from "@/content/travel";
-import { SCREENS } from "../sections/features/Screens";
+import type { StreamPage } from "@/content/streamPages";
 import f from "../sections/features/features.module.css";
 import { StatusBar } from "../sections/hero/PhoneDemo";
 import p from "../sections/hero/phone.module.css";
-import { Journal, Prep } from "./Screens";
+import { SCREEN_FLOW } from "../streams/flow";
+import DrawerScene from "./DrawerScene";
 import s from "./travel.module.css";
-
-const H = travel.hero;
-
-// The phone's screens in order: the Travel home (shared with the Features section), then Travel prep
-// and Trip journal. hold = seconds on screen.
-const FLOW: { label: string; Screen: () => JSX.Element; cls: string; hold: number }[] = [
-  { label: features.screens.travel.label, Screen: SCREENS.travel, cls: f.travel, hold: 4.8 },
-  { label: travel.screens.prep.title, Screen: Prep, cls: s.dark, hold: 4.2 },
-  { label: travel.screens.journal.title, Screen: Journal, cls: s.dark, hold: 4.2 },
-];
 
 // The dotted flight route over the clouds (viewBox 1200 × 560), like the one on the Travel stream card
 const ROUTE = "M 40 520 C 250 300, 470 90, 720 80 S 1030 210, 1120 150";
 
 const clamp = (n: number) => Math.min(1, Math.max(0, n));
+// A box whose words would run too wide for one line
+const long = (c: { value: string; label: string }) => c.value.length + c.label.length > 36;
 
 // The home hero's phone frame (client 2026-10-15), facing straight ahead (no turn): the blue-silver
 // body, its thickness made of outlines stacked behind the face (as many as on the home page)
 const LAYERS = 16;
 
-export default function HeroStage() {
+export default function HeroStage({ page }: { page: StreamPage }) {
+  const H = page.hero;
+  // The stream's app screens, in order (Travel: its home, Travel prep and Trip journal)
+  const FLOW = page.flow.map((id) => SCREEN_FLOW[id]);
   const stage = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   const still = useMedia("(prefers-reduced-motion: reduce)");
+  const narrow = useMedia("(max-width: 767px)");
   const [visible, setVisible] = useState(true);
   const [idx, setIdx] = useState(0);
 
@@ -99,11 +93,16 @@ export default function HeroStage() {
   return (
     <div className={s.run}>
       <div ref={stage} className={s.stage} data-paused={!visible || undefined}>
-        {/* The window: a travel clip behind the phone, with the dotted route and a plane flying it */}
+        {/* The window: a travel clip behind the phone, with the dotted route and a plane flying it (or,
+            for Vault, an illustrated scene in place of the clip) */}
         <div className={s.window} aria-hidden="true">
+          {H.scene === "drawer" ? (
+            <DrawerScene narrow={narrow} paused={!visible} />
+          ) : (
           <video
             ref={video}
             className={s.video}
+            data-flip={H.video.flip || undefined}
             src={H.video.src}
             poster={H.video.poster}
             muted
@@ -111,7 +110,9 @@ export default function HeroStage() {
             playsInline
             preload="auto"
           />
+          )}
           <span className={s.tint} />
+          {page.route && (
           <svg className={s.route} viewBox="0 0 1200 560" preserveAspectRatio="xMidYMid slice" focusable="false">
             <path
               d={ROUTE}
@@ -133,6 +134,7 @@ export default function HeroStage() {
               {!still && <animateMotion dur="11s" repeatCount="indefinite" rotate="auto" path={ROUTE} />}
             </g>
           </svg>
+          )}
         </div>
 
         {/* The phone, its lower part cut by the window's bottom edge */}
@@ -151,7 +153,7 @@ export default function HeroStage() {
                 <span className={`${p.sideBtn} ${p.sideBtnB}`} />
                 <div className={p.face}>
                   <div className={p.bezel}>
-                    <div className={`${p.screen} ${s.screen}`}>
+                    <div className={`${p.screen} ${s.screen}`} data-light={!FLOW[idx].dark || undefined}>
                       <span className={p.notch}>
                         <i className={p.earpiece} />
                         <i className={p.cam} />
@@ -170,23 +172,41 @@ export default function HeroStage() {
           </div>
         </div>
 
-        {/* Floating chips: Klonie's note (left) and the countries count (right) */}
+        {/* Floating boxes around the phone: right, high (Travel: countries); left, low (trips this
+            year, with a ring of done / total); right, low (the next trip). Each can bring its own icon;
+            a long one (Vault's) wraps onto two lines. */}
         <div className={s.chips}>
-          <div className={`${s.chip} ${s.says}`}>
-            <Image src="/klo/surprised.png" alt="" width={528} height={456} sizes="52px" className={s.klonie} />
-            <p>
-              <b>{H.says.label}</b>
-              {H.says.lead} {H.says.rest}
-            </p>
-          </div>
-          <div className={`${s.chip} ${s.count}`} aria-hidden="true">
-            <span className={s.chipIc}>
-              <Icon name="plane" strokeWidth={2} />
+          <p className={`${s.chip} ${s.count}`} data-long={long(H.chips.countries) || undefined}>
+            <span className={s.chipIc} aria-hidden="true">
+              <Icon name={H.chips.countries.icon ?? "plane"} strokeWidth={2} />
             </span>
             <span>
-              <b>{H.chip.value}</b> {H.chip.label}
+              <b>{H.chips.countries.value}</b> {H.chips.countries.label}
             </span>
-          </div>
+          </p>
+          <p className={`${s.chip} ${s.trips}`} data-long={long(H.chips.trips) || undefined}>
+            <span className={s.chipIc} aria-hidden="true">
+              {H.chips.trips.done != null && H.chips.trips.total != null ? (
+                <svg viewBox="0 0 38 38" className={s.tripRing}>
+                  <circle cx="19" cy="19" r="12" />
+                  <circle cx="19" cy="19" r="12" pathLength={H.chips.trips.total} strokeDasharray={`${H.chips.trips.done} ${H.chips.trips.total}`} />
+                </svg>
+              ) : (
+                <Icon name={H.chips.trips.icon ?? "cal"} strokeWidth={2} />
+              )}
+            </span>
+            <span>
+              <b>{H.chips.trips.value}</b> {H.chips.trips.label}
+            </span>
+          </p>
+          <p className={`${s.chip} ${s.next}`} data-long={long(H.chips.next) || undefined}>
+            <span className={s.chipIc} aria-hidden="true">
+              <Icon name={H.chips.next.icon ?? "cal"} strokeWidth={2} />
+            </span>
+            <span>
+              <b>{H.chips.next.value}</b> {H.chips.next.label}
+            </span>
+          </p>
         </div>
       </div>
     </div>

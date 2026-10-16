@@ -1,0 +1,226 @@
+/* ============================================================
+   Vault page, section 1: the drawer scene behind the phone (in place of a clip, client 2026-10-16).
+   One 8 s loop: the top drawer slides open (0–8%), the passport goes in (6–30%), then the driving
+   licence (18–44%), both settle flat inside; the drawer closes (55–63%) and a padlock badge in the
+   stream's colour pops up (64–90%). The plant sways and the sunlight on the wall breathes.
+   ============================================================ */
+
+.scene {
+  --loop: 8s;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+/* Rests while the stage is off-screen */
+.scene[data-paused] * {
+  animation-play-state: paused;
+}
+
+.artHill {
+  fill: color-mix(in srgb, var(--tv) 45%, #fff);
+}
+
+/* The sunlight on the wall */
+.sun {
+  opacity: 0.35;
+  animation: vtSun 10s ease-in-out infinite;
+}
+@keyframes vtSun {
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* The plant sways from its pot */
+.plant {
+  transform-box: view-box;
+  transform-origin: 416px 540px;
+  animation: vtSway 6s ease-in-out infinite;
+}
+@keyframes vtSway {
+  0%,
+  100% {
+    rotate: -1.5deg;
+  }
+  50% {
+    rotate: 1.5deg;
+  }
+}
+
+/* The top drawer: its front slides out (towards us: down a little and a little larger) and back */
+.front {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: vtDrawer var(--loop) ease-in-out infinite;
+}
+@keyframes vtDrawer {
+  0%,
+  63%,
+  100% {
+    translate: 0 0;
+    scale: 1;
+  }
+  8%,
+  55% {
+    translate: 0 40px;
+    scale: 1.05;
+  }
+  66% {
+    translate: 0 -2px;
+    scale: 1;
+  }
+  69% {
+    translate: 0 0;
+  }
+}
+/* ...and its inside shows while it's open */
+.inside {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  opacity: 0;
+  animation: vtInside var(--loop) ease-in-out infinite;
+}
+@keyframes vtInside {
+  0%,
+  61%,
+  100% {
+    opacity: 0;
+    scale: 1 0.3;
+  }
+  8%,
+  55% {
+    opacity: 1;
+    scale: 1 1;
+  }
+}
+
+/* The passport and the licence: in from above, tilted, then down into the drawer, settling flat */
+.passport,
+.licence {
+  opacity: 0;
+  filter: drop-shadow(0 10px 12px rgba(31, 41, 55, 0.18));
+  animation: vtPassport var(--loop) ease-in-out infinite;
+}
+.licence {
+  animation-name: vtLicence;
+}
+@keyframes vtPassport {
+  0%,
+  4% {
+    opacity: 0;
+    transform: translate(1250px, 230px) rotate(-14deg) scale(1, 1);
+  }
+  9% {
+    opacity: 1;
+    transform: translate(1256px, 252px) rotate(-12deg) scale(1, 1);
+  }
+  21% {
+    opacity: 1;
+    transform: translate(1284px, 342px) rotate(-4deg) scale(0.95, 0.95);
+  }
+  30%,
+  54% {
+    opacity: 1;
+    transform: translate(1288px, 420px) rotate(0deg) scale(0.75, 0.32);
+  }
+  58%,
+  100% {
+    opacity: 0;
+    transform: translate(1288px, 424px) rotate(0deg) scale(0.75, 0.32);
+  }
+}
+@keyframes vtLicence {
+  0%,
+  16% {
+    opacity: 0;
+    transform: translate(1392px, 222px) rotate(12deg) scale(1, 1);
+  }
+  21% {
+    opacity: 1;
+    transform: translate(1386px, 246px) rotate(10deg) scale(1, 1);
+  }
+  34% {
+    opacity: 1;
+    transform: translate(1364px, 338px) rotate(3deg) scale(0.95, 0.95);
+  }
+  44%,
+  54% {
+    opacity: 1;
+    transform: translate(1360px, 421px) rotate(0deg) scale(0.72, 0.3);
+  }
+  58%,
+  100% {
+    opacity: 0;
+    transform: translate(1360px, 425px) rotate(0deg) scale(0.72, 0.3);
+  }
+}
+.band {
+  fill: var(--tv);
+}
+
+/* Locked away: the padlock badge pops up, a ring pulses out, then it fades */
+.badge {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  opacity: 0;
+  animation: vtBadge var(--loop) ease-out infinite;
+}
+@keyframes vtBadge {
+  0%,
+  63% {
+    opacity: 0;
+    scale: 0.6;
+  }
+  69% {
+    opacity: 1;
+    scale: 1.08;
+  }
+  73%,
+  88% {
+    opacity: 1;
+    scale: 1;
+  }
+  95%,
+  100% {
+    opacity: 0;
+    scale: 0.92;
+  }
+}
+.badgeDisc {
+  fill: var(--tv);
+}
+.badgeRing {
+  fill: none;
+  stroke: var(--tv);
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: vtRing var(--loop) ease-out infinite;
+}
+@keyframes vtRing {
+  0%,
+  66% {
+    opacity: 0;
+    scale: 0.7;
+  }
+  70% {
+    opacity: 0.7;
+  }
+  84%,
+  100% {
+    opacity: 0;
+    scale: 1.5;
+  }
+}
+
+/* Reduced motion: a still room, the drawer shut, the badge showing */
+@media (prefers-reduced-motion: reduce) {
+  .scene * {
+    animation: none !important;
+  }
+  .badge {
+    opacity: 1;
+    scale: 1;
+  }
+}

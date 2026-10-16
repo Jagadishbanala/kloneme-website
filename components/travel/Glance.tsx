@@ -4,7 +4,8 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { useMedia } from "@/components/ui/useMedia";
 import { people, type Member } from "@/content/features";
-import { travel, type GlanceCard } from "@/content/travel";
+import type { StreamPage } from "@/content/streamPages";
+import type { GlanceCard } from "@/content/travel";
 import s from "./glance.module.css";
 
 // Travel page, section 2: "Travel, at a glance." (client's pick: 70% A "Arched Wings", 30% B "Boarding
@@ -18,9 +19,6 @@ import s from "./glance.module.css";
 // 2026-10-15), alternating up and down at its own pace; under the pointer a reel eases to a stop so a
 // card can flip, and eases off again. Below 1200px the cards sit in one swipeable row under the heading.
 
-const G = travel.glance;
-const CARDS: Record<string, GlanceCard> = G.cards;
-const MID = (G.columns.length - 1) / 2;
 
 const whoLabel = (who: Member[]) => (who.length === 4 ? "The whole family" : who.map((w) => people[w].name).join(" & "));
 
@@ -103,11 +101,15 @@ function BackBody({ c }: { c: GlanceCard }) {
             <b className={s.name}>{c.name}</b>
             <small className={s.meta}>{c.place}</small>
           </div>
-          <div className={`${s.pct} ${s.roomy}`}>
-            <b>{c.bar}%</b>
-            <span>there</span>
-          </div>
-          <Bar pct={c.bar} />
+          {c.bar !== undefined && (
+            <>
+              <div className={`${s.pct} ${s.roomy}`}>
+                <b>{c.bar}%</b>
+                <span>there</span>
+              </div>
+              <Bar pct={c.bar} />
+            </>
+          )}
           <ul className={s.steps}>
             {c.steps.map(([t, done]) => (
               <li key={t} data-done={done || undefined}>
@@ -173,7 +175,7 @@ function BackBody({ c }: { c: GlanceCard }) {
             <span className={s.qmark} aria-hidden="true">
               “
             </span>
-            <Stars n={c.rating} />
+            {c.rating !== undefined && <Stars n={c.rating} />}
           </div>
           <p className={s.qtext}>{c.quote}</p>
           <small className={`${s.meta} ${s.by}`}>{c.by}</small>
@@ -245,6 +247,30 @@ function BackBody({ c }: { c: GlanceCard }) {
         </>
       );
 
+    // The client's card table (Health): tag, title and detail line, then the big number and a ticked list
+    case "detail":
+      return (
+        <>
+          <div className={s.top}>
+            <Tag>{c.tag}</Tag>
+          </div>
+          <div>
+            <b className={s.title}>{c.title}</b>
+            <small className={s.meta}>{c.detail}</small>
+          </div>
+          <b className={s.bigVal}>{c.big}</b>
+          <ul className={`${s.steps} ${s.ticks}`}>
+            {c.checks.map((x) => (
+              <li key={x} data-done="">
+                <i aria-hidden="true">
+                  <Icon name="check" strokeWidth={3} />
+                </i>
+                {x}
+              </li>
+            ))}
+          </ul>
+        </>
+      );
   }
 }
 
@@ -256,12 +282,11 @@ function Back({ c }: { c: GlanceCard }) {
   );
 }
 
-type CardProps = { id: string; ratio: number; flipped: boolean; onTap: () => void; dup?: boolean };
+type CardProps = { c: GlanceCard; src: string; ratio: number; flipped: boolean; onTap: () => void; dup?: boolean };
 
-// dup: the reel's extra copies of a column, there only to make the loop seamless (hidden from
-// screen readers and the keyboard)
-function Card({ id, ratio, flipped, onTap, dup }: CardProps) {
-  const c = CARDS[id];
+// dup: the reel's extra copies of a column, there only to make the loop seamless, and a card a page
+// shows a second time (hidden from screen readers and the keyboard, and from the phone row)
+function Card({ c, src, ratio, flipped, onTap, dup }: CardProps) {
   return (
     <li
       className={`${s.card}${dup ? ` ${s.dup}` : ""}`}
@@ -275,7 +300,7 @@ function Card({ id, ratio, flipped, onTap, dup }: CardProps) {
         {/* Front: the photo alone, as in the reference */}
         <div className={`${s.face} ${s.front}`}>
           <Image
-            src={`/travel/places/${id}.jpg`}
+            src={src}
             alt={dup ? "" : c.name}
             fill
             sizes="(max-width: 1199px) 240px, 200px"
@@ -288,7 +313,9 @@ function Card({ id, ratio, flipped, onTap, dup }: CardProps) {
   );
 }
 
-export default function Glance() {
+export default function Glance({ page }: { page: StreamPage }) {
+  const G = page.glance;
+  const MID = (G.columns.length - 1) / 2;
   const sec = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
   const [flipped, setFlipped] = useState<string | null>(null);
@@ -375,14 +402,15 @@ export default function Glance() {
               >
                 {/* The column three times over, so the reel loops without a seam */}
                 <ul className={s.track}>
-                  {[...col.cards, ...col.cards, ...col.cards].map(([id, ratio], k) => (
+                  {[...col.cards, ...col.cards, ...col.cards].map(([id, ratio, again], k) => (
                     <Card
                       key={k}
-                      id={id}
+                      c={G.cards[id]}
+                      src={`${page.photos}/${id}.jpg`}
                       ratio={ratio}
-                      flipped={flipped === id}
-                      onTap={() => tap(id)}
-                      dup={k >= col.cards.length}
+                      flipped={flipped === `${ci}:${id}`}
+                      onTap={() => tap(`${ci}:${id}`)}
+                      dup={k >= col.cards.length || again === "again"}
                     />
                   ))}
                 </ul>

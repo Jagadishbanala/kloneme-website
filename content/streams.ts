@@ -14,7 +14,7 @@ export type StreamCard = {
   body: string;
   /** Where this stream's loose end used to live (v9 problem section) */
   from: { place: string; icon: IconName };
-  /** The stream’s own page, once it exists: the whole card links there */
+  /** The stream’s own page (/streams/<key>): the whole card links there */
   href?: string;
 };
 
@@ -30,6 +30,7 @@ export const streams = {
   cards: [
     {
       key: "family",
+      href: "/streams/family",
       name: "Family",
       icon: "users",
       color: "var(--coral)",
@@ -39,6 +40,7 @@ export const streams = {
     },
     {
       key: "health",
+      href: "/streams/health",
       name: "Health",
       icon: "heart",
       color: "var(--berry)",
@@ -48,6 +50,7 @@ export const streams = {
     },
     {
       key: "wealth",
+      href: "/streams/wealth",
       name: "Wealth",
       icon: "dollar",
       color: "var(--lime)",
@@ -57,6 +60,7 @@ export const streams = {
     },
     {
       key: "vault",
+      href: "/streams/vault",
       name: "Vault",
       icon: "vault",
       color: "var(--lagoon)",
@@ -76,6 +80,7 @@ export const streams = {
     },
     {
       key: "hobbies",
+      href: "/streams/hobbies",
       name: "Hobbies",
       icon: "brush",
       color: "var(--lilac)",

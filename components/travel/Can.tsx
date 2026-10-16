@@ -4,7 +4,8 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { useMedia } from "@/components/ui/useMedia";
 import { people } from "@/content/features";
-import { travel, type CanProp } from "@/content/travel";
+import type { StreamPage } from "@/content/streamPages";
+import type { CanProp } from "@/content/travel";
 import s from "./can.module.css";
 
 // Travel page, section 3: "What you can do in Travel." (client's pick: A "Ink Arc" + B "Flight Route").
@@ -18,15 +19,13 @@ import s from "./can.module.css";
 // to the top centre (the previous one moves on to the left) while its description rises a short way
 // from just below; the old one drifts up and fades. Pills at the bottom jump to each feature.
 
-const C = travel.can;
-const N = C.feats.length;
 const HOLD = 0.45; // share of each step that holds still (the rest is the move)
 const HORIZON = 0.57; // where the top of the arc sits, as a share of the panel's height (room for the heading above)
 const clamp = (n: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, n));
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 // Where the scroll is, as a stop position: -1 (first stop waiting on the right) → N - 1 (last at the top)
-function stopAt(x: number) {
+function stopAt(x: number, N: number) {
   const k = Math.min(Math.floor(x), N - 1);
   return k - 1 + ease(clamp((x - k) / (1 - HOLD)));
 }
@@ -47,7 +46,13 @@ function Prop({ p, k }: { p: CanProp; k: number }) {
     case "photo":
       body = (
         <span className={s.polaroid}>
-          <Image src={`/travel/places/${p.photo}.jpg`} alt="" width={184} height={184} sizes="96px" />
+          <Image
+            src={p.photo.startsWith("/") ? p.photo : `/travel/places/${p.photo}.jpg`}
+            alt=""
+            width={184}
+            height={184}
+            sizes="96px"
+          />
           <small>{p.caption}</small>
         </span>
       );
@@ -72,6 +77,16 @@ function Prop({ p, k }: { p: CanProp; k: number }) {
       break;
     case "stars":
       body = <span className={s.starChip}>{"★".repeat(p.n)}</span>;
+      break;
+    case "card":
+      body = (
+        <span className={s.memberCard}>
+          <b>{p.title}</b>
+          <small>{p.line}</small>
+          <i aria-hidden="true" />
+          <em>{p.code}</em>
+        </span>
+      );
       break;
     case "passport":
       body = (
@@ -115,7 +130,9 @@ function Prop({ p, k }: { p: CanProp; k: number }) {
   );
 }
 
-export default function Can() {
+export default function Can({ page }: { page: StreamPage }) {
+  const C = page.can;
+  const N = C.feats.length;
   const sec = useRef<HTMLElement>(null);
   const arc = useRef<HTMLDivElement>(null);
   const stops = useRef<(HTMLSpanElement | null)[]>([]);
@@ -155,7 +172,7 @@ export default function Can() {
       raf = 0;
       const r = el.getBoundingClientRect();
       const run = Math.max(1, el.offsetHeight - window.innerHeight);
-      const a = stopAt(clamp(-r.top / run) * N);
+      const a = stopAt(clamp(-r.top / run) * N, N);
       box.style.setProperty("--a", a.toFixed(4));
       stops.current.forEach((st, i) => {
         if (!st) return;

@@ -12,7 +12,7 @@
 
 .can {
   --sun: #ffd36b; /* a warm sun yellow, close to Klonie's */
-  --sky-top: #1b56ad;
+  --sky-top: var(--tv-top, #1b56ad); /* the stream colour's deepest shade */
   position: relative;
   height: calc(100svh + var(--n) * 80svh);
   background: var(--sky-top);
@@ -27,7 +27,7 @@
   background:
     radial-gradient(38% 34% at 84% 6%, rgba(255, 224, 150, 0.32), rgba(255, 224, 150, 0) 70%),
     radial-gradient(60% 26% at 50% 50%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 70%),
-    linear-gradient(180deg, var(--sky-top) 0%, #2a71d2 38%, var(--sky) 68%, #66aaf1 100%);
+    linear-gradient(180deg, var(--sky-top) 0%, var(--tv-mid, #2a71d2) 38%, var(--tv, var(--sky)) 68%, var(--tv-low, #66aaf1) 100%);
 }
 
 .h2 {
@@ -170,8 +170,8 @@
   width: 30px;
   height: 30px;
   border-radius: 9px;
-  background: color-mix(in srgb, var(--sky) 14%, #fff);
-  color: var(--sky);
+  background: color-mix(in srgb, var(--tv, var(--sky)) 14%, #fff);
+  color: var(--tv, var(--sky));
 }
 .chip > i svg {
   width: 16px;
@@ -196,13 +196,13 @@
   margin-top: 5px;
   overflow: hidden;
   border-radius: 5px;
-  background: color-mix(in srgb, var(--sky) 16%, #fff);
+  background: color-mix(in srgb, var(--tv, var(--sky)) 16%, #fff);
 }
 .mini i {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--sky);
+  background: var(--tv, var(--sky));
 }
 .avs {
   display: flex;
@@ -259,6 +259,52 @@
   font-size: 15px;
   letter-spacing: 2px;
   box-shadow: 0 16px 34px -14px rgba(8, 36, 90, 0.55);
+}
+
+/* A member card (insurance and the like), in the stream's colours: name, plan, a chip and the number */
+.memberCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 176px;
+  aspect-ratio: 1.586;
+  padding: 12px 14px;
+  overflow: hidden;
+  border-radius: 12px;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(135deg, var(--tv-top, #1b56ad), var(--tv) 70%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.25),
+    0 18px 36px -14px rgba(8, 36, 90, 0.6);
+  color: #fff;
+}
+.memberCard b {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.memberCard small {
+  margin-top: 2px;
+  font-size: 9.5px;
+  line-height: 1.3;
+  opacity: 0.85;
+}
+.memberCard i {
+  width: 24px;
+  height: 18px;
+  margin-top: auto;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #f6d27a, #d9a93a);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+.memberCard em {
+  margin-top: 6px;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
 }
 
 /* A passport */

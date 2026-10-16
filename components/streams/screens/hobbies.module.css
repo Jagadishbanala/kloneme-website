@@ -1,0 +1,220 @@
+/* ============================================================
+   Hobbies stream screens, rebuilt from the client's prototype (kloneme-prototype.html).
+   Sizes are prototype pixels × --k (set by the Features .scr); colours are the prototype's Hobbies
+   palette (peach page, orange header, deep brown headings). The base styles are the finished state;
+   the entrance only plays on the screen that's showing ([data-pos="on"]).
+   ============================================================ */
+
+/* The screen's background: pass it next to the Features .scr */
+.bg {
+  --hb-o: #ff7a2f;
+  --hb-o2: #ffa25e;
+  --hb-p: #ffd2b0;
+  --hb-deep: #7a2e0b;
+  --hb-mut: #7a7382;
+  --hb-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --hb-rise: cubic-bezier(0.2, 0.9, 0.25, 1.15);
+  background: #fff5ec;
+  color: var(--ink);
+}
+
+/* ---------- Watercolor: the orange header ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  margin: calc(var(--k) * -62) calc(var(--k) * -20) 0;
+  padding: calc(var(--k) * 62) calc(var(--k) * 20) calc(var(--k) * 24);
+  border-radius: 0 0 calc(var(--k) * 38) calc(var(--k) * 38);
+  background: linear-gradient(170deg, #ffb481 0%, var(--hb-o) 100%);
+  color: #fff;
+}
+.back {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+.eyebrow {
+  margin-top: calc(var(--k) * 6);
+  font-size: calc(var(--k) * 11);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.title {
+  font-size: calc(var(--k) * 30);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.bigstat {
+  display: flex;
+  align-items: flex-end;
+  gap: calc(var(--k) * 10);
+  margin-top: calc(var(--k) * 18);
+}
+.bigstat b {
+  font-size: calc(var(--k) * 72);
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.bigstat span {
+  padding-bottom: calc(var(--k) * 6);
+  font-size: calc(var(--k) * 16);
+  opacity: 0.9;
+}
+.hbar {
+  display: block;
+  overflow: hidden;
+  height: calc(var(--k) * 8);
+  margin-top: calc(var(--k) * 16);
+  border-radius: calc(var(--k) * 4);
+  background: rgba(255, 255, 255, 0.3);
+}
+.hbar i {
+  display: block;
+  width: calc(var(--w) * 100%);
+  height: 100%;
+  border-radius: calc(var(--k) * 4);
+  background: #fff;
+}
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--k) * 10);
+  margin-top: calc(var(--k) * 10);
+  font-size: calc(var(--k) * 13);
+  opacity: 0.95;
+}
+.meta span:first-child {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Section headings ---------- */
+.sec {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: calc(var(--k) * 28) 0 calc(var(--k) * 12);
+  font-size: calc(var(--k) * 19);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--hb-deep);
+}
+.sec small {
+  font-size: calc(var(--k) * 13);
+  font-weight: 500;
+  opacity: 0.6;
+}
+
+/* ---------- Paintings per month ---------- */
+.chart {
+  padding: calc(var(--k) * 16);
+  border-radius: calc(var(--k) * 24);
+  background: #fff;
+}
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: calc(var(--k) * 10);
+  height: calc(var(--k) * 120);
+  margin-top: calc(var(--k) * 10);
+  border-bottom: calc(var(--k) * 1) solid #f1e3d7;
+}
+.bars div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: calc(var(--k) * 4);
+  height: 100%;
+}
+.bars i {
+  width: 100%;
+  height: calc(var(--h) * 100%);
+  border-radius: calc(var(--k) * 8) calc(var(--k) * 8) calc(var(--k) * 3) calc(var(--k) * 3);
+  background: var(--hb-p);
+}
+.bars div[data-cur] i {
+  background: linear-gradient(180deg, var(--hb-o2), var(--hb-o));
+}
+.bars em {
+  font-size: calc(var(--k) * 11);
+  font-style: normal;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  color: var(--hb-deep);
+}
+.xl {
+  display: flex;
+  gap: calc(var(--k) * 10);
+  margin-top: calc(var(--k) * 6);
+}
+.xl span {
+  flex: 1;
+  font-size: calc(var(--k) * 11);
+  text-align: center;
+  color: var(--hb-mut);
+}
+
+/* ---------- My paintings ---------- */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: calc(var(--k) * 8);
+}
+.gal {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border: calc(var(--k) * 3) solid #fff;
+  border-radius: calc(var(--k) * 16);
+  box-shadow: 0 calc(var(--k) * 8) calc(var(--k) * 18) calc(var(--k) * -10) rgba(122, 46, 11, 0.45);
+}
+.gal img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Entrance (as in the prototype): the target bar fills, the month bars grow, the
+   paintings rise in one after another ---------- */
+[data-pos="on"] .hbar i {
+  animation: hbFill 1.2s var(--hb-ease) 0.15s backwards;
+}
+[data-pos="on"] .bars i {
+  animation: hbGrow 1s var(--hb-ease) calc(0.2s + var(--i, 0) * 0.06s) backwards;
+}
+[data-pos="on"] .gal {
+  animation: hbRise 0.6s var(--hb-rise) calc(0.25s + var(--i, 0) * 0.05s) backwards;
+}
+@keyframes hbFill {
+  from {
+    width: 0;
+  }
+}
+@keyframes hbGrow {
+  from {
+    height: 0;
+  }
+}
+@keyframes hbRise {
+  from {
+    opacity: 0;
+    translate: 0 calc(var(--k) * 26);
+    scale: 0.96;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg *,
+  .bg *::before,
+  .bg *::after {
+    animation: none !important;
+  }
+}
