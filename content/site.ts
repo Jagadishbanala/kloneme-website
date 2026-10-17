@@ -41,7 +41,7 @@ export const nav = {
       hobbies: "/streams/hobbies",
     } as Partial<Record<StreamKey, string>>,
     section: "#streams",
-    line: "Six streams. One twin.", // v9's Streams heading
+    line: "One twin.", // the end of v9's Streams heading (client 2026-10-17: "Six streams." removed)
     all: "See all streams",
   },
   links: [
