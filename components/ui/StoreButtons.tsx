@@ -2,9 +2,22 @@ import { Icon } from "@/components/ui/Icon";
 import { PlayLogo } from "@/components/ui/PlayLogo";
 import { site } from "@/content/site";
 
-// App Store and Google Play buttons: dark pills, for light backgrounds (the hero and the footer)
-export function StoreButtons({ size = "md", className }: { size?: "md" | "sm"; className?: string }) {
+// App Store and Google Play buttons: dark pills, for light backgrounds (the hero and the footer);
+// tone "light": white pills, for dark panels (the Pricing page's closing panel)
+export function StoreButtons({
+  size = "md",
+  tone = "dark",
+  className,
+}: {
+  size?: "md" | "sm";
+  tone?: "dark" | "light";
+  className?: string;
+}) {
   const sm = size === "sm";
+  const colours =
+    tone === "light"
+      ? "bg-white text-ink shadow-[0_16px_36px_-16px_rgba(0,0,0,0.6)] focus-visible:outline-white"
+      : "bg-ink text-bg shadow-[0_14px_30px_-14px_rgba(31,41,55,0.6)]";
   const items = [
     { ...site.stores.appStore, logo: <Icon name="apple" className={sm ? "size-5 shrink-0" : "size-6 shrink-0"} /> },
     { ...site.stores.googlePlay, logo: <PlayLogo className={sm ? "size-[18px] shrink-0" : "size-[22px] shrink-0"} /> },
@@ -18,7 +31,7 @@ export function StoreButtons({ size = "md", className }: { size?: "md" | "sm"; c
           target="_blank"
           rel="noopener"
           aria-label={b.label}
-          className={`inline-flex items-center rounded-full bg-ink text-bg shadow-[0_14px_30px_-14px_rgba(31,41,55,0.6)] transition-transform hover:-translate-y-0.5 active:translate-y-0 ${
+          className={`inline-flex items-center rounded-full ${colours} transition-transform hover:-translate-y-0.5 active:translate-y-0 ${
             sm ? "h-12 gap-2 pl-4 pr-5" : "h-14 gap-2.5 pl-[18px] pr-[22px]"
           }`}
         >

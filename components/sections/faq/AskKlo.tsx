@@ -3,11 +3,10 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Icon } from "@/components/ui/Icon";
-import { faq } from "@/content/faq";
+import { faq, type FaqItem } from "@/content/faq";
 import { klo } from "@/content/klo";
 import s from "./faq.module.css";
 
-const ITEMS = faq.items;
 const THINK = 900; // ms Klo thinks before answering
 const WORD = 0.028; // s between words as the answer streams in
 
@@ -15,7 +14,8 @@ type Exchange = { id: number; i: number };
 
 const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export default function AskKlo() {
+// items: the questions to offer (the home page's five by default; the Pricing page passes its own)
+export default function AskKlo({ items = faq.items }: { items?: FaqItem[] }) {
   const thread = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
   // v9 opens the first question, so the chat starts with it answered
@@ -68,7 +68,7 @@ export default function AskKlo() {
     setThinking(id);
   };
 
-  const face = thinking !== null ? "thinking" : ITEMS[latest.i].face;
+  const face = thinking !== null ? "thinking" : items[latest.i].face;
 
   return (
     <div className={s.panel}>
@@ -87,7 +87,7 @@ export default function AskKlo() {
 
       <div ref={thread} className={s.thread} role="log">
         {log.map(({ id, i }) => {
-          const item = ITEMS[i];
+          const item = items[i];
           const isThinking = thinking === id;
           const words = item.a.split(" ");
           return (
@@ -125,7 +125,7 @@ export default function AskKlo() {
       <div className={s.ask}>
         <p className={s.try}>{klo.tryLabel}</p>
         <div className={s.chips}>
-          {ITEMS.map((item, i) => {
+          {items.map((item, i) => {
             const asked = log.some((x) => x.i === i);
             return (
               <button

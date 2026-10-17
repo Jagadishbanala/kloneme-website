@@ -1,0 +1,247 @@
+/* The six streams' animated glyphs (StreamGlyph.tsx), first made for the header's Streams dropdown.
+   --c: the stream's colour; --gd: a delay so glyphs side by side don't move in step. */
+.glyph {
+  overflow: visible;
+  fill: var(--c);
+}
+
+/* White cut-outs on the solid shapes */
+.cut {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Family: the second person bobs up beside the first */
+.back {
+  opacity: 0.5;
+  animation: bob 3.6s ease-in-out var(--gd, 0s) infinite;
+}
+@keyframes bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -1.6px;
+  }
+}
+
+/* Health: it beats, and a pulse runs through it */
+.beat {
+  transform-box: view-box;
+  transform-origin: 12px 13px;
+  animation: beat 2.6s ease-in-out var(--gd, 0s) infinite;
+}
+.pulse {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 0.4 1;
+  animation: pulse 2.6s linear var(--gd, 0s) infinite;
+}
+@keyframes beat {
+  0%,
+  40%,
+  100% {
+    scale: 1;
+  }
+  10% {
+    scale: 1.12;
+  }
+  20% {
+    scale: 0.97;
+  }
+  30% {
+    scale: 1.06;
+  }
+}
+@keyframes pulse {
+  from {
+    stroke-dashoffset: 0.4;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+/* Wealth: the coin flips */
+.flip {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+  animation: flip 5s ease-in-out var(--gd, 0s) infinite;
+}
+@keyframes flip {
+  0%,
+  66%,
+  100% {
+    scale: 1 1;
+  }
+  74% {
+    scale: 0.08 1;
+  }
+  82% {
+    scale: 1 1;
+  }
+}
+
+/* Vault: the dial turns like a combination lock */
+.dial {
+  transform-box: view-box;
+  transform-origin: 11.4px 11.2px;
+  animation: dial 5s cubic-bezier(0.2, 0.8, 0.2, 1) var(--gd, 0s) infinite;
+}
+@keyframes dial {
+  0% {
+    rotate: 0deg;
+  }
+  20% {
+    rotate: 140deg;
+  }
+  40% {
+    rotate: 70deg;
+  }
+  62% {
+    rotate: 250deg;
+  }
+  80%,
+  100% {
+    rotate: 360deg;
+  }
+}
+
+/* Travel: the plane takes off out of the tile and lands back in, a trail behind it */
+.fly {
+  animation: fly 4.4s cubic-bezier(0.2, 0.8, 0.2, 1) var(--gd, 0s) infinite;
+}
+.trail {
+  fill: none;
+  stroke: var(--c);
+  stroke-opacity: 0.45;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: trail 4.4s ease var(--gd, 0s) infinite;
+}
+@keyframes fly {
+  0%,
+  52%,
+  100% {
+    translate: 0 0;
+    opacity: 1;
+  }
+  68% {
+    translate: 12px -12px;
+    opacity: 0;
+  }
+  69% {
+    translate: -12px 12px;
+    opacity: 0;
+  }
+  86% {
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+@keyframes trail {
+  0%,
+  48% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  62% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  74%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* Hobbies: the brush sways and paints a stroke */
+.handle {
+  fill: none;
+  stroke: var(--c);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+}
+.ferrule {
+  opacity: 0.6;
+}
+.wiggle {
+  transform-box: view-box;
+  transform-origin: 12px 14px;
+  animation: wiggle 4s ease-in-out var(--gd, 0s) infinite;
+}
+.paint {
+  fill: none;
+  stroke: var(--c);
+  stroke-opacity: 0.5;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: paint 4s ease var(--gd, 0s) infinite;
+}
+@keyframes wiggle {
+  0%,
+  100% {
+    rotate: -6deg;
+  }
+  50% {
+    rotate: 8deg;
+  }
+}
+@keyframes paint {
+  0%,
+  10% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  50%,
+  75% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  90%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* White glyphs (on a disc of the stream's colour): the cut-outs, the pulse and the vault dial's
+   centre take the stream's colour; the plane's trail, the brush and its stroke turn white */
+.glyph[data-tone="white"] {
+  fill: #fff;
+}
+.glyph[data-tone="white"] .cut,
+.glyph[data-tone="white"] .pulse {
+  stroke: var(--c);
+}
+.glyph[data-tone="white"] .dot {
+  fill: var(--c);
+}
+.glyph[data-tone="white"] .trail,
+.glyph[data-tone="white"] .handle,
+.glyph[data-tone="white"] .paint {
+  stroke: #fff;
+}
+
+/* Reduced motion: the glyphs hold still; the trail and the brush stroke (mid-motion marks) are hidden */
+@media (prefers-reduced-motion: reduce) {
+  .glyph * {
+    animation: none !important;
+  }
+  .trail,
+  .paint {
+    opacity: 0;
+  }
+}

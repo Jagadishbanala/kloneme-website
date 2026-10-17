@@ -44,10 +44,9 @@ export const nav = {
     line: "One twin.", // the end of v9's Streams heading (client 2026-10-17: "Six streams." removed)
     all: "See all streams",
   },
-  links: [
-    // The "Simple to start, easy to manage." section now carries the how-it-works steps
-    { label: "How it works", href: "#features" },
-  ],
+  // Page links after "Streams" (client 2026-10-17: "Pricing" in place of "How it works"). A link
+  // starting with "/" is a page; one starting with "#" is a home page section.
+  links: [{ label: "Pricing", href: "/pricing" }],
   // The button in the header pill (client, 2026-10-09)
   cta: { label: "Contact us", href: "#contact" },
 };

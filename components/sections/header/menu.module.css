@@ -176,218 +176,6 @@
   overflow: visible;
   fill: var(--c);
 }
-/* White cut-outs on the solid shapes */
-.cut {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* Family: the second person bobs up beside the first */
-.back {
-  opacity: 0.5;
-  animation: bob 3.6s ease-in-out var(--gd, 0s) infinite;
-}
-@keyframes bob {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: 0 -1.6px;
-  }
-}
-
-/* Health: it beats, and a pulse runs through it */
-.beat {
-  transform-box: view-box;
-  transform-origin: 12px 13px;
-  animation: beat 2.6s ease-in-out var(--gd, 0s) infinite;
-}
-.pulse {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 0.4 1;
-  animation: pulse 2.6s linear var(--gd, 0s) infinite;
-}
-@keyframes beat {
-  0%,
-  40%,
-  100% {
-    scale: 1;
-  }
-  10% {
-    scale: 1.12;
-  }
-  20% {
-    scale: 0.97;
-  }
-  30% {
-    scale: 1.06;
-  }
-}
-@keyframes pulse {
-  from {
-    stroke-dashoffset: 0.4;
-  }
-  to {
-    stroke-dashoffset: -1;
-  }
-}
-
-/* Wealth: the coin flips */
-.flip {
-  transform-box: view-box;
-  transform-origin: 12px 12px;
-  animation: flip 5s ease-in-out var(--gd, 0s) infinite;
-}
-@keyframes flip {
-  0%,
-  66%,
-  100% {
-    scale: 1 1;
-  }
-  74% {
-    scale: 0.08 1;
-  }
-  82% {
-    scale: 1 1;
-  }
-}
-
-/* Vault: the dial turns like a combination lock */
-.dial {
-  transform-box: view-box;
-  transform-origin: 11.4px 11.2px;
-  animation: dial 5s cubic-bezier(0.2, 0.8, 0.2, 1) var(--gd, 0s) infinite;
-}
-@keyframes dial {
-  0% {
-    rotate: 0deg;
-  }
-  20% {
-    rotate: 140deg;
-  }
-  40% {
-    rotate: 70deg;
-  }
-  62% {
-    rotate: 250deg;
-  }
-  80%,
-  100% {
-    rotate: 360deg;
-  }
-}
-
-/* Travel: the plane takes off out of the tile and lands back in, a trail behind it */
-.fly {
-  animation: fly 4.4s cubic-bezier(0.2, 0.8, 0.2, 1) var(--gd, 0s) infinite;
-}
-.trail {
-  fill: none;
-  stroke: var(--c);
-  stroke-opacity: 0.45;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-dasharray: 1 1;
-  stroke-dashoffset: 1;
-  animation: trail 4.4s ease var(--gd, 0s) infinite;
-}
-@keyframes fly {
-  0%,
-  52%,
-  100% {
-    translate: 0 0;
-    opacity: 1;
-  }
-  68% {
-    translate: 12px -12px;
-    opacity: 0;
-  }
-  69% {
-    translate: -12px 12px;
-    opacity: 0;
-  }
-  86% {
-    translate: 0 0;
-    opacity: 1;
-  }
-}
-@keyframes trail {
-  0%,
-  48% {
-    stroke-dashoffset: 1;
-    opacity: 1;
-  }
-  62% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-  74%,
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 0;
-  }
-}
-
-/* Hobbies: the brush sways and paints a stroke */
-.handle {
-  fill: none;
-  stroke: var(--c);
-  stroke-width: 3.2;
-  stroke-linecap: round;
-}
-.ferrule {
-  opacity: 0.6;
-}
-.wiggle {
-  transform-box: view-box;
-  transform-origin: 12px 14px;
-  animation: wiggle 4s ease-in-out var(--gd, 0s) infinite;
-}
-.paint {
-  fill: none;
-  stroke: var(--c);
-  stroke-opacity: 0.5;
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-dasharray: 1 1;
-  stroke-dashoffset: 1;
-  animation: paint 4s ease var(--gd, 0s) infinite;
-}
-@keyframes wiggle {
-  0%,
-  100% {
-    rotate: -6deg;
-  }
-  50% {
-    rotate: 8deg;
-  }
-}
-@keyframes paint {
-  0%,
-  10% {
-    stroke-dashoffset: 1;
-    opacity: 1;
-  }
-  50%,
-  75% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-  90%,
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 0;
-  }
-}
-
 .tile {
   transition:
     translate 0.35s var(--ease),
@@ -496,6 +284,44 @@
   outline-offset: 1px;
 }
 
+/* Phones only: the header's page links (Pricing), as full-width rows above the foot */
+.pageLinks {
+  display: none;
+}
+@media (max-width: 767px) {
+  .pageLinks {
+    display: grid;
+    gap: 2px;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(31, 41, 55, 0.07);
+  }
+}
+.pageLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 18px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: background-color 0.2s ease;
+}
+.pageLink svg {
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+}
+.pageLink:hover,
+.pageLink[aria-current="page"] {
+  background: rgba(31, 41, 55, 0.05);
+}
+.pageLink:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
 /* The glyphs hold still while the panel is closed */
 .panel:not([data-open]) [data-g],
 .panel:not([data-open]) [data-g] *,
@@ -520,9 +346,5 @@
   }
   .icon * {
     animation: none !important;
-  }
-  .trail,
-  .paint {
-    opacity: 0;
   }
 }

@@ -1,0 +1,215 @@
+/* Klonie thinking of each stream (StreamThought.tsx), on the Pricing page's dark closing panel.
+   Positions in hundredths of the box's width (cqi): the stream's tile at the top left, two thought
+   dots down to Klonie's head, Klonie below and right of centre, then the dots and the tag. */
+.box {
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --spring: cubic-bezier(0.3, 1.4, 0.5, 1);
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: clamp(270px, 28vw, 360px);
+  container-type: inline-size;
+}
+
+/* The light behind Klonie, cross-fading from one stream's colour to the next */
+.glow {
+  position: absolute;
+  left: 54cqi;
+  top: 46cqi;
+  width: 120cqi;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  translate: -50% -50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--c) 40%, transparent), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  pointer-events: none;
+}
+.glow[data-on] {
+  opacity: 1;
+}
+
+/* The thought: one tile per stream in one place; the showing one floats out of Klonie's head
+   (from the lower right) into place, the last one sinks back as it fades */
+.thought {
+  position: absolute;
+  left: 3cqi;
+  top: 0;
+  z-index: 2;
+  width: 21cqi;
+  aspect-ratio: 1;
+  animation: float 4.5s ease-in-out infinite;
+}
+@keyframes float {
+  50% {
+    translate: 0 -4px;
+  }
+}
+.tile {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden; /* the plane flies out of the tile and back in */
+  border-radius: 30%;
+  background:
+    radial-gradient(120% 70% at 30% 0%, #fff, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(165deg, #fff 0%, #eef0f5 100%);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 16px 30px -14px rgba(0, 0, 0, 0.65),
+    0 0 30px 2px color-mix(in srgb, var(--c) 40%, transparent);
+  opacity: 0;
+  scale: 0.5;
+  translate: 9cqi 9cqi;
+  filter: blur(4px);
+  transition:
+    opacity 0.45s ease,
+    scale 0.6s var(--spring),
+    translate 0.6s var(--ease),
+    filter 0.45s ease;
+}
+.tile[data-on] {
+  opacity: 1;
+  scale: 1;
+  translate: 0 0;
+  filter: blur(0);
+}
+.tile svg {
+  width: 54%;
+  height: 54%;
+}
+
+/* Two thought dots from the tile down to Klonie's head */
+.puff {
+  position: absolute;
+  z-index: 2;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.5);
+  animation: float 4.5s ease-in-out infinite;
+}
+.puffA {
+  left: 25.5cqi;
+  top: 22cqi;
+  width: 3.4cqi;
+  height: 3.4cqi;
+  animation-delay: -0.4s;
+}
+.puffB {
+  left: 30.5cqi;
+  top: 27.5cqi;
+  width: 2.1cqi;
+  height: 2.1cqi;
+  animation-delay: -0.8s;
+}
+
+/* Klonie: right of the thought, bobbing; its faces cross-fade */
+.klonie {
+  position: relative;
+  width: 62cqi;
+  margin: 15cqi 0 0 10cqi;
+  aspect-ratio: 528 / 456;
+  animation: bob 5s ease-in-out infinite;
+}
+@keyframes bob {
+  50% {
+    translate: 0 -6px;
+  }
+}
+.face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  filter: drop-shadow(0 24px 28px rgba(0, 0, 0, 0.5));
+  transition: opacity 0.5s ease;
+}
+.face[data-on] {
+  opacity: 1;
+}
+
+/* Six dots, the showing stream's a pill in its colour */
+.dots {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 6px;
+}
+.dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--c) 55%, rgba(255, 255, 255, 0.25));
+  opacity: 0.55;
+  transition:
+    width 0.5s var(--ease),
+    opacity 0.4s ease,
+    background-color 0.4s ease;
+}
+.dots i[data-on] {
+  width: 26px;
+  background: var(--c);
+  opacity: 1;
+}
+
+/* The showing stream's name and slogan */
+.tags {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  margin-top: 10px;
+}
+.tag {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 15px;
+  white-space: nowrap;
+  opacity: 0;
+  translate: 0 6px;
+  filter: blur(3px);
+  transition:
+    opacity 0.45s ease,
+    translate 0.55s var(--ease),
+    filter 0.45s ease;
+}
+.tag[data-on] {
+  opacity: 1;
+  translate: 0 0;
+  filter: blur(0);
+}
+.tag b {
+  font-weight: 600;
+  color: #fff;
+}
+.tag span {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 720px) {
+  .box {
+    width: min(300px, 82vw);
+  }
+  .tag {
+    font-size: 13.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thought,
+  .puff,
+  .klonie {
+    animation: none;
+  }
+  .glow,
+  .tile,
+  .face,
+  .dots i,
+  .tag {
+    transition: none;
+  }
+}

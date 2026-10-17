@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Icon } from "@/components/ui/Icon";
 import { nav, site } from "@/content/site";
 import { StreamsDotsTrigger, StreamsPanel, StreamsTrigger, useStreamsMenu } from "./header/StreamsMenu";
@@ -8,6 +9,7 @@ import { StreamsDotsTrigger, StreamsPanel, StreamsTrigger, useStreamsMenu } from
 // home: prefix for the in-page links on other pages ("/" from a stream page); empty on the home page
 export default function Header({ home = "" }: { home?: string }) {
   const menu = useStreamsMenu();
+  const path = usePathname();
   return (
     <header className="pointer-events-none fixed inset-x-0 top-3 z-50 flex justify-center px-4 sm:top-4">
       {/* The pill and, under it, the Streams dropdown (a sibling, so the pill's clipping and blur don't touch it) */}
@@ -30,16 +32,24 @@ export default function Header({ home = "" }: { home?: string }) {
             <li>
               <StreamsTrigger menu={menu} />
             </li>
-            {nav.links.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={`${home}${l.href}`}
-                  className="rounded-full px-3 py-2 text-[14px] font-medium text-muted transition-colors hover:text-ink"
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
+            {nav.links.map((l) => {
+              // A page link ("/pricing") as it is; a section link ("#…") from the home page
+              const href = l.href.startsWith("/") ? l.href : `${home}${l.href}`;
+              const here = path === l.href;
+              return (
+                <li key={l.href}>
+                  <a
+                    href={href}
+                    aria-current={here ? "page" : undefined}
+                    className={`rounded-full px-3 py-2 text-[14px] font-medium transition-colors ${
+                      here ? "bg-white/80 text-ink shadow-[inset_0_0_0_1px_rgba(31,41,55,0.06)]" : "text-muted hover:text-ink"
+                    }`}
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
           <div className="flex items-center gap-2">
             <StreamsDotsTrigger menu={menu} />
