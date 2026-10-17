@@ -11,14 +11,10 @@ import type { CanProp, GlanceCard, HeroChip } from "@/content/travel";
 // coin, then Pexels 6683943, a café payment, then Pexels 8136059, an advisor meeting, then Pexels
 // 8478957, a hand drawing on charts, then Pexels 30333846, a couple on a lakeside bench, then a
 // generated woman noting phone payments at a kitchen table, then a generated coin growing into a
-// money plant, then generated savings-goal jars): generated with Higgsfield (client 2026-10-16:
-// "related with the content I have given", a screenshot of the Wealth screen's asset categories) —
-// the six categories as a still life in the app's colours, gold light on deep emerald: a model
-// house (real estate), a model car (cars & others) and a bank card (banking) on the left third; a
-// bronze bull (stocks & funds), a gold watch with a diamond ring (jewellery & watches) and a ₿ coin
-// (crypto) on the right. A beam of warm light crosses from left to right and each asset catches it
-// in turn. GPT Image 2.5 frame, Kling 3.0 Pro with that frame as both start and end (a seamless
-// loop), 10 s, silent.
+// money plant, then generated savings-goal jars, then a generated still life of the six asset
+// categories): the client's pick (2026-10-17), Pexels 35518213 “Financial Analysis Using Smartphone
+// and Tablet Screens” by Jakub Zerdzicki — in a dark room, hands working a calculator on a phone over
+// a tablet of candlestick charts, more charts glowing on the monitors behind; 14 s, silent.
 // Photos in public/streams/wealth/places/<card id>.jpg:
 //   home: Pexels 34625609; overall: the Family page's dinner table (Pexels 5591192); college: Pexels 7713417;
 //   emergency: Unsplash 50YFv7iN118; morocco: Pexels 35663512; watch: Pexels 9381693;

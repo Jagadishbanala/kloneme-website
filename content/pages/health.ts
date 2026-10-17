@@ -4,9 +4,13 @@ import type { CanProp, GlanceCard, HeroChip } from "@/content/travel";
 // and their card table for section 2 (photo, tag, title, detail line, big number, checklist).
 // The details are the prototype's sample family (kloneme-prototype.html).
 // Media (free licences: Pexels License, Unsplash License). Hero clip public/streams/health/hero.mp4
-// (client 2026-10-16: "minimalistic, maybe morning running at sunrise"; was Mixkit #4878, outdoor yoga,
-// then Pexels 7850851, boys in the waves, then Pexels 8686118, a pool swimmer): Pexels 14458139
-// “Silhouette of a Man Jogging on the Beach at Sunrise” by Matthias Groeneveld. Photos in
+// (client 2026-10-17: "regular health checkup related", then their pick; was Mixkit #4878, outdoor yoga,
+// then Pexels 7850851, boys in the waves, then Pexels 8686118, a pool swimmer, then Pexels 14458139, a
+// far-off runner at sunrise, then a generated close-up of the sunrise run, then Pexels 6998170, a young
+// man's blood-pressure check, then a generated check-up of a man of about 40, then Pexels 7579334, a
+// doctor going through results): Pexels 7580479 “Doctor Is Checking Man Patient Eyes” by cottonbro
+// studio — in a bright consulting room with white blinds, a doctor in a white coat shines a penlight
+// into a man's eyes; him on the left, her on the right, side-on. Shown as shot. Photos in
 // public/streams/health/places/<card id>.jpg:
 //   bp: Pexels 8088852; grace: Pexels 37330699; flushot: Pexels 3992931; enrollment: Pexels 14599163;
 //   leo: Pexels 33852454; cardiology: Pexels 5407238; physical: Pexels 6972768; eyeexam: Unsplash
@@ -17,6 +21,8 @@ export const healthHero = {
   lines: ["Every reading counts."],
   accent: "For you and your family.",
   sub: "Your family’s health deserves more than scattered records. Bring readings, checkups and medical details together in KloneME, so you’re better prepared for every care decision.",
+  // The crop leans up a little (their heads on wide screens) and left (the patient on phones)
+  video: { src: "/streams/health/hero.mp4", poster: "/streams/health/hero-poster.jpg", pos: "25% 30%" },
   chips: {
     countries: { value: "130/82", label: "latest reading", icon: "heart" },
     trips: { value: "136/85", label: "14-day average", icon: "cal" },

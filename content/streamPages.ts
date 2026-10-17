@@ -46,8 +46,8 @@ export type StreamPage = {
   photos: string;
   hero: Omit<typeof travel.hero, "video" | "phoneLabel" | "chips"> & {
     chips: Record<"countries" | "trips" | "next", HeroChip>;
-    /** flip: the clip shown mirrored */
-    video: { src: string; poster: string; flip?: boolean };
+    /** flip: the clip shown mirrored; pos: which part of the clip stays in view when it's cropped (CSS object-position) */
+    video: { src: string; poster: string; flip?: boolean; pos?: string };
     /** An illustrated scene shown in place of the clip (Vault: the drawer) */
     scene?: "drawer";
     phoneLabel: string;

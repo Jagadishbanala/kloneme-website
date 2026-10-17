@@ -103,6 +103,7 @@ export default function HeroStage({ page }: { page: StreamPage }) {
             ref={video}
             className={s.video}
             data-flip={H.video.flip || undefined}
+            style={"pos" in H.video && H.video.pos ? { objectPosition: H.video.pos } : undefined}
             src={H.video.src}
             poster={H.video.poster}
             muted
